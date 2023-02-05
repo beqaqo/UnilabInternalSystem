@@ -13,5 +13,6 @@ class BaseModel(db.Model):
 
     def delete(self):
         db.session.delete(self)
+        
 
 
