@@ -8,9 +8,35 @@ class User(BaseModel):
     __tablename__ = "Users"
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String)
+    name = db.Column(db.String)
+    lastname = db.Column(db.String)
     email = db.Column(db.String)
     _password = db.Column("password", db.String)
+    personal_ID = db.Column(db.String)
+    number = db.Column(db.String)
+    date = db.Column(db.String)   # sqlite არ აქვს ცალკე გამოყოგილი date და ტექსტად შეიანხეო რჩევა ეს ვნახე
+    gender = db.Column(db.String)
+    country = db.Column(db.String)
+    region = db.Column(db.String)
+    city = db.Column(db.String)
+    address = db.Column(db.String)
+    role = db.Column(db.String)
+
+
+    # Pupil
+    school = db.Column(db.Integer)
+    grade = db.Column(db.String)
+    parent_name = db.Column(db.String)
+    parent_lastname = db.Column(db.String)
+    parent_number = db.Column(db.String)
+
+    # student
+    university = db.Column(db.String)
+    faculty = db.Column(db.String)
+    program = db.Column(db.String)
+    semester = db.Column(db.String)
+    degree_level = db.Column(db.String)
+
 
 
 
