@@ -2,6 +2,7 @@ from flask import Flask
 from app.config import Config
 from app.extensions import db, migrate
 from app.commands import init_db, populate_db
+from app.api import api
 
 
 COMMANDS = [init_db, populate_db]
@@ -21,6 +22,7 @@ def create_app():
 def register_extensions(app):
     db.init_app(app)
     migrate.init_app(app, db)
+    api.init_app(app)
 
 
 def register_commands(app):
