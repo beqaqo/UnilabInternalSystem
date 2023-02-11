@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from app.models.user import User
-from app.api.validators.registation import *
+from app.api.validators.registation import check_validators
 
 
 
@@ -50,29 +50,21 @@ class RegistrationApi(Resource):
         parser = self.parser.parse_args()
 
 
-        if not name_validator(parser["name"]):
-            return "Invalid name", 400
+        if check_validators(parser):
+            return check_validators(parser)
 
-        if not name_validator(parser["lastname"]):
-            return "Invalid lastname", 400
 
-        if not mail_validator(parser["email"]):
-            return "Invalid email",   400
 
-        if not number_validator(parser["number"]):
-            return "Invalid number",   400     
 
-        if not id_validator(parser["personal_ID"]):
-            return "Invalid personal_ID", 400
+        if bool(User.query.filter_by(email = parser["email"]).first()):
+            return "This mail is already redgistered", 400
 
-        if parser["role"] == "მოსწავლე" and not name_validator(parser["parent_name"]):
-            return "Invalid parent_name", 400
+        if bool(User.query.filter_by(number = parser["number"]).first()):
+            return "This number is already redgistered", 400
 
-        if parser["role"] == "მოსწავლე" and not name_validator(parser["parent_lastname"]):
-            return "Invalid parent_lastname", 400
-
-        if parser["role"] == "მოსწავლე" and not number_validator(parser["parent_number"]):
-            return "Invalid parent_number", 400
+        if bool(User.query.filter_by(personal_ID = parser["personal_ID"]).first()):
+            return "This personal_ID is already redgistered", 400
+        
 
 
         if parser["password"] == parser["conf_password"] and parser["terms"] :
@@ -94,7 +86,7 @@ class RegistrationApi(Resource):
                             grade = parser["grade"],
                             parent_name = parser["parent_name"],
                             parent_lastname = parser["parent_lastname"],
-                            parent_number = str(parser["parent_number"]),
+                            parent_number = str(parser["parent_number"] ),          # str გამომიგზავნის ფრონტი?
                             university = parser["university"],
                             faculty = parser["faculty"],
                             program = parser["program"],
