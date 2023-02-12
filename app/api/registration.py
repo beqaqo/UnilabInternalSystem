@@ -50,26 +50,11 @@ class RegistrationApi(Resource):
         parser = self.parser.parse_args()
 
 
-        if check_validators(parser):
-            return check_validators(parser)
-
-
-
-
-        if bool(User.query.filter_by(email = parser["email"]).first()):
-            return "This mail is already redgistered", 400
-
-        if bool(User.query.filter_by(number = parser["number"]).first()):
-            return "This number is already redgistered", 400
-
-        if bool(User.query.filter_by(personal_ID = parser["personal_ID"]).first()):
-            return "This personal_ID is already redgistered", 400
-        
-
-
-        if parser["password"] == parser["conf_password"] and parser["terms"] :
-
-            new_user = User(name=parser["name"], 
+        if check_validators(parser, User):
+            return check_validators(parser, User)
+        else: 
+            new_user = User(
+                            name=parser["name"], 
                             lastname = parser["lastname"], 
                             email = parser["email"],
                             password = parser["password"],
@@ -99,8 +84,3 @@ class RegistrationApi(Resource):
             new_user.save()
 
             return "Success", 200
-        
-        else:
-
-            return "Invalid request", 400
-
