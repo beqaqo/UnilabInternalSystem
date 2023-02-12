@@ -20,8 +20,7 @@ class AuthorizationApi(Resource):
         user = User.query.filter_by(email = parser["email"]).first()
     
 
-        if bool(user) and user.check_password(parser["password"]):           
+        if user and user.check_password(parser["password"]):           
             return "Success", 200
-
         else:
             return "Password or mail is incorrect", 400
