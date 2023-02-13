@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from app.models.user import User
 from app.api.validators.authentication import check_validators
-
+from datetime import datetime
 
 
 class RegistrationApi(Resource):
@@ -12,7 +12,7 @@ class RegistrationApi(Resource):
     parser.add_argument("email", required=True, type=str)
     parser.add_argument("number", required=True, type=str)
     parser.add_argument("personal_id", required=True, type=str)
-    parser.add_argument("date", required=True, type=str)
+    parser.add_argument("date", required=True, type=lambda d: datetime.strptime(d, '%Y-%m-%d'))
     parser.add_argument("gender", required=True, type=str)
    
 

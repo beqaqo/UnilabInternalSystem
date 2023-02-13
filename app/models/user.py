@@ -14,7 +14,7 @@ class User(BaseModel):
     _password = db.Column("password", db.String)
     personal_id = db.Column(db.String)
     number = db.Column(db.String)
-    date = db.Column(db.String)   # sqlite არ აქვს ცალკე გამოყოგილი date და ტექსტად შეიანხეო რჩევა ეს ვნახე
+    date = db.Column(db.Date)
     gender = db.Column(db.String)
     country = db.Column(db.String)
     region = db.Column(db.String)
