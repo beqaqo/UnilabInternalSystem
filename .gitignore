@@ -130,6 +130,4 @@ dmypy.json
 
 
 # sqlite Database 
-
-.sqlite
-.sqlite3
+db.sqlite
