@@ -25,7 +25,7 @@ class User(BaseModel):
 
     # Pupil
     school = db.Column(db.Integer)
-    grade = db.Column(db.String)
+    grade = db.Column(db.Integer)
     parent_name = db.Column(db.String)
     parent_lastname = db.Column(db.String)
     parent_number = db.Column(db.String)
@@ -34,7 +34,7 @@ class User(BaseModel):
     university = db.Column(db.String)
     faculty = db.Column(db.String)
     program = db.Column(db.String)
-    semester = db.Column(db.String)
+    semester = db.Column(db.Integer)
     degree_level = db.Column(db.String)
 
 
