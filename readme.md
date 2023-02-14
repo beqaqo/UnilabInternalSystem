@@ -3,4 +3,13 @@ install python3
 
 Install all libaries from requirements.txt with command: pip install -r requirements.txt
 
-open app.py and run current file
+
+1) Database initialization (if db.sqlite exist delete and ):
+
+    command to create Database: Flask init_db
+
+
+2) open app.py and run current file
+
+
+
