@@ -2,19 +2,19 @@ from email_validator import validate_email
 
 
 def id_validator(data):
-    if str(data).isdecimal() and len(str(data)) == 11:
+    if data.isdecimal() and len(data) == 11:
         return True
     
 
 def name_validator(data):
-    if str(data).isalpha():
+    if data.isalpha():
         return True
 
 
 def mail_validator(data):
 
     try:
-        emailObject = validate_email(str(data))
+        emailObject = validate_email(data)
         return True
 
     except :
@@ -22,7 +22,7 @@ def mail_validator(data):
         
      
 def number_validator(data):
-    if str(data).isdecimal() and len(str(data)) == 9:
+    if data.isdecimal() and len(data) == 9:
         return True
 
 
@@ -42,8 +42,8 @@ def check_validators(parser, User):
         if not number_validator(parser["number"]):
             return "Invalid number",   400     
 
-        if not id_validator(parser["personal_ID"]):
-            return "Invalid personal_ID", 400
+        if not id_validator(parser["personal_id"]):
+            return "Invalid personal_id", 400
 
         if parser["role"] == "მოსწავლე" and not name_validator(parser["parent_name"]):
             return "Invalid parent_name", 400
@@ -71,6 +71,6 @@ def check_validators(parser, User):
         if bool(User.query.filter_by(number = parser["number"]).first()):
             return "This number is already redgistered", 400
 
-        if bool(User.query.filter_by(personal_ID = parser["personal_ID"]).first()):
-            return "This personal_ID is already redgistered", 400
+        if bool(User.query.filter_by(personal_id = parser["personal_id"]).first()):
+            return "This personal_id is already redgistered", 400
 

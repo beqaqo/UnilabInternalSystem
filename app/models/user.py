@@ -12,9 +12,9 @@ class User(BaseModel):
     lastname = db.Column(db.String)
     email = db.Column(db.String)
     _password = db.Column("password", db.String)
-    personal_ID = db.Column(db.String)
+    personal_id = db.Column(db.String)
     number = db.Column(db.String)
-    date = db.Column(db.String)   # sqlite არ აქვს ცალკე გამოყოგილი date და ტექსტად შეიანხეო რჩევა ეს ვნახე
+    date = db.Column(db.Date)
     gender = db.Column(db.String)
     country = db.Column(db.String)
     region = db.Column(db.String)
@@ -24,8 +24,8 @@ class User(BaseModel):
 
 
     # Pupil
-    school = db.Column(db.Integer)
-    grade = db.Column(db.Integer)
+    school = db.Column(db.String)
+    grade = db.Column(db.String)
     parent_name = db.Column(db.String)
     parent_lastname = db.Column(db.String)
     parent_number = db.Column(db.String)
@@ -34,7 +34,7 @@ class User(BaseModel):
     university = db.Column(db.String)
     faculty = db.Column(db.String)
     program = db.Column(db.String)
-    semester = db.Column(db.Integer)
+    semester = db.Column(db.String)
     degree_level = db.Column(db.String)
 
 
