@@ -1,6 +1,6 @@
 from flask_restful import Api
-from app.api.registration import RegistrationApi
-from app.api.authorisation import AuthorizationApi
+from app.api.authentication import RegistrationApi, AuthorizationApi
+
 
 api = Api()
 api.add_resource(RegistrationApi, "/Registration")
