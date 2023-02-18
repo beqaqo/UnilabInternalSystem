@@ -1,6 +1,6 @@
 from flask.cli import with_appcontext
 from app.extensions import db
-from app.models.user import User, Country, Region, City
+from app.models.user import User, Country, Region, City, University
 import click
 
 
@@ -39,5 +39,12 @@ def populate_db():
         city_ = City(city_name = city)
         city_.create()
     city_.save()
+
+    #populating university table
+    unisversities = ["ილიაუნი", "თსუ", "თსსუ", "გტუ", "სამხატვრო"]
+    for university in unisversities:
+        university_ = University(university_name = university)
+        university_.create()
+    university_.save()
 
     click.echo("done populating")

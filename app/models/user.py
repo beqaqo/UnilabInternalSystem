@@ -26,6 +26,14 @@ class City(BaseModel):
 
     user = db.relationship("User", backref = "city")
 
+class University(BaseModel):
+    __tablename__ = "universities"
+
+    id = db.Column(db.Integer, primary_key=True)
+    university_name = db.Column(db.String)
+
+    user = db.relationship("User", backref = "university")
+
 class User(BaseModel):
 
     __tablename__ = "Users"
@@ -40,8 +48,8 @@ class User(BaseModel):
     date = db.Column(db.Date)
     gender = db.Column(db.String)
     country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))
-    region_id = db.Column(db.String, db.ForeignKey("regions.id"))
-    city_id = db.Column(db.String, db.ForeignKey("cities.id"))
+    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
     address = db.Column(db.String)
     role = db.Column(db.String)
 
@@ -54,7 +62,7 @@ class User(BaseModel):
     parent_number = db.Column(db.String)
 
     # student
-    university = db.Column(db.String)
+    university_id = db.Column(db.Integer, db.ForeignKey("universities.id"))
     faculty = db.Column(db.String)
     program = db.Column(db.String)
     semester = db.Column(db.String)
