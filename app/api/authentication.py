@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse, inputs
-from app.models.user import User, Country, Region, City
+from app.models.user import User, Country, Region, City, University
 from app.api.validators.authentication import check_validators
+import json
 
 
 class RegistrationApi(Resource):
@@ -45,9 +46,6 @@ class RegistrationApi(Resource):
 
 
     def post(self):
-
-        
-        print(Country.query.all())
         
         parser = self.parser.parse_args()
 
@@ -91,6 +89,22 @@ class RegistrationApi(Resource):
 
         return "Success", 200
 
+
+    def get(self):
+
+        country = [(object.id, object.country_name) for object in Country.query.all()]
+        region = [(object.id, object.region_name) for object in Region.query.all()]
+        city = [(object.id, object.city_name) for object in City.query.all()]
+        university = [(object.id, object.university_name) for object in University.query.all()]
+
+        data = {
+            "countries" : country,
+            "regions" : region, 
+            "cities" : city, 
+            "universities" : university
+        }
+
+        return data
 
 
 
