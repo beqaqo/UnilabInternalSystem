@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse, inputs
 from app.models.user import User, Country, Region, City, University
 from app.api.validators.authentication import check_validators
-import json
 
 
 class RegistrationApi(Resource):
