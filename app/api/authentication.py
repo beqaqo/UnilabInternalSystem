@@ -3,6 +3,7 @@ from app.models.user import User
 from app.api.validators.authentication import check_validators
 
 
+
 class RegistrationApi(Resource):
 
     parser = reqparse.RequestParser()
@@ -14,7 +15,6 @@ class RegistrationApi(Resource):
     parser.add_argument("date", required=True, type=inputs.datetime_from_iso8601)
     parser.add_argument("gender", required=True, type=str)
    
-
     parser.add_argument("password", required=True, type=str )
     parser.add_argument("conf_password", required=True, type=str)
 
@@ -39,15 +39,13 @@ class RegistrationApi(Resource):
 
     parser.add_argument("terms", required=True, type=bool)
 
-
-
+    
     
 
 
     def post(self):
         
         parser = self.parser.parse_args()
-
         validation = check_validators(parser, User)
 
 
@@ -80,11 +78,17 @@ class RegistrationApi(Resource):
                         program = parser["program"],
                         semester = parser["semester"],
                         degree_level = parser["degree_level"]
+        
+                    
                         )
 
 
         new_user.create()
         new_user.save()
+
+
+
+
 
         return "Success", 200
 
@@ -111,3 +115,21 @@ class AuthorizationApi(Resource):
             return "Success", 200
         else:
             return "Password or mail is incorrect", 400
+        
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+

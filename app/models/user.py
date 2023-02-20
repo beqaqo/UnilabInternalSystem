@@ -21,6 +21,9 @@ class User(BaseModel):
     city = db.Column(db.String)
     address = db.Column(db.String)
     role = db.Column(db.String)
+    confirmed = db.Column(db.Integer, unique=False, default=False)
+    reset_password = db.Column(db.Integer, unique=False, default=False)
+
 
 
     # Pupil
