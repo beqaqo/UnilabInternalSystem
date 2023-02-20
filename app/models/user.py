@@ -2,6 +2,37 @@ from app.extensions import db
 from app.models.base import BaseModel
 from werkzeug.security import generate_password_hash, check_password_hash
 
+class Country(BaseModel):
+    __tablename__ = "countries"
+
+    id = db.Column(db.Integer, primary_key=True)
+    country_name = db.Column(db.String)
+
+    user = db.relationship("User", backref = "country")
+
+class Region(BaseModel):
+    __tablename__ = "regions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    region_name = db.Column(db.String)
+
+    user = db.relationship("User", backref = "region")
+
+class City(BaseModel):
+    __tablename__ = "cities"
+
+    id = db.Column(db.Integer, primary_key=True)
+    city_name = db.Column(db.String)
+
+    user = db.relationship("User", backref = "city")
+
+class University(BaseModel):
+    __tablename__ = "universities"
+
+    id = db.Column(db.Integer, primary_key=True)
+    university_name = db.Column(db.String)
+
+    user = db.relationship("User", backref = "university")
 
 class User(BaseModel):
 
@@ -16,11 +47,14 @@ class User(BaseModel):
     number = db.Column(db.String)
     date = db.Column(db.Date)
     gender = db.Column(db.String)
-    country = db.Column(db.String)
-    region = db.Column(db.String)
-    city = db.Column(db.String)
+    country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))
+    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
     address = db.Column(db.String)
     role = db.Column(db.String)
+    confirmed = db.Column(db.Integer, unique=False, default=False)
+    reset_password = db.Column(db.Integer, unique=False, default=False)
+
 
 
     # Pupil
@@ -31,7 +65,7 @@ class User(BaseModel):
     parent_number = db.Column(db.String)
 
     # student
-    university = db.Column(db.String)
+    university_id = db.Column(db.Integer, db.ForeignKey("universities.id"))
     faculty = db.Column(db.String)
     program = db.Column(db.String)
     semester = db.Column(db.String)

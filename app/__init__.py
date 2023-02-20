@@ -1,6 +1,6 @@
 from flask import Flask
 from app.config import Config
-from app.extensions import db, migrate
+from app.extensions import db, migrate, mail
 from app.commands import init_db, populate_db
 from app.api import api
 
@@ -21,6 +21,7 @@ def create_app():
 
 def register_extensions(app):
     db.init_app(app)
+    mail.init_app(app)
     migrate.init_app(app, db)
     api.init_app(app)
 
