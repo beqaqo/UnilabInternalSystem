@@ -95,10 +95,10 @@ class RegistrationApi(Resource):
 
     def get(self):
 
-        country = [(object.id, object.country_name) for object in Country.query.all()]
-        region = [(object.id, object.region_name) for object in Region.query.all()]
-        city = [(object.id, object.city_name) for object in City.query.all()]
-        university = [(object.id, object.university_name) for object in University.query.all()]
+        country = [{object.id:object.country_name} for object in Country.query.all()]
+        region = [{object.id:object.region_name} for object in Region.query.all()]
+        city = [{object.id:object.city_name} for object in City.query.all()]
+        university = [{object.id:object.university_name} for object in University.query.all()]
 
         data = {
             "countries" : country,
