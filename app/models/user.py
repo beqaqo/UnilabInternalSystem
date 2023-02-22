@@ -52,7 +52,7 @@ class User(BaseModel):
     city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
     address = db.Column(db.String)
     role = db.Column(db.String)
-    confirmed = db.Column(db.Boolean, default=True)
+    confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
 
 
