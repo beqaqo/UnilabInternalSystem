@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse, inputs
 from app.models.user import User, Country, Region, City, University
 from app.api.validators.authentication import check_validators
-
+from app.api.validators.mail import create_key, send_email
+from flask import render_template
 
 
 class RegistrationApi(Resource):
@@ -87,10 +88,15 @@ class RegistrationApi(Resource):
         new_user.save()
 
 
-
-
-
+        key = create_key(parser["email"])
+        html = render_template('_activation_massage.html', key=key)
+        
+        send_email(subject = "Confirm your account", html=html, recipients=parser["email"])
+        
         return "Success", 200
+
+
+      
 
 
     def get(self):
