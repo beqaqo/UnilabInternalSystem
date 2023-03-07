@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse, inputs
 from app.models.user import User, Country, Region, City, University
 from app.api.validators.authentication import check_validators
-from app.api.validators.mail import create_key, send_email
-from flask import render_template
+from flask_jwt_extended import create_access_token
+
 
 
 class RegistrationApi(Resource):
@@ -134,7 +134,11 @@ class AuthorizationApi(Resource):
     
 
         if user and user.check_password(parser["password"]):           
-            return "Success", 200
+            access_token = create_access_token(identity = user.email)
+            responce = {
+                'access token':access_token
+            }
+            return  responce
         else:
             return "Password or mail is incorrect", 400
         
