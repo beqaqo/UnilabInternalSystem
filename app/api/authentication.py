@@ -6,7 +6,6 @@ from flask import render_template
 from flask_jwt_extended import create_access_token
 
 
-
 class RegistrationApi(Resource):
 
     parser = reqparse.RequestParser()
@@ -46,7 +45,7 @@ class RegistrationApi(Resource):
     
 
 
-    def post(self):
+    def get(self):
         
         parser = self.parser.parse_args()
         validation = check_validators(parser, User)
@@ -115,7 +114,7 @@ class RegistrationApi(Resource):
             "universities" : university
         }
 
-        return data
+        return data, 200
 
 
 

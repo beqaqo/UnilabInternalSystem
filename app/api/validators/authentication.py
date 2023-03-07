@@ -28,7 +28,20 @@ def number_validator(data):
 
 
 
-def check_validators(parser, User):
+
+
+def user_exist_check(parser,User):
+        if bool(User.query.filter_by(email = parser["email"]).first()):
+            return "This mail is already redgistered", 400
+
+        if bool(User.query.filter_by(number = parser["number"]).first()):
+            return "This number is already redgistered", 400
+
+        if bool(User.query.filter_by(personal_id = parser["personal_id"]).first()):
+            return "This personal_id is already redgistered", 400
+
+
+def check_validators(parser, User, user_check = True):
 
         if not name_validator(parser["name"]):
             return "Invalid name", 400
@@ -57,20 +70,14 @@ def check_validators(parser, User):
         if not parser["terms"]:
             return "Not accepted terms of service", 400
 
-        if parser["password"] != parser["conf_password"]:
+
+        if user_check and parser["password"] != parser["conf_password"]:
             return "passwords do not match", 400
 
 
     
 
         # user exist check
-        
-        if bool(User.query.filter_by(email = parser["email"]).first()):
-            return "This mail is already redgistered", 400
-
-        if bool(User.query.filter_by(number = parser["number"]).first()):
-            return "This number is already redgistered", 400
-
-        if bool(User.query.filter_by(personal_id = parser["personal_id"]).first()):
-            return "This personal_id is already redgistered", 400
+        if user_check:
+            user_exist_check(parser,User)
 
