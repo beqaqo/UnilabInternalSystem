@@ -36,7 +36,7 @@ class University(BaseModel):
 
 class User(BaseModel):
 
-    __tablename__ = "Users"
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -51,12 +51,10 @@ class User(BaseModel):
     region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
     city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
     address = db.Column(db.String)
-    role = db.Column(db.String)
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
-
-
-
+    role = db.relationship("Role", secondary = "user_roles", backref = "roles")
+#ეს უნდა დავუკავშირო ენაუნსმენთს როგორმე?
     # Pupil
     school = db.Column(db.String)
     grade = db.Column(db.String)
