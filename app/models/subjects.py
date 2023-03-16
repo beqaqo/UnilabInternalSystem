@@ -1,9 +1,16 @@
 from app.extensions import db
 from app.models.base import BaseModel 
 
+class AnnouncementUser(BaseModel):
+    __tablename__ = "announcement_user"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id")) 
+    announcement_id = db.Column(db.Integer, db.ForeignKey("announcements.id"))
+    passed = db.Column(db.Boolean, default = False)
+
+
 
 class Announcement(BaseModel):
-    #ენაუნსმენთი ასოციაციური თეიბლია?
 
     __tablename__ ="announcements"
      

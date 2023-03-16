@@ -2,7 +2,7 @@ from flask.cli import with_appcontext
 from app.extensions import db
 from app.models.user import User, Country, Region, City, University
 from app.models.roles import Role, UserRole
-from app.models.subjects import Subject, ActivityType, Announcement
+from app.models.subjects import Subject, ActivityType, Announcement, AnnouncementUser
 import click
 
 
