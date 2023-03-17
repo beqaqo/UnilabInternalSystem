@@ -1,6 +1,8 @@
 from flask.cli import with_appcontext
 from app.extensions import db
 from app.models.user import User, Country, Region, City, University
+from app.models.roles import Role, UserRole
+from app.models.subjects import Subject, ActivityType, Announcement
 import click
 
 
@@ -46,5 +48,26 @@ def populate_db():
         university_ = University(university_name = university)
         university_.create()
     university_.save()
+
+    #populating roles table 
+    roles = ["ადმინი", "სტუდენტი", "ლექტორი", "მოდერატორი"]
+    for role in roles:
+        role_ = Role(name = role)
+        role_.create()
+    role_.save()
+
+    #populating subjects 
+    subjects = ["პითონი", "HTML/CSS", "ჯავასკრიპტი", "C++"]
+    for subject in subjects:
+        subject_ = Subject(name = subject)
+        subject_.create()
+    subject_.save()
+
+    type = ActivityType(name = "კურსი")
+    type.create() 
+    type = ActivityType(name = "სტაჟირება")
+    type.create() 
+    type.save()
+
 
     click.echo("done populating")
