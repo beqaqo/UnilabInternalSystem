@@ -2,7 +2,7 @@ from flask.cli import with_appcontext
 from app.extensions import db
 from app.models.user import User, Country, Region, City, University
 from app.models.roles import Role, UserRole
-from app.models.subjects import Subject, ActivityType, Announcement
+from app.models.subjects import Subject, ActivityType, Announcement, AnnouncementUser
 import click
 
 
@@ -21,12 +21,14 @@ def init_db():
 def populate_db():
     click.echo("populating db")
 
+
     #populating country table
     countries = ["საქართველო", "საფრანგეთი", "გერმანია", "ავსტრია", "დიდი ბრიტანეთი"]
     for country in countries:
         country_ = Country(country_name = country)
         country_.create()
     country_.save()
+
 
     #populating region table
     regions = ["იმერეთი", "სვანეთი", "გურია", "რაჭა", "კახეთი"]
@@ -35,12 +37,14 @@ def populate_db():
         region_.create()
     region_.save()
 
+
     #populating city table
     cities = ["ქუთაისი", "თბილისი", "ზუგდიდი", "ბათუმი", "გორი"]
     for city in cities:
         city_ = City(city_name = city)
         city_.create()
     city_.save()
+
 
     #populating university table
     unisversities = ["ილიაუნი", "თსუ", "თსსუ", "გტუ", "სამხატვრო"]
@@ -49,12 +53,14 @@ def populate_db():
         university_.create()
     university_.save()
 
+
     #populating roles table 
-    roles = ["ადმინი", "სტუდენტი", "ლექტორი", "მოდერატორი"]
+    roles = ["ადმინი", "სტუდენტი", "ლექტორი", "მოდერატორი", "მოსწავლე"]
     for role in roles:
         role_ = Role(name = role)
         role_.create()
     role_.save()
+
 
     #populating subjects 
     subjects = ["პითონი", "HTML/CSS", "ჯავასკრიპტი", "C++"]
@@ -63,11 +69,17 @@ def populate_db():
         subject_.create()
     subject_.save()
 
-    type = ActivityType(name = "კურსი")
-    type.create() 
-    type = ActivityType(name = "სტაჟირება")
-    type.create() 
-    type.save()
+
+    #populating type 
+    types = ["კურსი","სტაჟირება", "სასკოლო კურსი" ]
+    for type in types:
+        type_ = ActivityType(name = type)
+        type_.create()
+    type_.save()
+    
+
+
+
 
 
     click.echo("done populating")

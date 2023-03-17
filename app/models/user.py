@@ -57,8 +57,9 @@ class User(BaseModel):
     address = db.Column(db.String)
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
-    role = db.relationship("Role", secondary = "user_roles", backref = "roles")
-#ეს უნდა დავუკავშირო ენაუნსმენთს როგორმე?
+    role = db.relationship("Role", secondary = "user_roles", backref = "roles")   
+    announcements = db.relationship("Announcement", secondary = "announcement_user", backref = "announcements")
+
     # Pupil
     school = db.Column(db.String)
     grade = db.Column(db.String)
@@ -86,3 +87,10 @@ class User(BaseModel):
         return check_password_hash(self.password, password)
 
     password = db.synonym('_password', descriptor=property(_get_password, _set_password))
+
+
+    #def check_permission(self, request):
+
+    #    self.role
+
+        
