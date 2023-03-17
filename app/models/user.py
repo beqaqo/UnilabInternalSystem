@@ -57,8 +57,9 @@ class User(BaseModel):
     address = db.Column(db.String)
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
-    role = db.relationship("Role", secondary = "user_roles", backref = "roles")
-#ეს უნდა დავუკავშირო ენაუნსმენთს როგორმე?
+    role = db.relationship("Role", secondary = "user_roles", backref = "roles")   
+    announcements = db.relationship("Announcement", secondary = "announcement_user", backref = "announcements")
+
     # Pupil
     school = db.Column(db.String)
     grade = db.Column(db.String)
