@@ -119,10 +119,16 @@ def populate_db():
 
         user_role = UserRole(
             user_id = user_.id,
-            role_id = user["role"]
+            role_id = user["role"],
         )
-
         user_role.create()
+
+        user_role = UserRole(
+            user_id = user_.id,
+            role_id = 4,
+        )       
+        user_role.create()
+
         user_role.save()
 
 

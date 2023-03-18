@@ -90,10 +90,6 @@ class RegistrationApi(Resource):
         new_user.create()
         new_user.save()
 
-        # user_role = UserRole(
-        #         user_id = new_user.id,
-
-        # )
 
 
         key = create_key(parser["email"])
