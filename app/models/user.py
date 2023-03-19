@@ -2,13 +2,14 @@ from app.extensions import db
 from app.models.base import BaseModel
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 class Country(BaseModel):
     __tablename__ = "countries"
 
     id = db.Column(db.Integer, primary_key=True)
     country_name = db.Column(db.String)
 
-    user = db.relationship("User", backref = "country")
+    user = db.relationship("User", backref="country")
 
 
 class Region(BaseModel):
@@ -17,7 +18,7 @@ class Region(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     region_name = db.Column(db.String)
 
-    user = db.relationship("User", backref = "region")
+    user = db.relationship("User", backref="region")
 
 
 class City(BaseModel):
@@ -26,7 +27,7 @@ class City(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     city_name = db.Column(db.String)
 
-    user = db.relationship("User", backref = "city")
+    user = db.relationship("User", backref="city")
 
 
 class University(BaseModel):
@@ -35,7 +36,7 @@ class University(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     university_name = db.Column(db.String)
 
-    user = db.relationship("User", backref = "university")
+    user = db.relationship("User", backref="university")
 
 
 class User(BaseModel):
@@ -57,8 +58,8 @@ class User(BaseModel):
     address = db.Column(db.String)
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
-    role = db.relationship("Role", secondary = "user_roles", backref = "roles")   
-    announcements = db.relationship("Announcement", secondary = "announcement_user", backref = "announcements")
+    role = db.relationship("Role", secondary="user_roles", backref="roles")
+    announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
 
     # Pupil
     school = db.Column(db.String)
@@ -74,9 +75,6 @@ class User(BaseModel):
     semester = db.Column(db.String)
     degree_level = db.Column(db.String)
 
-
-
-
     def _get_password(self):
         return self._password
 
@@ -86,4 +84,10 @@ class User(BaseModel):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    password = db.synonym('_password', descriptor=property(_get_password, _set_password))
+    password = db.synonym('_password', descriptor=property(
+        _get_password, _set_password))
+
+    def check_permission(self, request):
+        permisions = [getattr(permision, request) for permision in self.role]
+
+        return any(permisions)
