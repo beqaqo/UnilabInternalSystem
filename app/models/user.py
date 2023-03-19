@@ -90,7 +90,4 @@ class User(BaseModel):
     def check_permission(self, request):
         permisions = [getattr(permision, request) for permision in self.role]
 
-        if any(permisions):
-            return True
-        else:
-            return False
+        return any(permisions)
