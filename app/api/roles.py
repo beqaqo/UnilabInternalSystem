@@ -7,7 +7,7 @@ from app.models.roles import UserRole
 class CreateRoles(Resource):
 
     parser = reqparse.RequestParser()
-    parser.add_argument("user_id", required=True, type=int)
+    parser.add_argument("user_mail", required=True, type=str)
     parser.add_argument("role_id", required=True, type=int)
 
     @jwt_required()
@@ -15,10 +15,13 @@ class CreateRoles(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
-        if user.check_permission("can_create_roles"):
-            data = UserRole.query.all()
-            return data, 200
-        return "Bad request", 400
+        if not user.check_permission("can_create_roles"):
+            return "Bad request", 400
+
+        roles = [{"user_mail": User.query.filter_by(id=object.user_id).first().email, 
+                  "role_id": object.role_id} for object in UserRole.query.all()]
+
+        return roles, 200
 
     @jwt_required()
     def post(self):
@@ -26,34 +29,39 @@ class CreateRoles(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
-        if not  user.check_permission("can_create_roles"):
+        if not user.check_permission("can_create_roles"):
             return "Bad request", 400
-        
-        user_role = UserRole(
-        user_id=parser["user_id"], role_id=parser["role_id"])
+
+        user_role = UserRole(user_id=User.query.filter_by(
+            email=parser["user_mail"]).first().id, role_id=parser["role_id"])
+
         user_role.create()
         user_role.save()
         return "Success", 200
 
     @jwt_required()
     def put(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument("user_mail", required=True, type=str)
+        parser.add_argument("role_id", required=True, type=int)
         parser.add_argument("new_role_id", required=True, type=int)
 
-        parser = self.parser.parse_args()
+        parser = parser.parse_args()
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
-        if user.check_permission("can_create_roles"):
-
-            result = UserRole.query.filter(
-                user_id=parser["user_id"], role_id=parser["role_id"]).first()
-            if result:
-                result.role_id = parser["new_role_id"]
-                result.save()
-                return "Success", 200
+        if not user.check_permission("can_create_roles"):
             return "Bad request", 400
 
-        return "Bad request", 400
+        result = UserRole.query.filter_by(user_id=User.query.filter_by(
+            email=parser["user_mail"]).first().id, role_id=parser["role_id"]).first()
+
+        if not result:
+            return "Bad request", 400
+
+        result.role_id = parser["new_role_id"]
+        result.save()
+        return "Success", 200
 
     @jwt_required()
     def delete(self):
@@ -61,14 +69,15 @@ class CreateRoles(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
-        if user.check_permission("can_create_roles"):
-
-            result = UserRole.query.filter(
-                user_id=parser["user_id"], role_id=parser["role_id"]).first()
-            if result:
-                result.delete()
-                result.save()
-                return "Success", 200
+        if not user.check_permission("can_create_roles"):
             return "Bad request", 400
 
-        return "Bad request", 400
+        result = UserRole.query.filter_by(user_id=User.query.filter_by(
+            email=parser["user_mail"]).first().id, role_id=parser["role_id"]).first()
+
+        if not result:
+            return "Bad request", 400
+
+        result.delete()
+        result.save()
+        return "Success", 200
