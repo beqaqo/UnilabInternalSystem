@@ -64,8 +64,7 @@ class CreateAnnouncment(Resource):
         user = User.query.filter_by(email=current_user).first()
 
         if user.check_permission("can_create_activity"):
-            result = Announcement.query.filter(
-                id=parser["announcment_id"]).first()
+            result = Announcement.query.filter(id=parser["announcment_id"]).first()
             if result:
                 result.name = parser["name"]
                 result.ubject_id = parser["subject_id"]
