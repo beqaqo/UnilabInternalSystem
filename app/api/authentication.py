@@ -15,7 +15,8 @@ class RegistrationApi(Resource):
     parser.add_argument("email", required=True, type=str)
     parser.add_argument("number", required=True, type=str)
     parser.add_argument("personal_id", required=True, type=str)
-    parser.add_argument("date", required=True,type=inputs.datetime_from_iso8601)
+    parser.add_argument("date", required=True,
+                        type=inputs.datetime_from_iso8601)
     parser.add_argument("gender", required=True, type=str)
 
     parser.add_argument("password", required=True, type=str)
@@ -26,7 +27,7 @@ class RegistrationApi(Resource):
     parser.add_argument("city_id", required=True, type=int)
     parser.add_argument("address", required=True, type=str)
 
-    parser.add_argument("role", required=True, type=str)
+    parser.add_argument("role_id", required=True, type=int)
 
     parser.add_argument("school", required=True, type=str)
     parser.add_argument("grade", required=True, type=str)
@@ -63,7 +64,6 @@ class RegistrationApi(Resource):
             region_id=parser["region_id"],
             city_id=parser["city_id"],
             address=parser["address"],
-            role=parser["role"],
             school=parser["school"],
             grade=parser["grade"],
             parent_name=parser["parent_name"],
@@ -75,20 +75,25 @@ class RegistrationApi(Resource):
             semester=parser["semester"],
             degree_level=parser["degree_level"]
 
-
-
         )
 
         new_user.create()
         new_user.save()
 
+        
+        new_user_role = UserRole(user_id=new_user.id, role_id=parser["role_id"])
+
+        new_user_role.create()
+        new_user_role.save()
+
         key = create_key(parser["email"])
         html = render_template('_activation_massage.html', key=key)
 
         send_email(subject="Confirm your account",
-                   html=html, recipients=parser["email"])
+                html=html, recipients=parser["email"])
 
         return "Success", 200
+        
 
     def get(self):
 

@@ -23,8 +23,6 @@ class UserProfileApi(Resource):
     parser.add_argument("city_id", required=True, type=int)
     parser.add_argument("address", required=True, type=str)
 
-    parser.add_argument("role", required=True, type=str)
-
     parser.add_argument("school", required=True, type=str)
     parser.add_argument("grade", required=True, type=str)
     parser.add_argument("parent_name", required=True, type=str)
@@ -56,7 +54,7 @@ class UserProfileApi(Resource):
             "region_id": user.region_id,
             "city_id": user.city_id,
             "address": user.address,
-            "role": user.role,
+            "role": [i.name for i in user.role],
             "school": user.school,
             "grade": user.grade,
             "parent_name": user.parent_name,
@@ -76,7 +74,7 @@ class UserProfileApi(Resource):
     def put(self):
 
         parser = self.parser.parse_args()
-        validation = check_validators(parser, User, user_check=False)
+        validation = check_validators(parser, User, user_check=False, role_check = False)
         current_user = get_jwt_identity()
 
         if validation:
@@ -98,7 +96,6 @@ class UserProfileApi(Resource):
             user.region_id = parser["region_id"]
             user.city_id = parser["city_id"]
             user.address = parser["address"]
-            user.role = parser["role"]
             user.school = parser["school"]
             user.grade = parser["grade"]
             user.parent_name = parser["parent_name"]

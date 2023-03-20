@@ -11,6 +11,16 @@ class CreateRoles(Resource):
     parser.add_argument("role_id", required=True, type=int)
 
     @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(email=current_user).first()
+
+        if user.check_permission("can_create_roles"):
+            data = UserRole.query.all()
+            return data, 200
+        return "Bad request", 400
+
+    @jwt_required()
     def post(self):
         parser = self.parser.parse_args()
         current_user = get_jwt_identity()

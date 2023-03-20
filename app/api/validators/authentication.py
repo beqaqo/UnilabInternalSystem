@@ -43,7 +43,7 @@ def user_exist_check(parser,User):
 
 
 
-def check_validators(parser, User, user_check = True):
+def check_validators(parser, User, user_check = True, role_check = True):
 
         if not name_validator(parser["name"]):
             return "Invalid name", 400
@@ -59,15 +59,18 @@ def check_validators(parser, User, user_check = True):
 
         if not id_validator(parser["personal_id"]):
             return "Invalid personal_id", 400
+        if role_check:
+            if parser["role_id"] not in [2,5]:
+                return "Invalid role_id", 400
 
-        if parser["role"] == "მოსწავლე" and not name_validator(parser["parent_name"]):
-            return "Invalid parent_name", 400
+            if parser["role_id"] == 5 and not name_validator(parser["parent_name"]):
+                return "Invalid parent_name", 400
 
-        if parser["role"] == "მოსწავლე" and not name_validator(parser["parent_lastname"]):
-            return "Invalid parent_lastname", 400
+            if parser["role_id"] == 5 and not name_validator(parser["parent_lastname"]):
+                return "Invalid parent_lastname", 400
 
-        if parser["role"] == "მოსწავლე" and not number_validator(parser["parent_number"]):
-            return "Invalid parent_number", 400
+            if parser["role_id"] == 5 and not number_validator(parser["parent_number"]):
+                return "Invalid parent_number", 400
 
         if not parser["terms"]:
             return "Not accepted terms of service", 400
