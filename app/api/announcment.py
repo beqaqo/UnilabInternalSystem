@@ -50,13 +50,13 @@ class CreateAnnouncment(Resource):
     @jwt_required()
     def put(self):
         parser.add_argument("announcment_id", required=True, type=int)
-        parser.add_argument("new_name", required=True, type=str)
-        parser.add_argument("new_subject_id", required=True, type=int)
-        parser.add_argument("new_activity_type_id", required=True, type=int)
-        parser.add_argument("new_lecturer_id", required=True, type=int)
-        parser.add_argument("new_regitration_start",
+        parser.add_argument("name", required=True, type=str)
+        parser.add_argument("subject_id", required=True, type=int)
+        parser.add_argument("activity_type_id", required=True, type=int)
+        parser.add_argument("lecturer_id", required=True, type=int)
+        parser.add_argument("regitration_start",
                             required=True, type=inputs.datetime_from_iso8601)
-        parser.add_argument("new_regitration_end",
+        parser.add_argument("regitration_end",
                             required=True, type=inputs.datetime_from_iso8601)
 
         parser = self.parser.parse_args()
@@ -67,12 +67,12 @@ class CreateAnnouncment(Resource):
             result = Announcement.query.filter(
                 id=parser["announcment_id"]).first()
             if result:
-                result.name = parser["new_name"]
-                result.ubject_id = parser["new_subject_id"]
-                result.activity_type_id = parser["new_activity_type_id"]
-                result.lecturer_id = parser["new_lecturer_id"]
-                result.regitration_start = parser["new_regitration_start"]
-                result.regitration_end = parser["new_regitration_end"]
+                result.name = parser["name"]
+                result.ubject_id = parser["subject_id"]
+                result.activity_type_id = parser["activity_type_id"]
+                result.lecturer_id = parser["lecturer_id"]
+                result.regitration_start = parser["regitration_start"]
+                result.regitration_end = parser["regitration_end"]
                 result.save()
                 return "Success", 200
             return "Bad request", 400
