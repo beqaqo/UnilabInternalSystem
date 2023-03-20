@@ -5,7 +5,7 @@ from app.models.subjects import Announcement
 
 
 class CreateAnnouncment(Resource):
-    parser = reqparse.RequestParser()
+    
 
     @jwt_required()
     def get(self):
@@ -19,7 +19,7 @@ class CreateAnnouncment(Resource):
 
     @jwt_required()
     def post(self):
-
+        parser = reqparse.RequestParser()
         parser.add_argument("name", required=True, type=str)
         parser.add_argument("subject_id", required=True, type=int)
         parser.add_argument("activity_type_id", required=True, type=int)
@@ -29,18 +29,18 @@ class CreateAnnouncment(Resource):
         parser.add_argument("regitration_end", required=True,
                             type=inputs.datetime_from_iso8601)
 
-        parser = self.parser.parse_args()
+        request_parser = parser.parse_args()
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
         if user.check_permission("can_create_activity"):
             new_anouncement = Announcement(
-                name=parser["name"],
-                subject_id=parser["subject_id"],
-                activity_type_id=parser["activity_type_id"],
-                lecturer_id=parser["lecturer_id"],
-                regitration_start=parser["regitration_start"],
-                regitration_end=parser["regitration_end"],
+                name=request_parser["name"],
+                subject_id=request_parser["subject_id"],
+                activity_type_id=request_parser["activity_type_id"],
+                lecturer_id=request_parser["lecturer_id"],
+                regitration_start=request_parser["regitration_start"],
+                regitration_end=request_parser["regitration_end"],
             )
             new_anouncement.create()
             new_anouncement.save()

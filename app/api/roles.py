@@ -26,13 +26,14 @@ class CreateRoles(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
-        if user.check_permission("can_create_roles"):
-            user_role = UserRole(
-                user_id=parser["user_id"], role_id=parser["role_id"])
-            user_role.create()
-            user_role.save()
-            return "Success", 200
-        return "Bad request", 400
+        if not  user.check_permission("can_create_roles"):
+            return "Bad request", 400
+        
+        user_role = UserRole(
+        user_id=parser["user_id"], role_id=parser["role_id"])
+        user_role.create()
+        user_role.save()
+        return "Success", 200
 
     @jwt_required()
     def put(self):
