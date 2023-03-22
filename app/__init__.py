@@ -6,7 +6,6 @@ from app.api import api
 from app.models.user import User
 
 
-
 COMMANDS = [init_db, populate_db]
 
 

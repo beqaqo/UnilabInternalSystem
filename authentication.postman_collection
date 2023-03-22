@@ -7,83 +7,436 @@
 	},
 	"item": [
 		{
-			"name": "Authorization",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"anri.tvalabeishvili@gmail.com\",\r\n    \"password\": \"tvalabeishvili\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Authorization",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"giorgi.komasuridze@gmail.com\",\r\n    \"password\": \"komasuridze\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/Authorization",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"Authorization"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{URL}}/Authorization",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"Authorization"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Registration",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Anri\" ,\r\n    \"lastname\": \"tvalabeishvili\" ,\r\n    \"email\": \"anri.tvalabeishvili@gmail.com\",\r\n    \"number\": \"555706163\" ,\r\n    \"personal_id\": \"01010101123\" ,\r\n    \"date\": \"2013-02-02T24\",\r\n    \"gender\": \"Male\",\r\n    \"password\": \"tvalabeishvili\" ,\r\n    \"conf_password\": \"tvalabeishvili\" , \r\n    \"country_id\": 1,\r\n    \"region_id\": 1,\r\n    \"city_id\": 2,\r\n    \"address\": \"დიდი დიღომი პეტრიწის 16ა\",\r\n    \"role\": \"სტუდენტი\", \r\n    \"school\": null ,\r\n    \"grade\": null ,\r\n    \"parent_name\": null,\r\n    \"parent_lastname\": null,\r\n    \"parent_number\": null ,\r\n    \"university_id\": 1,\r\n    \"faculty\": \"ზუსტ და საბუნებისმეტყველო მეცნიერებათა ფაკულტეტი\",\r\n    \"program\": \"ფიზიკა\",\r\n    \"semester\": 6 ,\r\n    \"degree_level\": \"ბაკალავრი\",\r\n    \"terms\": true\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Anri\" ,\r\n    \"lastname\": \"tvalabeishvilivs\" ,\r\n    \"email\": \"anri.tvalabeishvili@gmail.com\",\r\n    \"number\": \"555706773\" ,\r\n    \"personal_id\": \"01077101123\" ,\r\n    \"date\": \"2013-02-02T24\",\r\n    \"gender\": \"Male\",\r\n    \"password\": \"tvalabeishvili\" ,\r\n    \"conf_password\": \"tvalabeishvili\" , \r\n    \"country_id\": 1,\r\n    \"region_id\": 1,\r\n    \"city_id\": 2,\r\n    \"address\": \"დიდი დიღომი პეტრიწის 16ა\",\r\n    \"role_id\": 2, \r\n    \"school\": null ,\r\n    \"grade\": null ,\r\n    \"parent_name\": null,\r\n    \"parent_lastname\": null,\r\n    \"parent_number\": null ,\r\n    \"university_id\": 1,\r\n    \"faculty\": \"ზუსტ და საბუნებისმეტყველო მეცნიერებათა ფაკულტეტი\",\r\n    \"program\": \"ფიზიკა\",\r\n    \"semester\": 6 ,\r\n    \"degree_level\": \"ბაკალავრი\",\r\n    \"terms\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/Registration",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"Registration"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{URL}}/Registration",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"Registration"
-					]
+				{
+					"name": "Registration",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/Registration",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"Registration"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Registration",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{URL}}/Registration",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"Registration"
-					]
-				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "User Profile",
+			"item": [
+				{
+					"name": "User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMyMDQzOSwianRpIjoiY2QzYTk1ZDUtOWMzMS00OTgxLWI4ZGMtMTkyOGYyNWVhNDZjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMjA0MzksImV4cCI6MTY3OTMyMTMzOX0.szHZMvqWqyDArZ0kmIGOeJ6Q4XjxlWulJmZOGoZNums",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/UserProfile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"UserProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMxOTU4MywianRpIjoiYmRjNWZiNWYtYmIzNC00NzEzLWI0ZmYtZTE3M2ExZWFhOGQyIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFucmkudHZhbGFiZWlzaHZpbGkxQGdtYWlsLmNvbSIsIm5iZiI6MTY3OTMxOTU4MywiZXhwIjoxNjc5MzIwNDgzfQ.IZbKAzvzf7BrwccGM96axSh4Tc6M0KeLzmV4s2qXyHs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Anri\",\r\n    \"lastname\": \"tvalabeishvili\",\r\n    \"email\": \"anri.tvalabeishvili1@gmail.com\",\r\n    \"number\": \"555706163\",\r\n    \"personal_id\": \"01010101129\",\r\n    \"date\": \"2023-03-18T24\",\r\n    \"gender\": \"male\",\r\n    \"country_id\": 2,\r\n    \"region_id\": 1,\r\n    \"city_id\": 2,\r\n    \"address\": \"დიდი დიღომი პეტრიწის 16ა\",\r\n    \"school\": \"null\",\r\n    \"grade\": \"null\",\r\n    \"parent_name\": \"null\",\r\n    \"parent_lastname\": \"null\",\r\n    \"parent_number\": \"null\",\r\n    \"university_id\": 1,\r\n    \"faculty\": \"ზუსტ და საბუნებისმეტყველო მეცნიერებათა ფაკულტეტი\",\r\n    \"program\": \"ფიზიკა\",\r\n    \"semester\": \"6\",\r\n    \"degree_level\": \"ბაკალავრი\",\r\n    \"password\": \"tvalabeishvili\",\r\n    \"password_new\": \"tvalabeishvili\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/UserProfile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"UserProfile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Announcment",
+			"item": [
+				{
+					"name": "Get all Announcment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDI1MSwianRpIjoiNTg0YTY5Y2ItMTdhMC00ZDFiLTlmNTktNGZlZmYyM2FiOTlkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzAyNTEsImV4cCI6MTY3OTMzMTE1MX0.HYm-afbt8Vx-VuwJCaE9_HCMLYg-rUAWArhwt7txF0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/CreateAnnouncment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateAnnouncment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Announcment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDI1MSwianRpIjoiNTg0YTY5Y2ItMTdhMC00ZDFiLTlmNTktNGZlZmYyM2FiOTlkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzAyNTEsImV4cCI6MTY3OTMzMTE1MX0.HYm-afbt8Vx-VuwJCaE9_HCMLYg-rUAWArhwt7txF0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"regitration_start\": \"2013-02-02T24\",\r\n    \"regitration_end\": \"2014-03-02T24\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/CreateAnnouncment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateAnnouncment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Announcment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDI1MSwianRpIjoiNTg0YTY5Y2ItMTdhMC00ZDFiLTlmNTktNGZlZmYyM2FiOTlkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzAyNTEsImV4cCI6MTY3OTMzMTE1MX0.HYm-afbt8Vx-VuwJCaE9_HCMLYg-rUAWArhwt7txF0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n    \"announcment_id\": 2 , \r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"regitration_start\": \"2013-02-02T24\",\r\n    \"regitration_end\": \"2014-03-02T24\"\r\n\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/CreateAnnouncment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateAnnouncment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Announcment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDI1MSwianRpIjoiNTg0YTY5Y2ItMTdhMC00ZDFiLTlmNTktNGZlZmYyM2FiOTlkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzAyNTEsImV4cCI6MTY3OTMzMTE1MX0.HYm-afbt8Vx-VuwJCaE9_HCMLYg-rUAWArhwt7txF0Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"announcment_id\": 2 \r\n\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/CreateAnnouncment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateAnnouncment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "roles",
+			"item": [
+				{
+					"name": "Get all Announcment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDgzOCwianRpIjoiOGUwODM3MTgtZGRlNi00MTNlLTk1OWEtMTcwNTA1NzMxZmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzA4MzgsImV4cCI6MTY3OTMzMTczOH0.LZ8ClXfF0m6SHESeuR-EVLJy8iriO1KikHNgApCEY7g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/CreateRoles",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateRoles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Announcment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDgzOCwianRpIjoiOGUwODM3MTgtZGRlNi00MTNlLTk1OWEtMTcwNTA1NzMxZmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzA4MzgsImV4cCI6MTY3OTMzMTczOH0.LZ8ClXfF0m6SHESeuR-EVLJy8iriO1KikHNgApCEY7g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"user_mail\": \"ruso.kevlishvili@gmail.com\",\r\n        \"role_id\": 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/CreateRoles",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateRoles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Announcment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDgzOCwianRpIjoiOGUwODM3MTgtZGRlNi00MTNlLTk1OWEtMTcwNTA1NzMxZmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzA4MzgsImV4cCI6MTY3OTMzMTczOH0.LZ8ClXfF0m6SHESeuR-EVLJy8iriO1KikHNgApCEY7g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"user_mail\": \"ruso.kevlishvili@gmail.com\",\r\n        \"role_id\": 2,\r\n        \"new_role_id\" : 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/CreateRoles",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateRoles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Announcment Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTMzMDgzOCwianRpIjoiOGUwODM3MTgtZGRlNi00MTNlLTk1OWEtMTcwNTA1NzMxZmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaS5rb21hc3VyaWR6ZUBnbWFpbC5jb20iLCJuYmYiOjE2NzkzMzA4MzgsImV4cCI6MTY3OTMzMTczOH0.LZ8ClXfF0m6SHESeuR-EVLJy8iriO1KikHNgApCEY7g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"user_mail\": \"ruso.kevlishvili@gmail.com\",\r\n        \"role_id\": 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/CreateRoles",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"CreateRoles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "permisions test",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3ODcyNDk0NiwianRpIjoiZDcwYTE1ZWYtMzJjNy00NTk0LWFmOWItMzc2MjY1YmUwNDFlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFucmkudHZhbGFiZWlzaHZpbGlAZ21haWwuY29tIiwibmJmIjoxNjc4NzI0OTQ2LCJleHAiOjE2Nzg3MjU4NDZ9.WHuUwFTNOm4I434O5LbjywUr0KKKb1p6Bvkxg_ELXvY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3OTEyOTgyMSwianRpIjoiNWI5OTg1MmQtNmZlNy00ZWRlLTljMDAtYzdlYmExNWI3ZDkxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFucmkudHZhbGFiZWlzaHZpbGkxQGdtYWlsLmNvbSIsIm5iZiI6MTY3OTEyOTgyMSwiZXhwIjoxNjc5MTMwNzIxfQ.RiBTf3e_6KcILOTQmcs-8Fq_8b79kDL0Rtsm4Dg_xUk",
 							"type": "string"
 						}
 					]
@@ -91,48 +444,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL}}/UserProfile",
+					"raw": "{{URL}}/add_perm",
 					"host": [
 						"{{URL}}"
 					],
 					"path": [
-						"UserProfile"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "User Profile",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3ODcyNDk0NiwianRpIjoiZDcwYTE1ZWYtMzJjNy00NTk0LWFmOWItMzc2MjY1YmUwNDFlIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFucmkudHZhbGFiZWlzaHZpbGlAZ21haWwuY29tIiwibmJmIjoxNjc4NzI0OTQ2LCJleHAiOjE2Nzg3MjU4NDZ9.WHuUwFTNOm4I434O5LbjywUr0KKKb1p6Bvkxg_ELXvY",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Anri\" ,\r\n    \"lastname\": \"tvalabeishvili\" ,\r\n    \"email\": \"anri.tvalabeishvili@gmail.com\",\r\n    \"number\": \"555706163\" ,\r\n    \"personal_id\": \"01010101123\" ,\r\n    \"date\": \"2013-02-02T24\",\r\n    \"gender\": \"Male\",\r\n    \"password\": \"tvalabeishvili\" ,\r\n    \"password_new\": \"tvalabeishvili\" , \r\n    \"country_id\": 1,\r\n    \"region_id\": 1,\r\n    \"city_id\": 2,\r\n    \"address\": \"დიდი დიღომი პეტრიწის 16ა\",\r\n    \"role\": \"სტუდენტი\", \r\n    \"school\": null ,\r\n    \"grade\": null ,\r\n    \"parent_name\": null,\r\n    \"parent_lastname\": null,\r\n    \"parent_number\": null ,\r\n    \"university_id\": 1,\r\n    \"faculty\": \"ზუსტ და საბუნებისმეტყველო მეცნიერებათა ფაკულტეტი\",\r\n    \"program\": \"ფიზიკა\",\r\n    \"semester\": 10 ,\r\n    \"degree_level\": \"ბაკალავრი\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{URL}}/UserProfile",
-					"host": [
-						"{{URL}}"
-					],
-					"path": [
-						"UserProfile"
+						"add_perm"
 					]
 				}
 			},
