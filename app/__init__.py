@@ -6,7 +6,6 @@ from app.api import api
 from app.models.user import User
 
 
-
 COMMANDS = [init_db, populate_db]
 
 
@@ -18,7 +17,6 @@ def create_app():
     register_commands(app)
 
     return app
-
 
 
 def register_extensions(app):
