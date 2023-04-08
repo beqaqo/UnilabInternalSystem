@@ -1,8 +1,9 @@
 from flask.cli import with_appcontext
 from app.extensions import db
-from app.models.user import User, Country, Region, City, University
-from app.models.roles import Role, UserRole
-from app.models.subjects import Subject, ActivityType, Announcement, AnnouncementUser
+from app.models import User, Country, Region, City, University
+from app.models import Role, UserRole
+from app.models import  ActivityType, Subject, Announcement, AnnouncementUser
+from app.models import Question, QuestionOption
 from data import user_data
 from datetime import datetime
 import click

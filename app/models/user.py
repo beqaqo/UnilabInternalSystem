@@ -60,7 +60,8 @@ class User(BaseModel):
     reset_password = db.Column(db.Integer, default=False)
     role = db.relationship("Role", secondary="user_roles", backref="roles")
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
-
+    question = db.relationship("Question", backref = "user")
+    
     # Pupil
     school = db.Column(db.String)
     grade = db.Column(db.String)
