@@ -11,7 +11,7 @@ class CreateAnnouncment(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
-        if not user.check_permission("can_create_roles"):
+        if not user.check_permission("can_create_activity"):
             return "Bad request", 400
 
         announcements = [{"name": object.name,
@@ -78,7 +78,7 @@ class CreateAnnouncment(Resource):
             return "Bad request", 400
 
         result.name = request_parser["name"]
-        result.ubject_id = request_parser["subject_id"]
+        result.subject_id = request_parser["subject_id"]
         result.activity_type_id = request_parser["activity_type_id"]
         result.lecturer_id = request_parser["lecturer_id"]
         result.regitration_start = request_parser["regitration_start"]
