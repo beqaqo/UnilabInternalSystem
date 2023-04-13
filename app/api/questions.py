@@ -15,12 +15,18 @@ class CreateQuestion(Resource):
         
 
         questions = Question.query.filter_by(user_id=user.id).all()
+     
 
         if not questions:
             return "You don't have any question", 200
         
         data = []
         for question in questions:
+            options = QuestionOption.query.filter_by(question_id = question.id).all()
+            question_option={}
+            for option in options:
+                question_option[option.text] = option.is_correct
+
             user_question = {
                 "question_text" : question.question_text,
                 "question_description": question.question_description,
@@ -29,10 +35,15 @@ class CreateQuestion(Resource):
                 "min_grade_text":question.min_grade_text,
                 "max_grade":question.max_grade,
                 "max_grade_text":question.max_grade_text,
+                "question_option": question_option
             }
 
 
             data.append(user_question)
+           
+
+
+
 
         return data, 200
     
@@ -77,11 +88,11 @@ class CreateQuestion(Resource):
 
 
 
-        for option in parser["option"].keys():
+        for option in request_parser["option"].keys():
             new_option = QuestionOption(
                 question_id = new_question.id,
                 text = option,
-                is_correct = parser["option"][option],
+                is_correct = request_parser["option"][option],
             )
         
             new_option.create()
