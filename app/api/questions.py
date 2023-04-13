@@ -13,19 +13,18 @@ class CreateQuestion(Resource):
         if not user.check_permission("can_create_questions"):
             return "Bad request", 400
         
-
         questions = Question.query.filter_by(user_id=user.id).all()
-     
-
+    
         if not questions:
             return "You don't have any question", 200
         
-        data = []
+        question_with_options = []
+
         for question in questions:
             options = QuestionOption.query.filter_by(question_id = question.id).all()
-            question_option={}
+            question_options={}
             for option in options:
-                question_option[option.text] = option.is_correct
+                question_options[option.text] = option.is_correct
 
             user_question = {
                 "question_text" : question.question_text,
@@ -35,17 +34,13 @@ class CreateQuestion(Resource):
                 "min_grade_text":question.min_grade_text,
                 "max_grade":question.max_grade,
                 "max_grade_text":question.max_grade_text,
-                "question_option": question_option
+                "question_options": question_options
             }
 
-
-            data.append(user_question)
+            question_with_options.append(user_question)
            
 
-
-
-
-        return data, 200
+        return question_with_options, 200
     
 
 
@@ -86,8 +81,6 @@ class CreateQuestion(Resource):
         new_question.create()
         new_question.save()
 
-
-
         for option in request_parser["option"].keys():
             new_option = QuestionOption(
                 question_id = new_question.id,
@@ -97,8 +90,6 @@ class CreateQuestion(Resource):
         
             new_option.create()
         new_option.save()
-
-
 
         return "success", 200
         
