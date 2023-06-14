@@ -1,4 +1,5 @@
 from os import path, sep, pardir
+from datetime import timedelta
 
 
 class Config(object):
@@ -13,6 +14,9 @@ class Config(object):
     MAIL_USE_SSL = False
     MAIL_USERNAME = '769b12411b12b0'
     MAIL_PASSWORD = '57cbda838b314c'
+
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+
 
 
 class Constants:
