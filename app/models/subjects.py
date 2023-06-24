@@ -22,6 +22,17 @@ class Announcement(BaseModel):
     regitration_start = db.Column(db.Date)  # ?
     regitration_end = db.Column(db.Date)  # ?
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "subject_id": self.subject_id,
+            "activity_type_id": self.activity_type_id,
+            "lecturer_id": self.lecturer_id,
+            "regitration_start": str(self.regitration_start),
+            "regitration_end": str(self.regitration_end),
+        }
+
 
 class Subject(BaseModel):
     __tablename__ = "subjects"

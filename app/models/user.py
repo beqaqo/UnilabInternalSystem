@@ -92,3 +92,31 @@ class User(BaseModel):
         permisions = [getattr(permision, request) for permision in self.role]
 
         return any(permisions)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "lastname": self.lastname,
+            "email": self.email,
+            "personal_id": self.personal_id,
+            "number": self.number,
+            "date": self.date.isoformat() if self.date else None,
+            "gender": self.gender,
+            "country_id": self.country_id,
+            "region_id": self.region_id,
+            "city_id": self.city_id,
+            "address": self.address,
+            "confirmed": self.confirmed,
+            "reset_password": self.reset_password,
+            "school": self.school,
+            "grade": self.grade,
+            "parent_name": self.parent_name,
+            "parent_lastname": self.parent_lastname,
+            "parent_number": self.parent_number,
+            "university_id": self.university_id,
+            "faculty": self.faculty,
+            "program": self.program,
+            "semester": self.semester,
+            "degree_level": self.degree_level
+        }
