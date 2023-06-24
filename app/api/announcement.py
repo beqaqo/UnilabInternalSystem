@@ -4,7 +4,15 @@ from app.models.user import User
 from app.models.subjects import Announcement
 
 
-class CreateAnnouncment(Resource):
+class AnnouncementApi(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("name", required=True, type=str)
+    parser.add_argument("subject_id", required=True, type=int)
+    parser.add_argument("activity_type_id", required=True, type=int)
+    parser.add_argument("lecturer_id", required=True, type=int)
+    parser.add_argument("regitration_start", required=True, type=inputs.datetime_from_iso8601)
+    parser.add_argument("regitration_end", required=True, type=inputs.datetime_from_iso8601)
 
     @jwt_required()
     def get(self):
@@ -26,14 +34,8 @@ class CreateAnnouncment(Resource):
 
     @jwt_required()
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument("name", required=True, type=str)
-        parser.add_argument("subject_id", required=True, type=int)
-        parser.add_argument("activity_type_id", required=True, type=int)
-        parser.add_argument("lecturer_id", required=True, type=int)
-        parser.add_argument("regitration_start", required=True, type=inputs.datetime_from_iso8601)
-        parser.add_argument("regitration_end", required=True, type=inputs.datetime_from_iso8601)
-        request_parser = parser.parse_args()
+
+        request_parser = self.parser.parse_args()
 
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
@@ -41,7 +43,7 @@ class CreateAnnouncment(Resource):
         if not user.check_permission("can_create_activity"):
             return "Bad request", 400
 
-        new_anouncement = Announcement(
+        new_announcement = Announcement(
             name=request_parser["name"],
             subject_id=request_parser["subject_id"],
             activity_type_id=request_parser["activity_type_id"],
@@ -49,21 +51,15 @@ class CreateAnnouncment(Resource):
             regitration_start=request_parser["regitration_start"],
             regitration_end=request_parser["regitration_end"],
         )
-        new_anouncement.create()
-        new_anouncement.save()
+        new_announcement.create()
+        new_announcement.save()
         return "Success", 200
 
     @jwt_required()
-    def put(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument("announcment_id", required=True, type=int)
-        parser.add_argument("name", required=True, type=str)
-        parser.add_argument("subject_id", required=True, type=int)
-        parser.add_argument("activity_type_id", required=True, type=int)
-        parser.add_argument("lecturer_id", required=True, type=int)
-        parser.add_argument("regitration_start", required=True, type=inputs.datetime_from_iso8601)
-        parser.add_argument("regitration_end", required=True, type=inputs.datetime_from_iso8601)
-        request_parser = parser.parse_args()
+    def put(self, id):
+        result = Announcement.query.get(id)
+
+        request_parser = self.parser.parse_args()
 
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
@@ -71,8 +67,6 @@ class CreateAnnouncment(Resource):
         if not user.check_permission("can_create_activity"):
             return "Bad request", 400
 
-        result = Announcement.query.filter_by(
-            id=request_parser["announcment_id"]).first()
 
         if not result:
             return "Bad request", 400
@@ -87,10 +81,8 @@ class CreateAnnouncment(Resource):
         return "Success", 200
 
     @jwt_required()
-    def delete(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument("announcment_id", required=True, type=int)
-        request_parser = parser.parse_args()
+    def delete(self, id):
+        result = Announcement.query.get(id)
 
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
@@ -98,8 +90,6 @@ class CreateAnnouncment(Resource):
         if not user.check_permission("can_create_activity"):
             return "Bad request", 400
 
-        result = Announcement.query.filter_by(
-            id=request_parser["announcment_id"]).first()
 
         if not result:
             return "Bad request", 400

@@ -4,7 +4,7 @@ from app.models.user import User
 from app.models.roles import UserRole
 
 
-class CreateRoles(Resource):
+class RolesApi(Resource):
 
     parser = reqparse.RequestParser()
     parser.add_argument("user_mail", required=True, type=str)

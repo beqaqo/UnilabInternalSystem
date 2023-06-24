@@ -149,10 +149,10 @@
 			]
 		},
 		{
-			"name": "Announcment",
+			"name": "Announcement",
 			"item": [
 				{
-					"name": "Get all Announcment",
+					"name": "Get all Announcement",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -167,19 +167,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/CreateAnnouncment",
+							"raw": "{{URL}}/Announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateAnnouncment"
+								"AnnouncementApi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Add Announcment",
+					"name": "Add Announcement",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -203,19 +203,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/CreateAnnouncment",
+							"raw": "{{URL}}/Announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateAnnouncment"
+								"AnnouncementApi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Edit Announcment",
+					"name": "Edit Announcement",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -231,7 +231,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n{\r\n    \"announcment_id\": 2 , \r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"regitration_start\": \"2013-02-02T24\",\r\n    \"regitration_end\": \"2014-03-02T24\"\r\n\r\n}\r\n",
+							"raw": "\r\n{\r\n    \"announcement_id\": 2 , \r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"regitration_start\": \"2013-02-02T24\",\r\n    \"regitration_end\": \"2014-03-02T24\"\r\n\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -239,19 +239,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/CreateAnnouncment",
+							"raw": "{{URL}}/Announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateAnnouncment"
+								"AnnouncementApi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete Announcment",
+					"name": "delete Announcement",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -267,7 +267,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"announcment_id\": 2 \r\n\r\n}\r\n",
+							"raw": "{\r\n    \"announcement_id\": 2 \r\n\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -275,12 +275,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/CreateAnnouncment",
+							"raw": "{{URL}}/Announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateAnnouncment"
+								"AnnouncementApi"
 							]
 						}
 					},
@@ -292,7 +292,7 @@
 			"name": "roles",
 			"item": [
 				{
-					"name": "Get all Announcment Copy",
+					"name": "Get all Announcement Copy",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -307,19 +307,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/CreateRoles",
+							"raw": "{{URL}}/Roles",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateRoles"
+								"RolesApi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Add Announcment Copy",
+					"name": "Add Announcement Copy",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -343,19 +343,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/CreateRoles",
+							"raw": "{{URL}}/Roles",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateRoles"
+								"RolesApi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Edit Announcment Copy",
+					"name": "Edit Announcement Copy",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -379,19 +379,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/CreateRoles",
+							"raw": "{{URL}}/Roles",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateRoles"
+								"RolesApi"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete Announcment Copy",
+					"name": "delete Announcement Copy",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -415,12 +415,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/CreateRoles",
+							"raw": "{{URL}}/Roles",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"CreateRoles"
+								"RolesApi"
 							]
 						}
 					},
