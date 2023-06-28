@@ -4,7 +4,18 @@ from app.models.user import User
 from app.models.questions import Question, QuestionOption
 
 
-class CreateQuestion(Resource):
+class QuestionApi(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("question_text", required=True, type=str)
+    parser.add_argument("question_description", required=True, type=str)
+    parser.add_argument("question_type", required=True, type=str)
+    parser.add_argument("min_grade", required=True, type=int)
+    parser.add_argument("min_grade_text", required=True, type=str)
+    parser.add_argument("max_grade", required=True, type=int)
+    parser.add_argument("max_grade_text", required=True, type=str)
+    parser.add_argument("option", required=True, type=dict)
+
     @jwt_required()
     def get(self):
         current_user = get_jwt_identity()
@@ -47,16 +58,7 @@ class CreateQuestion(Resource):
     @jwt_required()
     def post(self):
 
-        parser = reqparse.RequestParser()
-        parser.add_argument("question_text", required=True, type=str)
-        parser.add_argument("question_description", required=True, type=str)
-        parser.add_argument("question_type", required=True, type=str)
-        parser.add_argument("min_grade", required=True, type=int)
-        parser.add_argument("min_grade_text", required=True, type=str)
-        parser.add_argument("max_grade", required=True, type=int)
-        parser.add_argument("max_grade_text", required=True, type=str)
-        parser.add_argument("option", required=True, type=dict)
-        request_parser = parser.parse_args()
+        request_parser = self.parser.parse_args()
 
 
         current_user = get_jwt_identity()
