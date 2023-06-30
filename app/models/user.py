@@ -40,7 +40,6 @@ class University(BaseModel):
 
 
 class User(BaseModel):
-
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -60,8 +59,8 @@ class User(BaseModel):
     reset_password = db.Column(db.Integer, default=False)
     role = db.relationship("Role", secondary="user_roles", backref="roles")
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
-    question = db.relationship("Question", backref = "user")
-    
+    question = db.relationship("Question", backref="user")
+
     # Pupil
     school = db.Column(db.String)
     grade = db.Column(db.String)
@@ -94,7 +93,7 @@ class User(BaseModel):
         return any(permisions)
 
     def to_json(self):
-        return {
+        user_data = {
             "id": self.id,
             "name": self.name,
             "lastname": self.lastname,
@@ -120,3 +119,5 @@ class User(BaseModel):
             "semester": self.semester,
             "degree_level": self.degree_level
         }
+
+        return user_data
