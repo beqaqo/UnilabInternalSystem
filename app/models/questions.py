@@ -27,9 +27,22 @@ class QuestionOption(BaseModel):
     is_correct = db.Column(db.Boolean, nullable=False)
 
     def to_json(self):
-        return {
+        question_options = QuestionOption.query.filter_by(question_id=self.id).all()
+        options = [
+            {"text": option.text, "is_correct": option.is_correct}
+            for option in question_options
+        ]
+
+        question_data = {
             "id": self.id,
-            "question_id": self.question_id,
-            "text": self.text,
-            "is_correct": self.is_correct
+            "question_text": self.question_text,
+            "question_description": self.question_description,
+            "question_type": self.question_type,
+            "min_grade": self.min_grade,
+            "min_grade_text": self.min_grade_text,
+            "max_grade": self.max_grade,
+            "max_grade_text": self.max_grade_text,
+            "options": options,
         }
+
+        return question_data

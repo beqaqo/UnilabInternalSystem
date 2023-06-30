@@ -40,35 +40,13 @@ class UserProfileApi(Resource):
     @jwt_required()
     def get(self):
         current_user = get_jwt_identity()
-
         user = User.query.filter_by(email=current_user).first()
 
-        user_data = {
-            "name": user.name,
-            "lastname": user.lastname,
-            "email": user.email,
-            "number": user.number,
-            "personal_id": user.personal_id,
-            "date": str(user.date),
-            "country_id": user.country_id,
-            "region_id": user.region_id,
-            "city_id": user.city_id,
-            "address": user.address,
-            "role": [i.name for i in user.role],
-            "school": user.school,
-            "grade": user.grade,
-            "parent_name": user.parent_name,
-            "parent_lastname": user.parent_lastname,
-            "parent_number": user.parent_number,
-            "university_id": user.university_id,
-            "faculty": user.faculty,
-            "program": user.program,
-            "semester": user.semester,
-            "degree_level": user.degree_level
+        if user:
+            user_data = user.to_json()
+            return user_data, 200
 
-        }
-
-        return user_data, 200
+        return "User not found", 404
 
     @jwt_required()
     def put(self):
