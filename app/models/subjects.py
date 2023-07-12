@@ -21,6 +21,8 @@ class Announcement(BaseModel):
     lecturer_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     regitration_start = db.Column(db.Date)  # ?
     regitration_end = db.Column(db.Date)  # ?
+    start_date = db.Column(db.Date)
+    end_date = db.Column(db.Date)
 
     def to_json(self):
         return {
@@ -31,6 +33,8 @@ class Announcement(BaseModel):
             "lecturer_id": self.lecturer_id,
             "regitration_start": str(self.regitration_start),
             "regitration_end": str(self.regitration_end),
+            "start_date": str(self.start_date),
+            "end_date": str(self.end_date),
         }
 
 
