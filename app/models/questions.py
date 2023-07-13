@@ -26,4 +26,13 @@ class QuestionOption(BaseModel):
     is_correct  = db.Column(db.Boolean, nullable = False)
 
 
+class Form(BaseModel):
+    __tablename__ = "forms"
+
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.JSON, nullable=False)
+    subject = db.Column(db.String, nullable=False)
+    activity_type = db.Column(db.String, nullable=False)
+
+
 
