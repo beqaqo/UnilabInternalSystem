@@ -5,7 +5,6 @@ from app.models.questions import Question, QuestionOption
 
 
 class QuestionApi(Resource):
-
     parser = reqparse.RequestParser()
     parser.add_argument("question_text", required=True, type=str)
     parser.add_argument("question_description", required=True, type=str)
@@ -23,61 +22,36 @@ class QuestionApi(Resource):
 
         if not user.check_permission("can_create_questions"):
             return "Bad request", 400
-        
+
         questions = Question.query.filter_by(user_id=user.id).all()
-    
+
         if not questions:
             return "You don't have any question", 200
-        
-        question_with_options = []
 
-        for question in questions:
-            options = QuestionOption.query.filter_by(question_id = question.id).all()
-            question_options={}
-            for option in options:
-                question_options[option.text] = option.is_correct
+        questions_with_options = [question.to_json() for question in questions]
 
-            user_question = {
-                "question_text" : question.question_text,
-                "question_description": question.question_description,
-                "question_type":question.question_type,
-                "min_grade":question.min_grade,
-                "min_grade_text":question.min_grade_text,
-                "max_grade":question.max_grade,
-                "max_grade_text":question.max_grade_text,
-                "question_options": question_options
-            }
-
-            question_with_options.append(user_question)
-           
-
-        return question_with_options, 200
-    
-
+        return questions_with_options, 200
 
     @jwt_required()
     def post(self):
 
         request_parser = self.parser.parse_args()
 
-
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
-        
 
         if not user.check_permission("can_create_questions"):
             return "Bad request", 400
-        
 
         new_question = Question(
-            user_id = user.id,
-            question_text = request_parser["question_text"],
-            question_description = request_parser["question_description"],
-            question_type = request_parser["question_type"],
-            min_grade = request_parser["min_grade"],
-            min_grade_text = request_parser["min_grade_text"],
-            max_grade = request_parser["max_grade"],
-            max_grade_text = request_parser["max_grade_text"],
+            user_id=user.id,
+            question_text=request_parser["question_text"],
+            question_description=request_parser["question_description"],
+            question_type=request_parser["question_type"],
+            min_grade=request_parser["min_grade"],
+            min_grade_text=request_parser["min_grade_text"],
+            max_grade=request_parser["max_grade"],
+            max_grade_text=request_parser["max_grade_text"],
 
         )
         new_question.create()
@@ -85,20 +59,12 @@ class QuestionApi(Resource):
 
         for option in request_parser["option"].keys():
             new_option = QuestionOption(
-                question_id = new_question.id,
-                text = option,
-                is_correct = request_parser["option"][option],
+                question_id=new_question.id,
+                text=option,
+                is_correct=request_parser["option"][option],
             )
-        
+
             new_option.create()
-        new_option.save()
+            new_option.save()
 
         return "success", 200
-        
-
-
-
-
-
-
-        
