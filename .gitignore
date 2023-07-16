@@ -130,4 +130,7 @@ dmypy.json
 
 
 # sqlite Database 
-db.sqlite
+
+
+# Pycharm
+.idea/

@@ -22,13 +22,7 @@ class AnnouncementApi(Resource):
         if not user.check_permission("can_create_activity"):
             return "Bad request", 400
 
-        announcements = [{"name": object.name,
-                          "subject_id": object.subject_id,
-                          "activity_type_id": object.activity_type_id,
-                          "lecturer_id": object.lecturer_id,
-                          "regitration_start": str(object.regitration_start),
-                          "regitration_end": str(object.regitration_end)}
-                         for object in Announcement.query.all()]
+        announcements = [announcement.to_json() for announcement in Announcement.query.all()]
 
         return announcements, 200
 

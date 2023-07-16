@@ -40,36 +40,35 @@ class University(BaseModel):
 
 
 class User(BaseModel):
-
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    lastname = db.Column(db.String)
-    email = db.Column(db.String)
+    id = db.Column(db.Integer, primary_key=True)  #
+    name = db.Column(db.String)  #
+    lastname = db.Column(db.String)  #
+    email = db.Column(db.String)  #
     _password = db.Column("password", db.String)
-    personal_id = db.Column(db.String)
-    number = db.Column(db.String)
-    date = db.Column(db.Date)
-    gender = db.Column(db.String)
-    country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))
-    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
-    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
-    address = db.Column(db.String)
+    personal_id = db.Column(db.String)  #
+    number = db.Column(db.String)  #
+    date = db.Column(db.Date)  #
+    gender = db.Column(db.String)  #
+    country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))  #
+    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))  #
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))  #
+    address = db.Column(db.String)  #
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
-    role = db.relationship("Role", secondary="user_roles", backref="roles")
+    role = db.relationship("Role", secondary="user_roles", backref="roles")  #
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
-    question = db.relationship("Question", backref = "user")
-    
-    # Pupil
+    question = db.relationship("Question", backref="user")
+
+    # Pupil #
     school = db.Column(db.String)
     grade = db.Column(db.String)
     parent_name = db.Column(db.String)
     parent_lastname = db.Column(db.String)
     parent_number = db.Column(db.String)
 
-    # student
+    # student #
     university_id = db.Column(db.Integer, db.ForeignKey("universities.id"))
     faculty = db.Column(db.String)
     program = db.Column(db.String)
@@ -92,3 +91,32 @@ class User(BaseModel):
         permisions = [getattr(permision, request) for permision in self.role]
 
         return any(permisions)
+
+    def to_json(self):
+        user_data = {
+            "id": self.id,
+            "name": self.name,
+            "lastname": self.lastname,
+            "email": self.email,
+            "number": self.number,
+            "personal_id": self.personal_id,
+            "date": str(self.date),
+            "gender": self.gender,
+            "country_id": self.country_id,
+            "region_id": self.region_id,
+            "city_id": self.city_id,
+            "address": self.address,
+            "role": [role.name for role in self.role],
+            "school": self.school,
+            "grade": self.grade,
+            "parent_name": self.parent_name,
+            "parent_lastname": self.parent_lastname,
+            "parent_number": self.parent_number,
+            "university_id": self.university_id,
+            "faculty": self.faculty,
+            "program": self.program,
+            "semester": self.semester,
+            "degree_level": self.degree_level
+        }
+
+        return user_data
