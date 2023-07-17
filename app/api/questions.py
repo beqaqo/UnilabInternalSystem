@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.user import User
-from app.models.questions import Question, QuestionOption
+from app.models.questions import Question, QuestionOption, Form
 
 
 class QuestionApi(Resource):
@@ -66,5 +66,69 @@ class QuestionApi(Resource):
 
             new_option.create()
             new_option.save()
+
+        return "success", 200
+
+class FormApi(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("question_id", required=True, type=list, help="question_id is required and should be an integer")
+    parser.add_argument("subject", required=True, type=str, help="subject is required and should be an string")
+    parser.add_argument("activity_type", required=True, type=str, help="activity_type is required and should be an string")
+
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(email=current_user).first()
+
+        forms = Form.query.filter_by(user_id=user.id).all()
+
+        if not forms:
+            return "You don't have any forms", 200
+
+        forms_data = []
+        for form in forms:
+            form_data = {
+                "question_id": form.question_id,
+                "subject": form.subject,
+                "activity_type": form.activity_type
+            }
+            forms_data.append(form_data)
+
+        return forms_data, 200
+    @jwt_required()
+    def post(self):
+        request_parser = self.parser.parse_args()
+
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(email=current_user).first()
+
+        form = Form(
+            user_id=user.id,
+            question_id=request_parser["question_id"],
+            subject=request_parser["subject"],
+            activity_type=request_parser["activity_type"]
+        )
+        form.create()
+        form.save()
+
+        return "success", 200
+
+    @jwt_required()
+    def put(self):
+        request_parser = self.parser.parse_args()
+
+        current_user = get_jwt_identity()
+        user = User.query.filter_by(email=current_user).first()
+
+        form = Form.query.filter_by(user_id=user.id).first()
+
+        if not form:
+            return "Form not found", 404
+
+        form.question_id = request_parser["question_id"]
+        form.subject = request_parser["subject"]
+        form.activity_type = request_parser["activity_type"]
+        form.save()
 
         return "success", 200
