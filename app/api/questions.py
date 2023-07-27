@@ -103,6 +103,10 @@ class FormApi(Resource):
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
 
+        if not user.check_permission("can_create_forms"):
+            return "Bad request", 400
+
+
         form = Form(
             user_id=user.id,
             question_id=request_parser["question_id"],
@@ -120,6 +124,9 @@ class FormApi(Resource):
 
         current_user = get_jwt_identity()
         user = User.query.filter_by(email=current_user).first()
+
+        if not user.check_permission("can_create_forms"):
+            return "Bad request", 400
 
         form = Form.query.filter_by(user_id=user.id).first()
 

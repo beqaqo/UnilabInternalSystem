@@ -10,6 +10,7 @@ class UserRole(BaseModel):
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
 
 
+
 class Role(BaseModel):
     __tablename__ = "roles"
 
