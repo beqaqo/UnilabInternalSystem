@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse, inputs
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
 from app.models.subjects import Announcement
 
@@ -16,10 +16,7 @@ class AnnouncementApi(Resource):
 
     @jwt_required()
     def get(self):
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if not user.check_permission("can_create_activity"):
+        if not current_user.check_permission("can_create_activity"):
             return "Bad request", 400
 
         announcements = [announcement.to_json() for announcement in Announcement.query.all()]
@@ -28,13 +25,9 @@ class AnnouncementApi(Resource):
 
     @jwt_required()
     def post(self):
-
         request_parser = self.parser.parse_args()
 
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if not user.check_permission("can_create_activity"):
+        if not current_user.check_permission("can_create_activity"):
             return "Bad request", 400
 
         new_announcement = Announcement(
@@ -55,10 +48,7 @@ class AnnouncementApi(Resource):
 
         request_parser = self.parser.parse_args()
 
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if not user.check_permission("can_create_activity"):
+        if not current_user.check_permission("can_create_activity"):
             return "Bad request", 400
 
 
@@ -78,10 +68,7 @@ class AnnouncementApi(Resource):
     def delete(self, id):
         result = Announcement.query.get(id)
 
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if not user.check_permission("can_create_activity"):
+        if not current_user.check_permission("can_create_activity"):
             return "Bad request", 400
 
 

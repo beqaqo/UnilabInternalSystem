@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
 from app.models.questions import Question, QuestionOption, Form
 
@@ -17,13 +17,10 @@ class QuestionApi(Resource):
 
     @jwt_required()
     def get(self):
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if not user.check_permission("can_create_questions"):
+        if not current_user.check_permission("can_create_questions"):
             return "Bad request", 400
 
-        questions = Question.query.filter_by(user_id=user.id).all()
+        questions = Question.query.filter_by(user_id=current_user.id).all()
 
         if not questions:
             return "You don't have any question", 200
@@ -37,14 +34,11 @@ class QuestionApi(Resource):
 
         request_parser = self.parser.parse_args()
 
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if not user.check_permission("can_create_questions"):
+        if not current_user.check_permission("can_create_questions"):
             return "Bad request", 400
 
         new_question = Question(
-            user_id=user.id,
+            user_id=current_user.id,
             question_text=request_parser["question_text"],
             question_description=request_parser["question_description"],
             question_type=request_parser["question_type"],
@@ -78,10 +72,7 @@ class FormApi(Resource):
 
     @jwt_required()
     def get(self):
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        forms = Form.query.filter_by(user_id=user.id).all()
+        forms = Form.query.filter_by(user_id=current_user.id).all()
 
         if not forms:
             return "You don't have any forms", 200
@@ -96,15 +87,13 @@ class FormApi(Resource):
             forms_data.append(form_data)
 
         return forms_data, 200
+    
     @jwt_required()
     def post(self):
         request_parser = self.parser.parse_args()
 
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
         form = Form(
-            user_id=user.id,
+            user_id=current_user.id,
             question_id=request_parser["question_id"],
             subject=request_parser["subject"],
             activity_type=request_parser["activity_type"]
@@ -118,10 +107,7 @@ class FormApi(Resource):
     def put(self):
         request_parser = self.parser.parse_args()
 
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        form = Form.query.filter_by(user_id=user.id).first()
+        form = Form.query.filter_by(user_id=current_user.id).first()
 
         if not form:
             return "Form not found", 404
