@@ -91,7 +91,10 @@ class FormApi(Resource):
     @jwt_required()
     def post(self):
         request_parser = self.parser.parse_args()
-
+        
+        if not current_user.check_permission("can_create_forms"):
+            return "Bad request", 400
+          
         form = Form(
             user_id=current_user.id,
             question_id=request_parser["question_id"],
@@ -106,9 +109,11 @@ class FormApi(Resource):
     @jwt_required()
     def put(self):
         request_parser = self.parser.parse_args()
-
+        
+        if not current_user.check_permission("can_create_forms"):
+            return "Bad request", 400
+        
         form = Form.query.filter_by(user_id=current_user.id).first()
-
         if not form:
             return "Form not found", 404
 

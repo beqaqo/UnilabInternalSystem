@@ -89,8 +89,8 @@ class User(BaseModel):
 
     def check_permission(self, request):
         permisions = [getattr(permision, request) for permision in self.role]
-
         return any(permisions)
+
 
     def to_json(self):
         user_data = {
