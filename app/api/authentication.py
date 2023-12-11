@@ -129,7 +129,7 @@ class AuthorizationApi(Resource):
         user = User.query.filter_by(email=parser["email"]).first()
 
         if user and user.check_password(parser["password"]):
-            access_token = create_access_token(identity=user.email)
+            access_token = create_access_token(identity=user)
             responce = {
                 'access token': access_token
             }

@@ -12,16 +12,16 @@ import click
 @click.command("init_db")
 @with_appcontext
 def init_db():
-    click.echo("Creating Database")
+    click.echo("Database Creation in Progress...")
     db.drop_all()
     db.create_all()
-    click.echo("Finished Creating Database")
+    click.echo("Database Created!")
 
 
 @click.command("populate_db")
 @with_appcontext
 def populate_db():
-    click.echo("populating db")
+    click.echo("Creating Initial Entries...")
 
     # populating country table
     countries = ["საქართველო", "საფრანგეთი",
@@ -126,4 +126,4 @@ def populate_db():
 
         user_role.save()
 
-    click.echo("done populating")
+    click.echo("Entries Created!")

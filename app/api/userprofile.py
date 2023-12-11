@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse, inputs
 from app.api.validators.authentication import check_validators
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
 
 
@@ -39,11 +39,8 @@ class UserProfileApi(Resource):
 
     @jwt_required()
     def get(self):
-        current_user = get_jwt_identity()
-        user = User.query.filter_by(email=current_user).first()
-
-        if user:
-            user_data = user.to_json()
+        if current_user:
+            user_data = current_user.to_json()
             return user_data, 200
 
         return "User not found", 404
@@ -53,39 +50,36 @@ class UserProfileApi(Resource):
 
         parser = self.parser.parse_args()
         validation = check_validators(parser, User, user_check=False, role_check = False)
-        current_user = get_jwt_identity()
 
         if validation:
             return validation
 
-        user = User.query.filter_by(email=current_user).first()
+        if current_user and current_user.check_password(parser["password"]):
 
-        if user and user.check_password(parser["password"]):
+            current_user.name = parser["name"]
+            current_user.lastname = parser["lastname"]
+            current_user.email = parser["email"]
+            current_user.number = parser["number"]
+            current_user.personal_id = parser["personal_id"]
+            current_user.date = parser["date"]
+            current_user.gender = parser["gender"]
+            current_user.password = parser["password_new"]
+            current_user.country_id = parser["country_id"]
+            current_user.region_id = parser["region_id"]
+            current_user.city_id = parser["city_id"]
+            current_user.address = parser["address"]
+            current_user.school = parser["school"]
+            current_user.grade = parser["grade"]
+            current_user.parent_name = parser["parent_name"]
+            current_user.parent_lastname = parser["parent_lastname"]
+            current_user.parent_number = parser["parent_number"]
+            current_user.university_id = parser["university_id"]
+            current_user.faculty = parser["faculty"]
+            current_user.program = parser["program"]
+            current_user.semester = parser["semester"]
+            current_user.degree_level = parser["degree_level"]
 
-            user.name = parser["name"]
-            user.lastname = parser["lastname"]
-            user.email = parser["email"]
-            user.number = parser["number"]
-            user.personal_id = parser["personal_id"]
-            user.date = parser["date"]
-            user.gender = parser["gender"]
-            user.password = parser["password_new"]
-            user.country_id = parser["country_id"]
-            user.region_id = parser["region_id"]
-            user.city_id = parser["city_id"]
-            user.address = parser["address"]
-            user.school = parser["school"]
-            user.grade = parser["grade"]
-            user.parent_name = parser["parent_name"]
-            user.parent_lastname = parser["parent_lastname"]
-            user.parent_number = parser["parent_number"]
-            user.university_id = parser["university_id"]
-            user.faculty = parser["faculty"]
-            user.program = parser["program"]
-            user.semester = parser["semester"]
-            user.degree_level = parser["degree_level"]
-
-            user.save()
+            current_user.save()
 
             return "Success", 200
 
