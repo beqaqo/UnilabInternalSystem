@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse, inputs
 from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
-from app.models.subjects import Announcement
+from app.models.subjects import Announcement, AnnouncementForm
 
 
 class AnnouncementApi(Resource):
@@ -77,4 +77,35 @@ class AnnouncementApi(Resource):
 
         result.delete()
         result.save()
+        return "Success", 200
+
+
+class AnnouncementFormApi(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("announcement_id", required=True, type=int)
+    parser.add_argument("forms_id", required=True, type=int)
+
+    @jwt_required()
+    def get(self):
+        if not current_user.check_permission("can_create_activity"):
+            return "Bad request", 400
+
+        announcements = [announcement.to_json() for announcement in AnnouncementForm.query.all()]
+
+        return announcements, 200
+    
+    @jwt_required()
+    def post(self):
+        request_parser = self.parser.parse_args()
+
+        if not current_user.check_permission("can_create_activity"):
+            return "Bad request", 400
+
+        new_announcement_form = AnnouncementForm(
+            announcement_id=request_parser["announcement_id"],
+            form_id=request_parser["form_id"],
+        )
+        new_announcement_form.create()
+        new_announcement_form.save()
         return "Success", 200

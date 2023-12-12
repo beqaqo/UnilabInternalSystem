@@ -38,6 +38,22 @@ class Announcement(BaseModel):
         }
 
 
+class AnnouncementForm(BaseModel):
+
+    __tablename__ = "announcements_form"
+
+    id = db.Column(db.Integer, primary_key=True)
+    announcement_id = db.Column(db.Integer, db.ForeignKey("announcements.id"))
+    form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "announcement_id": self.announcement_id,
+            "form_id": self.form_id
+        }
+
+
 class Subject(BaseModel):
     __tablename__ = "subjects"
     id = db.Column(db.Integer, primary_key=True)
