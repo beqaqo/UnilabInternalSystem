@@ -61,6 +61,8 @@ class User(BaseModel):
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
     question = db.relationship("Question", backref="user")
 
+    projects = db.relationship("Project", back_populates="user")
+
     # Pupil #
     school = db.Column(db.String)
     grade = db.Column(db.String)
