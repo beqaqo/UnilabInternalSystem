@@ -3,7 +3,7 @@ from app.config import Config
 from app.extensions import db, migrate, mail, jwt
 from app.commands import init_db, populate_db
 from app.api import api
-from app.models.user import User
+from app.models import User
 
 
 COMMANDS = [init_db, populate_db]
