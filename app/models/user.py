@@ -2,42 +2,7 @@ from app.extensions import db
 from app.models.base import BaseModel
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-class Country(BaseModel):
-    __tablename__ = "countries"
-
-    id = db.Column(db.Integer, primary_key=True)
-    country_name = db.Column(db.String)
-
-    user = db.relationship("User", backref="country")
-
-
-class Region(BaseModel):
-    __tablename__ = "regions"
-
-    id = db.Column(db.Integer, primary_key=True)
-    region_name = db.Column(db.String)
-
-    user = db.relationship("User", backref="region")
-
-
-class City(BaseModel):
-    __tablename__ = "cities"
-
-    id = db.Column(db.Integer, primary_key=True)
-    city_name = db.Column(db.String)
-
-    user = db.relationship("User", backref="city")
-
-
-class University(BaseModel):
-    __tablename__ = "universities"
-
-    id = db.Column(db.Integer, primary_key=True)
-    university_name = db.Column(db.String)
-
-    user = db.relationship("User", backref="university")
-
+from app.models.questions import QuestionOption
 
 class User(BaseModel):
     __tablename__ = "users"
@@ -122,3 +87,56 @@ class User(BaseModel):
         }
 
         return user_data
+
+
+class UserAnswer(BaseModel):
+    __tablename__ = "user_answers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
+    questions_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
+    answer = db.Column(db.String)
+    is_correct = db.Column(db.Boolean, nullable=True)
+
+    @classmethod
+    def get_correct_answer(cls, question_id):
+        correct_answer = QuestionOption.query.filter_by(question_id=question_id, is_correct=True).first()
+
+        return correct_answer
+
+
+class Country(BaseModel):
+    __tablename__ = "countries"
+
+    id = db.Column(db.Integer, primary_key=True)
+    country_name = db.Column(db.String)
+
+    user = db.relationship("User", backref="country")
+
+
+class Region(BaseModel):
+    __tablename__ = "regions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    region_name = db.Column(db.String)
+
+    user = db.relationship("User", backref="region")
+
+
+class City(BaseModel):
+    __tablename__ = "cities"
+
+    id = db.Column(db.Integer, primary_key=True)
+    city_name = db.Column(db.String)
+
+    user = db.relationship("User", backref="city")
+
+
+class University(BaseModel):
+    __tablename__ = "universities"
+
+    id = db.Column(db.Integer, primary_key=True)
+    university_name = db.Column(db.String)
+
+    user = db.relationship("User", backref="university")

@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, current_user
-from app.models.user import User
+from app.models.user import User, UserAnswer
 from app.models.questions import Question, QuestionOption, Form
 
 
@@ -123,3 +123,41 @@ class FormApi(Resource):
         form.save()
 
         return "success", 200
+
+
+class UserAnswerApi(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("answer_data", required=True, type=list)
+
+    @jwt_required()
+    def get(self):
+        if current_user and current_user.role.name == "ადმინი":
+            request_parser = self.parser.parse_args()
+
+            return request_parser
+        else:
+            return "Bad request", 400
+
+    @jwt_required()
+    def post(self):
+        request_parser = self.parser.parse_args()
+
+        for answer_data in request_parser["answer_data"]:
+            answer_is_correct = False
+
+            correct_answer = UserAnswer.get_correct_answer(answer_data["question_id"])
+            if correct_answer == answer_data["answer"]:
+                answer_is_correct = True
+
+            new_user_answer = UserAnswer(
+                user_id=current_user.user_id,
+                form_id=answer_data["question_id"],
+                question_id=answer_data["question_id"],
+                answer=answer_data["answer"],
+                is_correct=answer_is_correct
+            )
+            new_user_answer.create()
+            new_user_answer.save()
+
+        return "Success", 200
