@@ -58,6 +58,8 @@ class User(BaseModel):
         permisions = [getattr(permision, request) for permision in self.role]
         return any(permisions)
 
+    def is_admin(self):
+        return self.role and self.role.name == "ადმინი"
 
     def to_json(self):
         user_data = {
