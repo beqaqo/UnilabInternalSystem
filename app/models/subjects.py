@@ -25,6 +25,7 @@ class Announcement(BaseModel):
     end_date = db.Column(db.Date)
 
     projects = db.relationship("Project", back_populates="announcement")
+    certificates = db.relationship("Certificate", back_populates="announcement")
 
     def to_json(self):
         return {

@@ -6,6 +6,7 @@ from app.api.userprofile import UserProfileApi
 from app.api.roles import RolesApi
 from app.api.announcement import AnnouncementApi, AnnouncementFormApi
 from app.api.questions import QuestionApi, FormApi, UserAnswerApi
+from app.api.certificate import CertificateApi
 
 api = Api()
 api.add_resource(RegistrationApi, "/Registration")
@@ -20,3 +21,4 @@ api.add_resource(QuestionApi, "/Question")
 api.add_resource(RegistrationActivitiesApi, '/registration_activities')
 api.add_resource(FormApi, '/form')
 api.add_resource(UserAnswerApi, "/api/send_answers")
+api.add_resource(CertificateApi, "/api/certificate")

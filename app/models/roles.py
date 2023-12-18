@@ -22,3 +22,4 @@ class Role(BaseModel):
     can_edit_users = db.Column(db.Boolean, default=False)
     can_create_questions = db.Column(db.Boolean, default=False)
     can_create_forms = db.Column(db.Boolean, default=False)
+    can_create_certificates = db.Column(db.Boolean, default=False)

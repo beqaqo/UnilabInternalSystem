@@ -22,11 +22,12 @@ class User(BaseModel):
     address = db.Column(db.String)  #
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
+
     role = db.relationship("Role", secondary="user_roles", backref="roles")  #
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
     question = db.relationship("Question", backref="user")
-
     projects = db.relationship("Project", back_populates="user")
+    certificates = db.relationship("Certificate", back_populates="user")
 
     # Pupil #
     school = db.Column(db.String)
@@ -140,3 +141,25 @@ class University(BaseModel):
     university_name = db.Column(db.String)
 
     user = db.relationship("User", backref="university")
+
+
+class Certificate(BaseModel):
+    __tablename__ = "certificates"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user = db.relationship("User", back_populates="certificates")
+
+    announcement_id = db.Column(db.Integer, db.ForeignKey("announcements.id"))
+    announcement = db.relationship("Announcement", back_populates="certificates")
+
+    def to_json(self):
+
+        certificate_data = {
+            "id": self.id,
+            "user_id": self.user_id,
+            "announcement_id": self.announcement_id,
+        }
+
+        return certificate_data
