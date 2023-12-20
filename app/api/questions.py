@@ -132,7 +132,7 @@ class UserAnswerApi(Resource):
 
     @jwt_required()
     def get(self):
-        if current_user and current_user.role.name == "ადმინი":
+        if current_user and current_user.is_admin():
             request_parser = self.parser.parse_args()
 
             return request_parser
@@ -147,7 +147,7 @@ class UserAnswerApi(Resource):
             answer_is_correct = False
 
             correct_answer = UserAnswer.get_correct_answer(answer_data["question_id"])
-            if correct_answer == answer_data["answer"]:
+            if correct_answer.text == answer_data["answer"]:
                 answer_is_correct = True
 
             new_user_answer = UserAnswer(
