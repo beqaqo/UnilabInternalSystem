@@ -2,7 +2,7 @@ from flask.cli import with_appcontext
 from app.extensions import db
 from app.models import User, Country, Region, City, University
 from app.models import Role, UserRole
-from app.models import  ActivityType, Subject, Announcement, AnnouncementUser
+from app.models import ActivityType, Subject, Announcement, AnnouncementUser
 from app.models import Question, QuestionOption
 from data import user_data
 from datetime import datetime
@@ -54,19 +54,24 @@ def populate_db():
 
     # populating roles table
     role_ = Role(name="ადმინი", can_create_activity=True,
-                 can_create_subject=True, can_create_roles=True, can_edit_users=True, can_create_questions = True)
+                 can_create_subject=True, can_create_roles=True, can_edit_users=True,
+                 can_create_questions=True, can_create_certificates=True)
     role_.create()
     role_ = Role(name="სტუდენტი", can_create_activity=False,
-                 can_create_subject=False, can_create_roles=False, can_edit_users=False, can_create_questions = False)
+                 can_create_subject=False, can_create_roles=False, can_edit_users=False,
+                 can_create_questions=False, can_create_certificates=False)
     role_.create()
     role_ = Role(name="ლექტორი", can_create_activity=True,
-                 can_create_subject=True, can_create_roles=False, can_edit_users=False, can_create_questions = True)
+                 can_create_subject=True, can_create_roles=False, can_edit_users=False,
+                 can_create_questions=True, can_create_certificates=True)
     role_.create()
     role_ = Role(name="მოდერატორი", can_create_activity=True,
-                 can_create_subject=True, can_create_roles=False, can_edit_users=True, can_create_questions = False)
+                 can_create_subject=True, can_create_roles=False, can_edit_users=True,
+                 can_create_questions=False, can_create_certificates=False)
     role_.create()
     role_ = Role(name="მოსწავლე", can_create_activity=False,
-                 can_create_subject=False, can_create_roles=False, can_edit_users=False, can_create_questions = False)
+                 can_create_subject=False, can_create_roles=False, can_edit_users=False,
+                 can_create_questions=False, can_create_certificates=False)
     role_.create()
     role_.save()
 
