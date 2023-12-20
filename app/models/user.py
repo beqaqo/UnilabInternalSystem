@@ -122,27 +122,33 @@ class Region(BaseModel):
     __tablename__ = "regions"
 
     id = db.Column(db.Integer, primary_key=True)
+    country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))
     region_name = db.Column(db.String)
 
     user = db.relationship("User", backref="region")
+    country = db.relationship("Country", backref="region")
 
 
 class City(BaseModel):
     __tablename__ = "cities"
 
     id = db.Column(db.Integer, primary_key=True)
+    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
     city_name = db.Column(db.String)
 
     user = db.relationship("User", backref="city")
+    region = db.relationship("Region", backref="city")
 
 
 class University(BaseModel):
     __tablename__ = "universities"
 
     id = db.Column(db.Integer, primary_key=True)
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
     university_name = db.Column(db.String)
 
     user = db.relationship("User", backref="university")
+    city = db.relationship("City", backref="university")
 
 
 class Certificate(BaseModel):
