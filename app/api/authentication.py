@@ -46,7 +46,7 @@ class RegistrationApi(Resource):
     def post(self):
 
         parser = self.parser.parse_args()
-        validation = check_validators(parser, User, Country, Region, City, University)
+        validation = check_validators(parser)
 
         if validation:
             return validation

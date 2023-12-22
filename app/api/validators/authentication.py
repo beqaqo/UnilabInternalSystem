@@ -1,5 +1,5 @@
 from email_validator import validate_email
-
+from app.models.user import User, Country, Region, City, University
 
 def id_validator(data):
     if data.isdecimal() and len(data) == 11:
@@ -38,12 +38,7 @@ def user_exist_check(parser, User):
 
     
 def location_id_validator(data, model):
-    try:
-        model_data = model.query.filter_by(id=data).first()
-
-        return True
-    except:
-        return False
+    return model.query.filter_by(id=data).first()
     
 
 def parent_validator(data_1, data_2, model, parent):
@@ -58,7 +53,7 @@ def parent_validator(data_1, data_2, model, parent):
         return False  
     
 
-def check_validators(parser, User, Country, Region, City, University, user_check=True, role_check=True):
+def check_validators(parser, user_check=True, role_check=True):
 
     if not name_validator(parser["name"]):
         return "Invalid name", 400
@@ -87,13 +82,13 @@ def check_validators(parser, User, Country, Region, City, University, user_check
     if not location_id_validator(parser["university_id"], University):
         return "Invalid university", 400
     
-    if not parent_validator(parser["region_id"], parser["country_id"], Country, "country"):
+    if not parent_validator(parser["region_id"], parser["country_id"], Region, "country"):
         return "Region and Country doesn't match", 400
     
-    if not parent_validator(parser["city_id"], parser["region_id"], Region, "region"):
+    if not parent_validator(parser["city_id"], parser["region_id"], City, "region"):
         return "City and Region doesn't match", 400
 
-    if not parent_validator(parser["university_id"], parser["city_id"], City, "city"):
+    if not parent_validator(parser["university_id"], parser["city_id"], University, "city"):
         return "University and City doesn't match", 400
     
     if role_check:
