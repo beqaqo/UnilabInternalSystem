@@ -14,8 +14,10 @@ class Question(BaseModel):
     max_grade = db.Column(db.Integer)
     max_grade_text = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
 
     option = db.relationship("QuestionOption", backref="question")
+    form = db.relationship("Form", back_populates="questions")
 
 
 class QuestionOption(BaseModel):
@@ -51,6 +53,9 @@ class Form(BaseModel):
     __tablename__ = "forms"
 
     id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.JSON, nullable=False)
+    # question_id = db.Column(db.JSON, nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
     subject = db.Column(db.String, nullable=False)
     activity_type = db.Column(db.String, nullable=False)
+
+    questions = db.relationship("Question", back_populates="form")
