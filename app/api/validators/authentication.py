@@ -36,8 +36,29 @@ def user_exist_check(parser, User):
     if bool(User.query.filter_by(personal_id=parser["personal_id"]).first()):
         return "This personal_id is already redgistered", 400
 
+    
+def location_id_validator(data, model):
+    try:
+        model_data = model.query.filter_by(id=data).first()
 
-def check_validators(parser, User, user_check=True, role_check=True):
+        return True
+    except:
+        return False
+    
+
+def parent_validator(data_1, data_2, model, parent):
+    try:
+        model_data = model.query.filter_by(id=data_1).first()
+        
+        if model_data and model_data[f"{parent}_id"] == data_2:
+            return True
+        else:
+            return False
+    except:
+        return False  
+    
+
+def check_validators(parser, User, Country, Region, City, University, user_check=True, role_check=True):
 
     if not name_validator(parser["name"]):
         return "Invalid name", 400
@@ -53,6 +74,27 @@ def check_validators(parser, User, user_check=True, role_check=True):
 
     if not id_validator(parser["personal_id"]):
         return "Invalid personal_id", 400
+    
+    if not location_id_validator(parser["country_id"], Country):
+        return "Invalid country", 400
+    
+    if not location_id_validator(parser["region_id"], Region):
+        return "Invalid region", 400
+    
+    if not location_id_validator(parser["city_id"], City):
+        return "Invalid city", 400
+    
+    if not location_id_validator(parser["university_id"], University):
+        return "Invalid university", 400
+    
+    if not parent_validator(parser["region_id"], parser["country_id"], Country, "country"):
+        return "Region and Country doesn't match", 400
+    
+    if not parent_validator(parser["city_id"], parser["region_id"], Region, "region"):
+        return "City and Region doesn't match", 400
+
+    if not parent_validator(parser["university_id"], parser["city_id"], City, "city"):
+        return "University and City doesn't match", 400
     
     if role_check:
         if parser["role_id"] not in [2, 5]:
