@@ -18,7 +18,7 @@ class CertificateApi(Resource):
         received_arguments = get_parser.parse_args()
         certificates = Certificate.query
 
-        if received_arguments["user_id"] and current_user.role.name == "ადმინი":
+        if received_arguments["user_id"] and current_user.is_admin:
             certificates = certificates.filter(Certificate.user_id == received_arguments["user_id"])
         else:
             certificates = certificates.filter(Certificate.user_id == current_user.id)

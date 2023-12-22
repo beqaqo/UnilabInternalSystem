@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User, UserAnswer
 from app.models.questions import Question, QuestionOption, Form
+from app.api.validators.questions import validate_user_answer
 
 
 class QuestionApi(Resource):
@@ -142,8 +143,13 @@ class UserAnswerApi(Resource):
     @jwt_required()
     def post(self):
         request_parser = self.parser.parse_args()
+        data = request_parser["answer_data"]
 
-        for answer_data in request_parser["answer_data"]:
+        response = validate_user_answer(data)
+        if response:
+            return response
+
+        for answer_data in data:
             answer_is_correct = False
 
             correct_answer = UserAnswer.get_correct_answer(answer_data["question_id"])
@@ -152,7 +158,7 @@ class UserAnswerApi(Resource):
 
             new_user_answer = UserAnswer(
                 user_id=current_user.user_id,
-                form_id=answer_data["question_id"],
+                form_id=answer_data["form_id"],
                 question_id=answer_data["question_id"],
                 answer=answer_data["answer"],
                 is_correct=answer_is_correct
