@@ -1,7 +1,6 @@
 from flask_restful import Resource, reqparse, inputs
 from app.api.validators.authentication import check_validators
 from flask_jwt_extended import jwt_required, current_user
-from app.models.user import User, Country, Region, City, University
 
 
 class UserProfileApi(Resource):
@@ -49,7 +48,7 @@ class UserProfileApi(Resource):
     def put(self):
 
         parser = self.parser.parse_args()
-        validation = check_validators(parser, User, Country, Region, City, University, user_check=False, role_check = False)
+        validation = check_validators(parser, user_check=False, role_check = False)
 
         if validation:
             return validation
