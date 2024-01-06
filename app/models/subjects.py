@@ -19,8 +19,8 @@ class Announcement(BaseModel):
     subject_id = db.Column(db.Integer, db.ForeignKey("subjects.id"))
     activity_type_id = db.Column(db.Integer, db.ForeignKey("activity_type.id"))
     lecturer_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    regitration_start = db.Column(db.Date)  # ?
-    regitration_end = db.Column(db.Date)  # ?
+    registration_start = db.Column(db.Date)  # ?
+    registration_end = db.Column(db.Date)  # ?
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
 
