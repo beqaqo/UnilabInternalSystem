@@ -53,8 +53,6 @@ class Form(BaseModel):
     __tablename__ = "forms"
 
     id = db.Column(db.Integer, primary_key=True)
-    # question_id = db.Column(db.JSON, nullable=False)
-    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
     subject = db.Column(db.String, nullable=False)
     activity_type = db.Column(db.String, nullable=False)
 
