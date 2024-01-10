@@ -74,7 +74,6 @@ class RegistrationApi(Resource):
             program=parser["program"],
             semester=parser["semester"],
             degree_level=parser["degree_level"]
-
         )
 
         new_user.create()

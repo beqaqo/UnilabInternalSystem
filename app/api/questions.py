@@ -14,21 +14,23 @@ class QuestionApi(Resource):
     parser.add_argument("min_grade_text", required=True, type=str)
     parser.add_argument("max_grade", required=True, type=int)
     parser.add_argument("max_grade_text", required=True, type=str)
-    parser.add_argument("option", required=True, type=dict)
+    parser.add_argument("options", required=True, action="append", type=dict)
+    
+    parser.add_argument("form_id", required=True, type=int)
 
     @jwt_required()
     def get(self):
         if not current_user.check_permission("can_create_questions"):
-            return "Bad request", 400
-
+            return "You can't create questions", 400
+    
         questions = Question.query.filter_by(user_id=current_user.id).all()
 
         if not questions:
             return "You don't have any question", 200
 
-        questions_with_options = [question.to_json() for question in questions]
+        questions = Question.get_all_questions(current_user.id)
 
-        return questions_with_options, 200
+        return questions, 200
 
     @jwt_required()
     def post(self):
@@ -47,29 +49,30 @@ class QuestionApi(Resource):
             min_grade_text=request_parser["min_grade_text"],
             max_grade=request_parser["max_grade"],
             max_grade_text=request_parser["max_grade_text"],
-
+            form_id=request_parser["form_id"]
         )
         new_question.create()
-        new_question.save()
+        new_question.save()  
 
-        for option in request_parser["option"].keys():
+        for option in request_parser["options"]:        
             new_option = QuestionOption(
                 question_id=new_question.id,
-                text=option,
-                is_correct=request_parser["option"][option],
+                text=option["text"],
+                is_correct=option["is_correct"],
             )
 
             new_option.create()
             new_option.save()
 
         return "success", 200
+    
 
 class FormApi(Resource):
 
     parser = reqparse.RequestParser()
-    parser.add_argument("question_id", required=True, type=list, help="question_id is required and should be an integer")
-    parser.add_argument("subject", required=True, type=str, help="subject is required and should be an string")
-    parser.add_argument("activity_type", required=True, type=str, help="activity_type is required and should be an string")
+    parser.add_argument("question_id", required=False, type=int)
+    parser.add_argument("subject", required=True, type=int)
+    parser.add_argument("activity_type", required=True, type=int)
 
     @jwt_required()
     def get(self):
@@ -78,14 +81,7 @@ class FormApi(Resource):
         if not forms:
             return "You don't have any forms", 200
 
-        forms_data = []
-        for form in forms:
-            form_data = {
-                "question_id": form.question_id,
-                "subject": form.subject,
-                "activity_type": form.activity_type
-            }
-            forms_data.append(form_data)
+        forms_data = Form.get_forms(current_user.id)
 
         return forms_data, 200
     
@@ -98,7 +94,6 @@ class FormApi(Resource):
           
         form = Form(
             user_id=current_user.id,
-            question_id=request_parser["question_id"],
             subject=request_parser["subject"],
             activity_type=request_parser["activity_type"]
         )
@@ -129,7 +124,7 @@ class FormApi(Resource):
 class UserAnswerApi(Resource):
 
     parser = reqparse.RequestParser()
-    parser.add_argument("answer_data", required=True, type=list)
+    parser.add_argument("answer_data", required=False, action="append", type=dict)
 
     @jwt_required()
     def get(self):
@@ -145,11 +140,11 @@ class UserAnswerApi(Resource):
         request_parser = self.parser.parse_args()
         data = request_parser["answer_data"]
 
-        response = validate_user_answer(data)
-        if response:
-            return response
-
         for answer_data in data:
+            response = validate_user_answer(answer_data)
+            if response:
+                return response
+            
             answer_is_correct = False
 
             correct_answer = UserAnswer.get_correct_answer(answer_data["question_id"])
@@ -157,7 +152,7 @@ class UserAnswerApi(Resource):
                 answer_is_correct = True
 
             new_user_answer = UserAnswer(
-                user_id=current_user.user_id,
+                user_id=current_user.id,
                 form_id=answer_data["form_id"],
                 question_id=answer_data["question_id"],
                 answer=answer_data["answer"],

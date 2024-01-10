@@ -11,8 +11,8 @@ class AnnouncementApi(Resource):
     parser.add_argument("subject_id", required=True, type=int)
     parser.add_argument("activity_type_id", required=True, type=int)
     parser.add_argument("lecturer_id", required=True, type=int)
-    parser.add_argument("regitration_start", required=True, type=inputs.datetime_from_iso8601)
-    parser.add_argument("regitration_end", required=True, type=inputs.datetime_from_iso8601)
+    parser.add_argument("registration_start", required=True, type=inputs.datetime_from_iso8601)
+    parser.add_argument("registration_end", required=True, type=inputs.datetime_from_iso8601)
 
     @jwt_required()
     def get(self):
@@ -35,8 +35,8 @@ class AnnouncementApi(Resource):
             subject_id=request_parser["subject_id"],
             activity_type_id=request_parser["activity_type_id"],
             lecturer_id=request_parser["lecturer_id"],
-            regitration_start=request_parser["regitration_start"],
-            regitration_end=request_parser["regitration_end"],
+            registration_start=request_parser["registration_start"],
+            registration_end=request_parser["registration_end"],
         )
         new_announcement.create()
         new_announcement.save()
@@ -59,8 +59,8 @@ class AnnouncementApi(Resource):
         result.subject_id = request_parser["subject_id"]
         result.activity_type_id = request_parser["activity_type_id"]
         result.lecturer_id = request_parser["lecturer_id"]
-        result.regitration_start = request_parser["regitration_start"]
-        result.regitration_end = request_parser["regitration_end"]
+        result.regitration_start = request_parser["registration_start"]
+        result.regitration_end = request_parser["registration_end"]
         result.save()
         return "Success", 200
 
