@@ -16,7 +16,7 @@ class Config(object):
     MAIL_PASSWORD = '57cbda838b314c'
 
     JWT_SECRET_KEY = "jwtsecretkey"
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=1)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 
 
 
