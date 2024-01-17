@@ -60,7 +60,7 @@ class User(BaseModel):
         return any(permisions)
 
     def is_admin(self):
-        return self.role and self.role.name == "ადმინი"
+        return self.role and [role.name == "ადმინი" for role in self.role]
 
     def to_json(self):
         user_data = {
@@ -98,7 +98,7 @@ class UserAnswer(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
-    questions_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
+    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
     answer = db.Column(db.String)
     is_correct = db.Column(db.Boolean, nullable=True)
 

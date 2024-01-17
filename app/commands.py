@@ -34,44 +34,44 @@ def populate_db():
     # populating region table
     regions = ["იმერეთი", "სვანეთი", "გურია", "რაჭა", "კახეთი"]
     for region in regions:
-        region_ = Region(region_name=region)
+        region_ = Region(region_name=region, country_id=1)
         region_.create()
     region_.save()
 
     # populating city table
     cities = ["ქუთაისი", "თბილისი", "ზუგდიდი", "ბათუმი", "გორი"]
     for city in cities:
-        city_ = City(city_name=city)
+        city_ = City(city_name=city, region_id=1)
         city_.create()
     city_.save()
 
     # populating university table
     unisversities = ["ილიაუნი", "თსუ", "თსსუ", "გტუ", "სამხატვრო"]
     for university in unisversities:
-        university_ = University(university_name=university)
+        university_ = University(university_name=university, city_id=1)
         university_.create()
     university_.save()
 
     # populating roles table
     role_ = Role(name="ადმინი", can_create_activity=True,
                  can_create_subject=True, can_create_roles=True, can_edit_users=True,
-                 can_create_questions=True, can_create_certificates=True)
+                 can_create_questions=True, can_create_certificates=True, can_create_forms=True)
     role_.create()
     role_ = Role(name="სტუდენტი", can_create_activity=False,
                  can_create_subject=False, can_create_roles=False, can_edit_users=False,
-                 can_create_questions=False, can_create_certificates=False)
+                 can_create_questions=False, can_create_certificates=False, can_create_forms=False)
     role_.create()
     role_ = Role(name="ლექტორი", can_create_activity=True,
                  can_create_subject=True, can_create_roles=False, can_edit_users=False,
-                 can_create_questions=True, can_create_certificates=True)
+                 can_create_questions=True, can_create_certificates=True, can_create_forms=True)
     role_.create()
     role_ = Role(name="მოდერატორი", can_create_activity=True,
                  can_create_subject=True, can_create_roles=False, can_edit_users=True,
-                 can_create_questions=False, can_create_certificates=False)
+                 can_create_questions=False, can_create_certificates=False, can_create_forms=False)
     role_.create()
     role_ = Role(name="მოსწავლე", can_create_activity=False,
                  can_create_subject=False, can_create_roles=False, can_edit_users=False,
-                 can_create_questions=False, can_create_certificates=False)
+                 can_create_questions=False, can_create_certificates=False, can_create_forms=False)
     role_.create()
     role_.save()
 

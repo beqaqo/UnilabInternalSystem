@@ -45,7 +45,11 @@ def parent_validator(data_1, data_2, model, parent):
     try:
         model_data = model.query.filter_by(id=data_1).first()
         
-        if model_data and model_data[f"{parent}_id"] == data_2:
+        attribute_name = f"{parent}_id" 
+        if hasattr(model_data, attribute_name):
+            attribute_value = getattr(model_data, attribute_name)
+
+        if model_data and attribute_value == data_2:
             return True
         else:
             return False

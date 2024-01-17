@@ -34,8 +34,8 @@ class Announcement(BaseModel):
             "subject_id": self.subject_id,
             "activity_type_id": self.activity_type_id,
             "lecturer_id": self.lecturer_id,
-            "regitration_start": str(self.regitration_start),
-            "regitration_end": str(self.regitration_end),
+            "registration_start": str(self.registration_start),
+            "registration_end": str(self.registration_end),
             "start_date": str(self.start_date),
             "end_date": str(self.end_date),
         }
