@@ -17,7 +17,7 @@ class Question(BaseModel):
     form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
 
     options = db.relationship("QuestionOption", backref="question")
-    form = db.relationship("Form", back_populates="questions")
+    forms = db.relationship("Form", back_populates="questions", secondary="question_form")
 
     @classmethod
     def get_all_questions(cls, user_id):
@@ -85,7 +85,7 @@ class Form(BaseModel):
     subject = db.Column(db.Integer, db.ForeignKey("subjects.id"))
     activity_type = db.Column(db.Integer, db.ForeignKey("activity_type.id"))
 
-    questions = db.relationship("Question", back_populates="form")
+    questions = db.relationship("Question", back_populates="forms", secondary="question_form")
 
     @classmethod
     def get_forms(cls, user_id):
@@ -115,3 +115,11 @@ class Form(BaseModel):
         ]
 
         return forms
+    
+
+class QuestionForm:
+    __tablename__ = "question_form"
+
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
+    form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
