@@ -38,7 +38,10 @@ def register_extensions(app):
 
     @jwt.user_identity_loader
     def user_identity_lookup(user):
-        return user.email
+        try:
+            return user.email
+        except AttributeError:
+            return user
 
     @jwt.user_lookup_loader
     def user_lookup_callback(_jwt_header, jwt_data):

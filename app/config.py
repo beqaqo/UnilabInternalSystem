@@ -17,6 +17,7 @@ class Config(object):
 
     JWT_SECRET_KEY = "jwtsecretkey"
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
 
 
 
