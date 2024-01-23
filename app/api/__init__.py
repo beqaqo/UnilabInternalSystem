@@ -1,5 +1,5 @@
 from flask_restful import Api
-from app.api.authentication import RegistrationApi, AuthorizationApi
+from app.api.authentication import RegistrationApi, AuthorizationApi, AccessTokenRefreshApi
 from app.api.mailconfirmation import SendConfirmEmailApi, ReceiveConfirmEmailApi
 from app.api.registration_activities import RegistrationActivitiesApi
 from app.api.userprofile import UserProfileApi
@@ -11,6 +11,7 @@ from app.api.certificate import CertificateApi
 api = Api()
 api.add_resource(RegistrationApi, "/registration")
 api.add_resource(AuthorizationApi, "/authorization")
+api.add_resource(AccessTokenRefreshApi, "/refresh_access_token")
 api.add_resource(SendConfirmEmailApi, "/send_confirm_email")
 api.add_resource(ReceiveConfirmEmailApi, "/receive_confirm_email")
 api.add_resource(UserProfileApi, "/user_profile")
