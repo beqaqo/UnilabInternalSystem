@@ -55,23 +55,19 @@ def populate_db():
     # populating roles table
     role_ = Role(name="ადმინი", can_create_activity=True,
                  can_create_subject=True, can_create_roles=True, can_edit_users=True,
-                 can_create_questions=True, can_create_certificates=True, can_create_forms=True)
+                 can_create_questions=True, can_view_questions=True, 
+                 can_create_forms=True, can_create_certificates=True)
     role_.create()
-    role_ = Role(name="სტუდენტი", can_create_activity=False,
-                 can_create_subject=False, can_create_roles=False, can_edit_users=False,
-                 can_create_questions=False, can_create_certificates=False, can_create_forms=False)
+    role_ = Role(name="სტუდენტი")
     role_.create()
     role_ = Role(name="ლექტორი", can_create_activity=True,
-                 can_create_subject=True, can_create_roles=False, can_edit_users=False,
-                 can_create_questions=True, can_create_certificates=True, can_create_forms=True)
+                 can_create_subject=True, can_create_roles=False,can_create_questions=True, 
+                 can_view_questions=True, can_create_certificates=True, can_create_forms=True)
     role_.create()
     role_ = Role(name="მოდერატორი", can_create_activity=True,
-                 can_create_subject=True, can_create_roles=False, can_edit_users=True,
-                 can_create_questions=False, can_create_certificates=False, can_create_forms=False)
+                 can_create_subject=True, can_edit_users=True)
     role_.create()
-    role_ = Role(name="მოსწავლე", can_create_activity=False,
-                 can_create_subject=False, can_create_roles=False, can_edit_users=False,
-                 can_create_questions=False, can_create_certificates=False, can_create_forms=False)
+    role_ = Role(name="მოსწავლე")
     role_.create()
     role_.save()
 
