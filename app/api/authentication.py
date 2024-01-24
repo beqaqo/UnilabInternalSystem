@@ -4,7 +4,7 @@ from app.models.roles import UserRole
 from app.api.validators.authentication import check_validators
 from app.api.validators.mail import create_key, send_email
 from flask import render_template
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 
 
 class RegistrationApi(Resource):
@@ -129,9 +129,24 @@ class AuthorizationApi(Resource):
 
         if user and user.check_password(parser["password"]):
             access_token = create_access_token(identity=user)
+            refresh_token = create_refresh_token(identity=user)
             responce = {
-                'access token': access_token
+                "access token": access_token,
+                "refresh_token": refresh_token
             }
             return responce
         else:
             return "Password or mail is incorrect", 400
+
+
+class AccessTokenRefreshApi(Resource):
+
+    @jwt_required(refresh=True)
+    def post(self):
+        identity = get_jwt_identity()
+        access_token = create_access_token(identity=identity)
+        response = {
+            "access_token": access_token
+        }
+
+        return response
