@@ -20,8 +20,16 @@ class Question(BaseModel):
     forms = db.relationship("Form", back_populates="questions", secondary="question_form")
 
     @classmethod
-    def get_all_questions(cls, user_id):
-        questions = cls.query.filter_by(user_id=user_id).options(db.joinedload(Question.options)).all()
+    def get_all_questions(cls, user_id, question_id = None):
+
+        questions = cls.query.filter(cls.user_id==user_id).options(db.joinedload(Question.options)).all()
+
+        if question_id:
+            questions = questions.filter(cls.id==question_id)
+        
+        questions = questions.options(db.joinedload(Question.options)).all()
+
+        # questions = cls.query.filter_by(user_id=user_id).options(db.joinedload(Question.options)).all()
 
         all_questions = [
             {

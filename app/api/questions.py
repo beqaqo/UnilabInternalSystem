@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User, UserAnswer
-from app.models.questions import Question, QuestionOption, Form
+from app.models.questions import Question, QuestionOption, Form, QuestionForm
 from app.api.validators.questions import validate_user_answer
 
 
@@ -16,19 +16,27 @@ class QuestionApi(Resource):
     parser.add_argument("max_grade_text", required=True, type=str)
     parser.add_argument("options", required=True, action="append", type=dict)
     
-    parser.add_argument("form_id", required=True, type=int)
+    # parser.add_argument("form_id", required=True, type=int)
 
     @jwt_required()
     def get(self):
-        if not current_user.check_permission("can_create_questions"):
-            return "You can't create questions", 400
+
+        parser = reqparse.RequestParser()
+        parser.add_argument("question_id", required=False, type=str, location="args")
+        received_arguments = parser.parse_args()
+
+        if not current_user.check_permission("can_view_questions"):
+            return "You can't view questions", 400
     
         questions = Question.query.filter_by(user_id=current_user.id).all()
 
         if not questions:
             return "You don't have any question", 200
 
-        questions = Question.get_all_questions(current_user.id)
+        if received_arguments["question_id"]:
+            questions = Question.get_all_questions(current_user.id, received_arguments["question_id"])
+        else:
+            questions = Question.get_all_questions(current_user.id)
 
         return questions, 200
 
@@ -49,7 +57,7 @@ class QuestionApi(Resource):
             min_grade_text=request_parser["min_grade_text"],
             max_grade=request_parser["max_grade"],
             max_grade_text=request_parser["max_grade_text"],
-            form_id=request_parser["form_id"]
+            # form_id=request_parser["form_id"]
         )
         new_question.create()
         new_question.save()  
@@ -117,6 +125,30 @@ class FormApi(Resource):
         form.subject = request_parser["subject"]
         form.activity_type = request_parser["activity_type"]
         form.save()
+
+        return "success", 200
+
+
+class QuestionFormApi(Resource):
+
+    parser = reqparse.RequestParser()
+    parser.add_argument("form_id", required=True, type=int)
+    parser.add_argument("question_id", required=True, type=int)
+
+    @jwt_required()
+    def post(self):
+
+        request_parser = self.parser.parse_args()
+
+        if not current_user.check_permission("can_create_forms"):
+            return "Bad request", 400
+        
+        question_form = QuestionForm(
+            question_id = request_parser["question_id"],
+            form_id = request_parser["form_id"]
+        )
+        question_form.create()
+        question_form.save()
 
         return "success", 200
 
