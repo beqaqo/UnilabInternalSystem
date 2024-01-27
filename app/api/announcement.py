@@ -13,11 +13,13 @@ class AnnouncementApi(Resource):
     parser.add_argument("lecturer_id", required=True, type=int)
     parser.add_argument("registration_start", required=True, type=inputs.datetime_from_iso8601)
     parser.add_argument("registration_end", required=True, type=inputs.datetime_from_iso8601)
+    parser.add_argument("start_date", required=True, type=inputs.datetime_from_iso8601)
+    parser.add_argument("end_date", required=True, type=inputs.datetime_from_iso8601)
 
     @jwt_required()
     def get(self):
         if not current_user.check_permission("can_create_activity"):
-            return "Bad request", 400
+            return "You can't create or view announcements", 400
 
         announcements = [announcement.to_json() for announcement in Announcement.query.all()]
 
@@ -37,10 +39,13 @@ class AnnouncementApi(Resource):
             lecturer_id=request_parser["lecturer_id"],
             registration_start=request_parser["registration_start"],
             registration_end=request_parser["registration_end"],
+            start_date=request_parser["start_date"],
+            end_date=request_parser["end_date"],
         )
         new_announcement.create()
         new_announcement.save()
-        return "Success", 200
+
+        return "Successfully created an Announcement", 200
 
     @jwt_required()
     def put(self, id):
@@ -59,10 +64,13 @@ class AnnouncementApi(Resource):
         result.subject_id = request_parser["subject_id"]
         result.activity_type_id = request_parser["activity_type_id"]
         result.lecturer_id = request_parser["lecturer_id"]
-        result.regitration_start = request_parser["registration_start"]
-        result.regitration_end = request_parser["registration_end"]
+        result.registration_start = request_parser["registration_start"]
+        result.registration_end = request_parser["registration_end"]
+        result.start_date = request_parser["start_date"]
+        result.end_date = request_parser["end_date"]
         result.save()
-        return "Success", 200
+
+        return "Successfully updated an Announcement", 200
 
     @jwt_required()
     def delete(self, id):
@@ -77,14 +85,15 @@ class AnnouncementApi(Resource):
 
         result.delete()
         result.save()
-        return "Success", 200
+
+        return "Successfully deleted an Announcement", 200
 
 
 class AnnouncementFormApi(Resource):
 
     parser = reqparse.RequestParser()
     parser.add_argument("announcement_id", required=True, type=int)
-    parser.add_argument("forms_id", required=True, type=int)
+    parser.add_argument("form_id", required=True, type=int)
 
     @jwt_required()
     def get(self):
@@ -108,4 +117,5 @@ class AnnouncementFormApi(Resource):
         )
         new_announcement_form.create()
         new_announcement_form.save()
-        return "Success", 200
+
+        return "Successfully created an Announcement form", 200

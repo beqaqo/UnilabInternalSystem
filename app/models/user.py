@@ -107,6 +107,18 @@ class UserAnswer(BaseModel):
         correct_answer = QuestionOption.query.filter_by(question_id=question_id, is_correct=True).first()
 
         return correct_answer
+    
+    def to_json(self):
+        data = {
+            "id": self.id,
+            "user_id": self.user_id,
+            "form_id": self.form_id,
+            "question_id": self.question_id,
+            "answer": self.answer,
+            "is_correct": self.is_correct
+        }
+
+        return data
 
 
 class Country(BaseModel):

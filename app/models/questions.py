@@ -14,22 +14,18 @@ class Question(BaseModel):
     max_grade = db.Column(db.Integer)
     max_grade_text = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
 
     options = db.relationship("QuestionOption", backref="question")
     forms = db.relationship("Form", back_populates="questions", secondary="question_form")
 
     @classmethod
-    def get_all_questions(cls, user_id, question_id = None):
-
-        questions = cls.query.filter(cls.user_id==user_id).options(db.joinedload(Question.options)).all()
+    def get_all_questions(cls, user_id, question_id=None):
+        query = cls.query.filter(cls.user_id == user_id)
 
         if question_id:
-            questions = questions.filter(cls.id==question_id)
-        
-        questions = questions.options(db.joinedload(Question.options)).all()
+            query = query.filter(cls.id == question_id)
 
-        # questions = cls.query.filter_by(user_id=user_id).options(db.joinedload(Question.options)).all()
+        questions = query.options(db.joinedload(Question.options)).all()
 
         all_questions = [
             {
@@ -42,19 +38,19 @@ class Question(BaseModel):
                 "max_grade": question.max_grade,
                 "max_grade_text": question.max_grade_text,
                 "user_id": question.user_id,
-                "form_id": question.form_id,
                 "options": [
                     {
                         "text": option.text,
                         "is_correct": option.is_correct
                     }
-                    for option in question.option
+                    for option in question.options
                 ]
             }
             for question in questions
         ]
 
         return all_questions
+
 
 class QuestionOption(BaseModel):
     __tablename__ = "question_options"
@@ -64,26 +60,6 @@ class QuestionOption(BaseModel):
     text = db.Column(db.String, nullable=False)
     is_correct = db.Column(db.Boolean, nullable=False)
 
-    def to_json(self):
-        question_options = QuestionOption.query.filter_by(question_id=self.id).all()
-        options = [
-            {"text": option.text, "is_correct": option.is_correct}
-            for option in question_options
-        ]
-
-        question_data = {
-            "id": self.id,
-            "question_text": self.question_text,
-            "question_description": self.question_description,
-            "question_type": self.question_type,
-            "min_grade": self.min_grade,
-            "min_grade_text": self.min_grade_text,
-            "max_grade": self.max_grade,
-            "max_grade_text": self.max_grade_text,
-            "options": options,
-        }
-
-        return question_data
 
 class Form(BaseModel):
     __tablename__ = "forms"
@@ -125,7 +101,7 @@ class Form(BaseModel):
         return forms
     
 
-class QuestionForm:
+class QuestionForm(BaseModel):
     __tablename__ = "question_form"
 
     id = db.Column(db.Integer, primary_key=True)
