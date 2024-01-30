@@ -15,8 +15,7 @@ class QuestionApi(Resource):
     parser.add_argument("max_grade", required=True, type=int)
     parser.add_argument("max_grade_text", required=True, type=str)
     parser.add_argument("options", required=True, action="append", type=dict)
-    
-    # parser.add_argument("form_id", required=True, type=int)
+
 
     @jwt_required()
     def get(self):
@@ -31,7 +30,7 @@ class QuestionApi(Resource):
         questions = Question.query.filter_by(user_id=current_user.id).all()
 
         if not questions:
-            return "You don't have any question", 200
+            return "You don't have any questions", 200
 
         if received_arguments["question_id"]:
             questions = Question.get_all_questions(current_user.id, received_arguments["question_id"])
@@ -57,7 +56,6 @@ class QuestionApi(Resource):
             min_grade_text=request_parser["min_grade_text"],
             max_grade=request_parser["max_grade"],
             max_grade_text=request_parser["max_grade_text"],
-            # form_id=request_parser["form_id"]
         )
         new_question.create()
         new_question.save()  
@@ -70,9 +68,10 @@ class QuestionApi(Resource):
             )
 
             new_option.create()
-            new_option.save()
+        new_option.save()
 
-        return "success", 200
+
+        return "Successfully saved Questions", 200
     
 
 class FormApi(Resource):
@@ -84,12 +83,10 @@ class FormApi(Resource):
 
     @jwt_required()
     def get(self):
-        forms = Form.query.filter_by(user_id=current_user.id).all()
-
-        if not forms:
-            return "You don't have any forms", 200
-
         forms_data = Form.get_forms(current_user.id)
+
+        if not forms_data:
+            return "You don't have any forms", 200
 
         return forms_data, 200
     
@@ -108,7 +105,7 @@ class FormApi(Resource):
         form.create()
         form.save()
 
-        return "success", 200
+        return "Successfully created a Form", 200
 
     @jwt_required()
     def put(self):
@@ -126,14 +123,14 @@ class FormApi(Resource):
         form.activity_type = request_parser["activity_type"]
         form.save()
 
-        return "success", 200
+        return "Successfully updated a Form", 200
 
 
 class QuestionFormApi(Resource):
 
     parser = reqparse.RequestParser()
     parser.add_argument("form_id", required=True, type=int)
-    parser.add_argument("question_id", required=True, type=int)
+    parser.add_argument("questions_id", required=True, type=int)
 
     @jwt_required()
     def post(self):
@@ -150,22 +147,25 @@ class QuestionFormApi(Resource):
         question_form.create()
         question_form.save()
 
-        return "success", 200
+        return "Successfully created a Question Form", 200
 
 
 class UserAnswerApi(Resource):
 
     parser = reqparse.RequestParser()
+    parser.add_argument("form_id", required=False, type=int)
     parser.add_argument("answer_data", required=False, action="append", type=dict)
 
     @jwt_required()
     def get(self):
         if current_user and current_user.is_admin():
-            request_parser = self.parser.parse_args()
+            user_answers = UserAnswer.query.filter_by(user_id=current_user.id).all()
+            
+            user_answers_data = [answer.to_json() for answer in user_answers]
 
-            return request_parser
-        else:
-            return "Bad request", 400
+            return user_answers_data
+        
+        return "Bad request", 400
 
     @jwt_required()
     def post(self):
@@ -173,7 +173,7 @@ class UserAnswerApi(Resource):
         data = request_parser["answer_data"]
 
         for answer_data in data:
-            response = validate_user_answer(answer_data)
+            response = validate_user_answer(answer_data, request_parser["form_id"])
             if response:
                 return response
             
@@ -185,7 +185,7 @@ class UserAnswerApi(Resource):
 
             new_user_answer = UserAnswer(
                 user_id=current_user.id,
-                form_id=answer_data["form_id"],
+                form_id=request_parser["form_id"],
                 question_id=answer_data["question_id"],
                 answer=answer_data["answer"],
                 is_correct=answer_is_correct
@@ -193,4 +193,5 @@ class UserAnswerApi(Resource):
             new_user_answer.create()
             new_user_answer.save()
 
-        return "Success", 200
+
+        return "Success saved User answers", 200

@@ -50,7 +50,7 @@ class RegistrationApi(Resource):
 
         if validation:
             return validation
-
+    
         new_user = User(
             name=parser["name"],
             lastname=parser["lastname"],
@@ -91,7 +91,7 @@ class RegistrationApi(Resource):
         send_email(subject="Confirm your account",
                 html=html, recipients=parser["email"])
 
-        return "Success", 200
+        return "Successfully registered a User", 200
         
 
     def get(self):
@@ -131,7 +131,7 @@ class AuthorizationApi(Resource):
             access_token = create_access_token(identity=user)
             refresh_token = create_refresh_token(identity=user)
             responce = {
-                "access token": access_token,
+                "access_token": access_token,
                 "refresh_token": refresh_token
             }
             return responce

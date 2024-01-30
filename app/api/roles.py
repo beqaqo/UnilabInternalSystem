@@ -3,43 +3,50 @@ from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
 from app.models.roles import UserRole
 
+from app.extensions import db
+
 
 class RolesApi(Resource):
 
     parser = reqparse.RequestParser()
-    parser.add_argument("user_mail", required=True, type=str)
+    parser.add_argument("user_email", required=True, type=str)
     parser.add_argument("role_id", required=True, type=int)
+    parser.add_argument("new_role_id", required=False, type=int)
 
     @jwt_required()
     def get(self):
         if not current_user.check_permission("can_create_roles"):
-            return "Bad request", 400
+            return "You can't create roles", 400
+        
+        users = User.query.options(db.joinedload(User.role)).all()
 
-        roles = [{"user_mail": User.query.filter_by(id=object.user_id).first().email, 
-                  "role_id": object.role_id} for object in UserRole.query.all()]
-
-        return roles, 200
+        users_with_roles = [
+            {
+                "user_email": user.email,
+                "role_ids": [role.id for role in user.role]
+            } for user in users
+        ]
+    
+        return users_with_roles, 200
 
     @jwt_required()
     def post(self):
         parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_roles"):
-            return "Bad request", 400
+            return "You can't create roles", 400
 
         user_role = UserRole(user_id=User.query.filter_by(
-            email=parser["user_mail"]).first().id, role_id=parser["role_id"])
+            email=parser["user_email"]).first().id, role_id=parser["role_id"])
 
         user_role.create()
         user_role.save()
-        return "Success", 200
+
+        return "Successfully created a Role for a user", 200
 
     @jwt_required()
     def put(self):
         parser = reqparse.RequestParser()
-        parser.add_argument("user_mail", required=True, type=str)
-        parser.add_argument("role_id", required=True, type=int)
-        parser.add_argument("new_role_id", required=True, type=int)
 
         parser = parser.parse_args()
 

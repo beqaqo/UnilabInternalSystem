@@ -24,12 +24,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/Authorization",
+							"raw": "{{URL}}/authorization",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"Authorization"
+								"authorization"
 							]
 						}
 					},
@@ -50,12 +50,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/Registration",
+							"raw": "{{URL}}/registration",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"Registration"
+								"registration"
 							]
 						}
 					},
@@ -67,12 +67,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/Registration",
+							"raw": "{{URL}}/registration",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"Registration"
+								"registration"
 							]
 						}
 					},
@@ -99,12 +99,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/UserProfile",
+							"raw": "{{URL}}/user_profile",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"UserProfile"
+								"user_profile"
 							]
 						}
 					},
@@ -135,12 +135,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/UserProfile",
+							"raw": "{{URL}}/user_profile",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"UserProfile"
+								"user_profile"
 							]
 						}
 					},
@@ -167,12 +167,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/Announcement",
+							"raw": "{{URL}}/announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"AnnouncementApi"
+								"announcement"
 							]
 						}
 					},
@@ -195,7 +195,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"regitration_start\": \"2013-02-02T24\",\r\n    \"regitration_end\": \"2014-03-02T24\"\r\n\r\n}",
+							"raw": "{\r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"start_date\": \"2013-02-02T24\",\r\n    \"end_date\": \"2014-03-02T24\"\r\n\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -203,12 +203,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/Announcement",
+							"raw": "{{URL}}/announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"AnnouncementApi"
+								"announcement"
 							]
 						}
 					},
@@ -231,7 +231,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n{\r\n    \"announcement_id\": 2 , \r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"regitration_start\": \"2013-02-02T24\",\r\n    \"regitration_end\": \"2014-03-02T24\"\r\n\r\n}\r\n",
+							"raw": "\r\n{\r\n    \"announcement_id\": 2 , \r\n    \"name\": \"python 2021\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"registration_start\": \"2013-02-02T24\",\r\n    \"registration_end\": \"2014-03-02T24\"\r\n\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -239,19 +239,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/Announcement",
+							"raw": "{{URL}}/announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"AnnouncementApi"
+								"announcement"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete Announcement",
+					"name": "Delete Announcement",
 					"request": {
 						"auth": {
 							"type": "bearer",

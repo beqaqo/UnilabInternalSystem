@@ -80,6 +80,6 @@ class UserProfileApi(Resource):
 
             current_user.save()
 
-            return "Success", 200
+            return "Successfully updated User's profile", 200
 
         return "Bad request", 400

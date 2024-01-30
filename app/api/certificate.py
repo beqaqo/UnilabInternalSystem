@@ -37,7 +37,7 @@ class CertificateApi(Resource):
         request_parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_certificates"):
-            return "Bad request", 400
+            return "You can't create certificates", 400
 
         new_certificate = Certificate(
             user_id=request_parser["user_id"],
