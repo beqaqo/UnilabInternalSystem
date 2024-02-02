@@ -106,7 +106,7 @@ class AnnouncementFormApi(Resource):
         if not current_user.check_permission("can_create_activity"):
             return "You can't create Announcement Forms", 403
 
-        announcements = [announcement.to_json() for announcement in AnnouncementForm.query.all()]
+        announcements = Announcement.get_all_announcements()
 
         return announcements, 200
     
