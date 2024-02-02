@@ -86,7 +86,7 @@ class FormApi(Resource):
         forms_data = Form.get_forms(current_user.id)
 
         if not forms_data:
-            return "You don't have any forms", 200
+            return "You don't have any Forms", 404
 
         return forms_data, 200
     
@@ -95,7 +95,7 @@ class FormApi(Resource):
         request_parser = self.parser.parse_args()
         
         if not current_user.check_permission("can_create_forms"):
-            return "Bad request", 400
+            return "You can't create Forms", 403
           
         form = Form(
             user_id=current_user.id,
@@ -112,7 +112,7 @@ class FormApi(Resource):
         request_parser = self.parser.parse_args()
         
         if not current_user.check_permission("can_create_forms"):
-            return "Bad request", 400
+            return "You can't create or edit Forms", 403
         
         form = Form.query.filter_by(user_id=current_user.id).first()
         if not form:
@@ -138,7 +138,7 @@ class QuestionFormApi(Resource):
         request_parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_forms"):
-            return "Bad request", 400
+            return "You can't create Question forms", 403
         
         question_form = QuestionForm(
             question_id = request_parser["question_id"],

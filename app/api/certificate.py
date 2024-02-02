@@ -26,7 +26,7 @@ class CertificateApi(Resource):
         certificates = certificates.all()
 
         if not certificates:
-            return "You don't have any certificates", 200
+            return "You don't have any Certificates", 404
 
         certificates_data = [certificate.to_json() for certificate in certificates]
 
@@ -37,7 +37,7 @@ class CertificateApi(Resource):
         request_parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_certificates"):
-            return "You can't create certificates", 400
+            return "You can't create Certificates", 403
 
         new_certificate = Certificate(
             user_id=request_parser["user_id"],

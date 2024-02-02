@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse, inputs
 from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
-from app.models.subjects import Announcement, AnnouncementForm
+from app.models.subjects import Announcement, AnnouncementForm, AnnouncementLecturer
 
 
 class AnnouncementApi(Resource):
@@ -10,18 +10,17 @@ class AnnouncementApi(Resource):
     parser.add_argument("name", required=True, type=str)
     parser.add_argument("subject_id", required=True, type=int)
     parser.add_argument("activity_type_id", required=True, type=int)
-    parser.add_argument("lecturer_id", required=True, type=int)
+    parser.add_argument("lecturer_ids", required=True, action="append", type=dict)
     parser.add_argument("registration_start", required=True, type=inputs.datetime_from_iso8601)
     parser.add_argument("registration_end", required=True, type=inputs.datetime_from_iso8601)
-    parser.add_argument("start_date", required=True, type=inputs.datetime_from_iso8601)
-    parser.add_argument("end_date", required=True, type=inputs.datetime_from_iso8601)
+    parser.add_argument("description", required=False, type=str)
 
     @jwt_required()
     def get(self):
         if not current_user.check_permission("can_create_activity"):
-            return "You can't create or view announcements", 400
+            return "You can't create or view announcements", 403
 
-        announcements = [announcement.to_json() for announcement in Announcement.query.all()]
+        announcements = Announcement.get_all_announcements()
 
         return announcements, 200
 
@@ -30,20 +29,27 @@ class AnnouncementApi(Resource):
         request_parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_activity"):
-            return "Bad request", 400
+            return "You can't create Announcements", 403
 
         new_announcement = Announcement(
             name=request_parser["name"],
             subject_id=request_parser["subject_id"],
             activity_type_id=request_parser["activity_type_id"],
-            lecturer_id=request_parser["lecturer_id"],
             registration_start=request_parser["registration_start"],
             registration_end=request_parser["registration_end"],
-            start_date=request_parser["start_date"],
-            end_date=request_parser["end_date"],
+            description=request_parser["description"]
         )
         new_announcement.create()
         new_announcement.save()
+
+        for lecturer in request_parser["lecturer_ids"]:
+            announcement_user = AnnouncementLecturer(
+                user_id=lecturer["id"],
+                announcement_id=new_announcement.id
+            )
+            announcement_user.create()
+        announcement_user.save()
+
 
         return "Successfully created an Announcement", 200
 
@@ -54,11 +60,11 @@ class AnnouncementApi(Resource):
         request_parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_activity"):
-            return "Bad request", 400
+            return "You can't create Announcements", 403
 
 
         if not result:
-            return "Bad request", 400
+            return "Announcement not found", 404
 
         result.name = request_parser["name"]
         result.subject_id = request_parser["subject_id"]
@@ -77,11 +83,11 @@ class AnnouncementApi(Resource):
         result = Announcement.query.get(id)
 
         if not current_user.check_permission("can_create_activity"):
-            return "Bad request", 400
+            return "You can't create or delete Announcements", 403
 
 
         if not result:
-            return "Bad request", 400
+            return "Announcement not found", 404
 
         result.delete()
         result.save()
@@ -98,7 +104,7 @@ class AnnouncementFormApi(Resource):
     @jwt_required()
     def get(self):
         if not current_user.check_permission("can_create_activity"):
-            return "Bad request", 400
+            return "You can't create Announcement Forms", 403
 
         announcements = [announcement.to_json() for announcement in AnnouncementForm.query.all()]
 
@@ -109,7 +115,7 @@ class AnnouncementFormApi(Resource):
         request_parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_activity"):
-            return "Bad request", 400
+            return "You can't create Announcement forms", 403
 
         new_announcement_form = AnnouncementForm(
             announcement_id=request_parser["announcement_id"],
