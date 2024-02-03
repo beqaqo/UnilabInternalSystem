@@ -101,7 +101,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjM1NzMxNywianRpIjoiYzY4YjllYjktZjNkMi00YzU4LWFmYzktMWU0Yjg5Yjg0Mzg4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaTI2MzdAZ21haWwuY29tIiwibmJmIjoxNzA2MzU3MzE3LCJleHAiOjE3MDYzNjA5MTd9.VKwv2_2Q3sfDlGey5a6GrEc-QhWTupRRbjX23nBTCXk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjgyMTY0MiwianRpIjoiNzYxNjA3MjUtYjliNS00N2FjLWFmMjktOTQ3OWUwOTI3YTY1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNjgyMTY0MiwiZXhwIjoxNzA2ODI1MjQyfQ.C5ob07-8slQZTfr6n4jguZlFl7l4NgN6wXXsdoCdmKI",
 									"type": "string"
 								}
 							]
@@ -128,7 +128,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjM1NzMxNywianRpIjoiYzY4YjllYjktZjNkMi00YzU4LWFmYzktMWU0Yjg5Yjg0Mzg4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaTI2MzdAZ21haWwuY29tIiwibmJmIjoxNzA2MzU3MzE3LCJleHAiOjE3MDYzNjA5MTd9.VKwv2_2Q3sfDlGey5a6GrEc-QhWTupRRbjX23nBTCXk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjgyMTY0MiwianRpIjoiNzYxNjA3MjUtYjliNS00N2FjLWFmMjktOTQ3OWUwOTI3YTY1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNjgyMTY0MiwiZXhwIjoxNzA2ODI1MjQyfQ.C5ob07-8slQZTfr6n4jguZlFl7l4NgN6wXXsdoCdmKI",
 									"type": "string"
 								}
 							]
@@ -137,7 +137,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Python Course 2024\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_id\": 1,\r\n    \"registration_start\": \"2013-02-02T24\",\r\n    \"registration_end\": \"2014-03-02T24\",\r\n    \"start_date\": \"2013-02-02T24\",\r\n    \"end_date\": \"2014-03-02T24\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Python Course 2024\",\r\n    \"subject_id\": 1,\r\n    \"activity_type_id\": 2,\r\n    \"lecturer_ids\": [\r\n        {\"id\": 1},\r\n        {\"id\": 3}\r\n    ],\r\n    \"registration_start\": \"2013-02-02T24\",\r\n    \"registration_end\": \"2014-03-02T24\",\r\n    \"description\": \"This is a Python Course\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

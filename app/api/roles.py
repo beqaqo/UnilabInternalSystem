@@ -16,7 +16,7 @@ class RolesApi(Resource):
     @jwt_required()
     def get(self):
         if not current_user.check_permission("can_create_roles"):
-            return "You can't create roles", 400
+            return "You can't create roles", 403
         
         users = User.query.options(db.joinedload(User.role)).all()
 
@@ -34,7 +34,7 @@ class RolesApi(Resource):
         parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_roles"):
-            return "You can't create roles", 400
+            return "You can't create roles", 403
 
         user_role = UserRole(user_id=User.query.filter_by(
             email=parser["user_email"]).first().id, role_id=parser["role_id"])
@@ -51,31 +51,33 @@ class RolesApi(Resource):
         parser = parser.parse_args()
 
         if not current_user.check_permission("can_create_roles"):
-            return "Bad request", 400
+            return "You can't create or edit the roles", 403
 
         result = UserRole.query.filter_by(user_id=User.query.filter_by(
             email=parser["user_mail"]).first().id, role_id=parser["role_id"]).first()
 
         if not result:
-            return "Bad request", 400
+            return "Role not found", 404
 
         result.role_id = parser["new_role_id"]
         result.save()
-        return "Success", 200
+
+        return "Successfully creted a Role", 200
 
     @jwt_required()
     def delete(self):
         parser = self.parser.parse_args()
 
         if not current_user.check_permission("can_create_roles"):
-            return "Bad request", 400
+            return "You can't create or delete the roles", 403
 
         result = UserRole.query.filter_by(user_id=User.query.filter_by(
             email=parser["user_mail"]).first().id, role_id=parser["role_id"]).first()
 
         if not result:
-            return "Bad request", 400
+            return "Role not found", 404
 
         result.delete()
         result.save()
-        return "Success", 200
+
+        return "Successfully deleted the Role", 200
