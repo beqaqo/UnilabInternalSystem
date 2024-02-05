@@ -107,3 +107,4 @@ class QuestionForm(BaseModel):
     id = db.Column(db.Integer, primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"))
     form_id = db.Column(db.Integer, db.ForeignKey("forms.id"))
+    order = db.Column(db.Integer, nullable=False)

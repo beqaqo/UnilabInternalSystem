@@ -130,7 +130,7 @@ class QuestionFormApi(Resource):
 
     parser = reqparse.RequestParser()
     parser.add_argument("form_id", required=True, type=int)
-    parser.add_argument("questions_id", required=True, type=int)
+    parser.add_argument("questions_id", required=True, type=int, action="append")
 
     @jwt_required()
     def post(self):
@@ -140,11 +140,14 @@ class QuestionFormApi(Resource):
         if not current_user.check_permission("can_create_forms"):
             return "You can't create Question forms", 403
         
-        question_form = QuestionForm(
-            question_id = request_parser["question_id"],
-            form_id = request_parser["form_id"]
-        )
-        question_form.create()
+        for index, question_id in enumerate(request_parser["questions_id"]):
+            question_form = QuestionForm(
+                question_id = question_id,
+                form_id = request_parser["form_id"],
+                order = index + 1
+            )
+            question_form.create()
+
         question_form.save()
 
         return "Successfully created a Question Form", 200
