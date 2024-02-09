@@ -26,7 +26,7 @@ class User(BaseModel):
     role = db.relationship("Role", secondary="user_roles", backref="roles")  #
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
     question = db.relationship("Question", backref="user")
-    projects = db.relationship("Project", back_populates="user")
+    projects = db.relationship("Project", secondary="project_user", back_populates="user")
     certificates = db.relationship("Certificate", back_populates="user")
     subjects = db.relationship("Subject", secondary="subject_lecturer", back_populates="lecturers")
 
@@ -61,7 +61,7 @@ class User(BaseModel):
         return any(permisions)
 
     def is_admin(self):
-        return self.role and [role.name == "ადმინი" for role in self.role]
+        return any(role.name == "ადმინი" for role in self.role)
 
     def to_json(self):
         user_data = {
