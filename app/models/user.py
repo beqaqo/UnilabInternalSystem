@@ -26,7 +26,7 @@ class User(BaseModel):
     role = db.relationship("Role", secondary="user_roles", backref="roles")  #
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
     question = db.relationship("Question", backref="user")
-    projects = db.relationship("Project", back_populates="user")
+    projects = db.relationship("Project", secondary="project_user", back_populates="user")
     certificates = db.relationship("Certificate", back_populates="user")
 
     # Pupil #

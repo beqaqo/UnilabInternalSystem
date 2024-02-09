@@ -3,15 +3,22 @@ from app.models.base import BaseModel
 
 
 class Project(BaseModel):
-
     __tablename__ = "projects"
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
     description = db.Column(db.String)
     url = db.Column(db.String)
 
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    user = db.relationship("User", back_populates="projects")
+    user = db.relationship("User", secondary="project_user", back_populates="projects")
 
     announcement_id = db.Column(db.Integer, db.ForeignKey("announcements.id"))
     announcement = db.relationship("Announcement", back_populates="projects")
+
+
+class ProjectUser(BaseModel):
+    __tablename__ = "project_user"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.id"))
