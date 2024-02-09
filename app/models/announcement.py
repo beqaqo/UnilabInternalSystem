@@ -74,13 +74,6 @@ class AnnouncementForm(BaseModel):
         }
 
 
-class Subject(BaseModel):
-    __tablename__ = "subjects"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-
-
 class ActivityType(BaseModel):
     __tablename__ = "activity_type"
 
