@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse, inputs
 from flask_jwt_extended import jwt_required, current_user
 from app.models.user import User
-from app.models.subjects import Announcement, AnnouncementForm, AnnouncementLecturer
+from app.models import Announcement, AnnouncementForm, AnnouncementLecturer
 
 
 class AnnouncementApi(Resource):

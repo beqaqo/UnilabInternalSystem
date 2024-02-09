@@ -28,6 +28,7 @@ class User(BaseModel):
     question = db.relationship("Question", backref="user")
     projects = db.relationship("Project", secondary="project_user", back_populates="user")
     certificates = db.relationship("Certificate", back_populates="user")
+    subjects = db.relationship("Subject", secondary="subject_lecturer", back_populates="lecturers")
 
     # Pupil #
     school = db.Column(db.String)
