@@ -24,11 +24,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/registration",
+							"raw": "{{URL}}/api/registration",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"registration"
 							]
 						}
@@ -42,7 +43,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"giorgi@gmail.com\",\r\n    \"password\": \"merebagio\"\r\n}",
+							"raw": "{\r\n    \"email\": \"giorgi@gmail.com\",\r\n    \"password\": \"mereba\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -50,11 +51,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/authorization",
+							"raw": "{{URL}}/api/authorization",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"authorization"
 							]
 						}
@@ -77,11 +79,12 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/refresh_access_token",
+							"raw": "{{URL}}/api/refresh_access_token",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"refresh_access_token"
 							]
 						}
@@ -101,7 +104,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjgyMTY0MiwianRpIjoiNzYxNjA3MjUtYjliNS00N2FjLWFmMjktOTQ3OWUwOTI3YTY1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNjgyMTY0MiwiZXhwIjoxNzA2ODI1MjQyfQ.C5ob07-8slQZTfr6n4jguZlFl7l4NgN6wXXsdoCdmKI",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjg4NzUwOSwianRpIjoiMGZjMWYzNzgtMzMxOS00N2EwLTg4N2ItODc5YTZkZDRmNWI5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNjg4NzUwOSwiZXhwIjoxNzA2ODkxMTA5fQ.NHVPyxITSxea6izRixmkSkFQSip_vfhT-lKJIb7QeT0",
 									"type": "string"
 								}
 							]
@@ -109,11 +112,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/announcement",
+							"raw": "{{URL}}/api/announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"announcement"
 							]
 						}
@@ -145,11 +149,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/announcement",
+							"raw": "{{URL}}/api/announcement",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"announcement"
 							]
 						}
@@ -181,11 +186,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/announcement/{{ID}}",
+							"raw": "{{URL}}/api/announcement/{{ID}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"announcement",
 								"{{ID}}"
 							]
@@ -209,11 +215,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/announcement/{{ID}}",
+							"raw": "{{URL}}/api/announcement/{{ID}}",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"announcement",
 								"{{ID}}"
 							]
@@ -234,7 +241,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjI5ODEzNSwianRpIjoiNTViNmE0YjUtNDA5Mi00ZWU5LTg2ZTUtNDI4NzhkYzRlMzhjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaTI2MzdAZ21haWwuY29tIiwibmJmIjoxNzA2Mjk4MTM1LCJleHAiOjE3MDYzMDE3MzV9.-2Dr4meJp9mAI8qsAYhC_9yQXhTBwyXQxfozkSwfVbg",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjg4NzUwOSwianRpIjoiMGZjMWYzNzgtMzMxOS00N2EwLTg4N2ItODc5YTZkZDRmNWI5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNjg4NzUwOSwiZXhwIjoxNzA2ODkxMTA5fQ.NHVPyxITSxea6izRixmkSkFQSip_vfhT-lKJIb7QeT0",
 									"type": "string"
 								}
 							]
@@ -242,11 +249,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/announcement_form",
+							"raw": "{{URL}}/api/announcement_form",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"announcement_form"
 							]
 						}
@@ -278,11 +286,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/announcement_form",
+							"raw": "{{URL}}/api/announcement_form",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"announcement_form"
 							]
 						}
@@ -310,11 +319,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/form",
+							"raw": "{{URL}}/api/form",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"form"
 							]
 						}
@@ -346,11 +356,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/form",
+							"raw": "{{URL}}/api/form",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"form"
 							]
 						}
@@ -370,7 +381,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjI5ODEzNSwianRpIjoiNTViNmE0YjUtNDA5Mi00ZWU5LTg2ZTUtNDI4NzhkYzRlMzhjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaTI2MzdAZ21haWwuY29tIiwibmJmIjoxNzA2Mjk4MTM1LCJleHAiOjE3MDYzMDE3MzV9.-2Dr4meJp9mAI8qsAYhC_9yQXhTBwyXQxfozkSwfVbg",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNzIzMjM0NSwianRpIjoiZTdiYTg0MzMtNzRmOS00NGZlLWEwYjAtOTBiYTY3NTgxOTRiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNzIzMjM0NSwiZXhwIjoxNzA3MjM1OTQ1fQ.O9op2rhc6cF5P_kIEUqqN1FsbAaIPpOQzHCMpNm6kLM",
 									"type": "string"
 								}
 							]
@@ -378,11 +389,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/question",
+							"raw": "{{URL}}/api/question",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"question"
 							]
 						}
@@ -397,7 +409,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNjI5ODEzNSwianRpIjoiNTViNmE0YjUtNDA5Mi00ZWU5LTg2ZTUtNDI4NzhkYzRlMzhjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Imdpb3JnaTI2MzdAZ21haWwuY29tIiwibmJmIjoxNzA2Mjk4MTM1LCJleHAiOjE3MDYzMDE3MzV9.-2Dr4meJp9mAI8qsAYhC_9yQXhTBwyXQxfozkSwfVbg",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNzIzMjkyNCwianRpIjoiNzkyZDY2MjEtN2VhNi00NGVkLWIyMjEtZjU1ZjA1MGMzNWQ5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNzIzMjkyNCwiZXhwIjoxNzA3MjM2NTI0fQ.BTlSPPATAwsDg7wVNM77EBm77YgXyV0WDojXTrjB5Uk",
 									"type": "string"
 								}
 							]
@@ -414,12 +426,50 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/question",
+							"raw": "{{URL}}/api/question",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Question Form",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwNzIzMjkyNCwianRpIjoiNzkyZDY2MjEtN2VhNi00NGVkLWIyMjEtZjU1ZjA1MGMzNWQ5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InNlcmdvLnNlcmdvQGdtYWlsLmNvbSIsIm5iZiI6MTcwNzIzMjkyNCwiZXhwIjoxNzA3MjM2NTI0fQ.BTlSPPATAwsDg7wVNM77EBm77YgXyV0WDojXTrjB5Uk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"form_id\": 1,\r\n    \"questions_id\": [\r\n        1, 2\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/question_form",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"question_form"
 							]
 						}
 					},
@@ -446,11 +496,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/user_answer",
+							"raw": "{{URL}}/api/user_answer",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"user_answer"
 							]
 						}
@@ -482,11 +533,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/user_answer",
+							"raw": "{{URL}}/api/user_answer",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"user_answer"
 							]
 						}
@@ -523,11 +575,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/send_confirm_email",
+							"raw": "{{URL}}/api/send_confirm_email",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"send_confirm_email"
 							]
 						}
@@ -559,11 +612,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/receive_confirm_email",
+							"raw": "{{URL}}/api/receive_confirm_email",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"receive_confirm_email"
 							]
 						}
@@ -581,11 +635,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/registration_activities",
+							"raw": "{{URL}}/api/registration_activities",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"registration_activities"
 							]
 						}
@@ -613,11 +668,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/certificate",
+							"raw": "{{URL}}/api/certificate",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"certificate"
 							]
 						}
@@ -649,11 +705,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/certificate",
+							"raw": "{{URL}}/api/certificate",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"certificate"
 							]
 						}
@@ -681,11 +738,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/user_profile",
+							"raw": "{{URL}}/api/user_profile",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"user_profile"
 							]
 						}
@@ -717,11 +775,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/user_profile",
+							"raw": "{{URL}}/api/user_profile",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"user_profile"
 							]
 						}
@@ -749,11 +808,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/roles",
+							"raw": "{{URL}}/api/roles",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"roles"
 							]
 						}
@@ -785,11 +845,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/roles",
+							"raw": "{{URL}}/api/roles",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
+								"api",
 								"roles"
 							]
 						}

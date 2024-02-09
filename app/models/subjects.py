@@ -59,6 +59,7 @@ class AnnouncementLecturer(BaseModel):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     announcement_id = db.Column(db.Integer, db.ForeignKey("announcements.id"))
 
+
 class AnnouncementForm(BaseModel):
     __tablename__ = "announcements_form"
 
