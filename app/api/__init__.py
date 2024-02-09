@@ -7,6 +7,7 @@ from app.api.roles import RolesApi
 from app.api.announcement import AnnouncementApi, AnnouncementFormApi
 from app.api.questions import QuestionApi, FormApi, UserAnswerApi, QuestionFormApi
 from app.api.certificate import CertificateApi
+from app.api.subjects import SubjectApi
 from app.api.projects import ProjectApi
 
 
@@ -27,3 +28,4 @@ api.add_resource(FormApi, "/api/form")
 api.add_resource(UserAnswerApi, "/api/user_answer")
 api.add_resource(CertificateApi, "/api/certificate")
 api.add_resource(ProjectApi, "/api/project")
+api.add_resource(SubjectApi, "/api/subject")

@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse, inputs
 from datetime import date
-from app.models.subjects import Announcement
+from app.models import Announcement
 
 
 class RegistrationActivitiesApi(Resource):
