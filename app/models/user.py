@@ -1,3 +1,5 @@
+import uuid
+
 from app.extensions import db
 from app.models.base import BaseModel
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,6 +10,7 @@ class User(BaseModel):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)  #
+    uuid = db.Column(db.String, default=lambda: str(uuid.uuid4()))
     name = db.Column(db.String)  #
     lastname = db.Column(db.String)  #
     email = db.Column(db.String)  #
@@ -66,6 +69,7 @@ class User(BaseModel):
     def to_json(self):
         user_data = {
             "id": self.id,
+            "uuid": self.uuid,
             "name": self.name,
             "lastname": self.lastname,
             "email": self.email,
@@ -87,7 +91,8 @@ class User(BaseModel):
             "faculty": self.faculty,
             "program": self.program,
             "semester": self.semester,
-            "degree_level": self.degree_level
+            "degree_level": self.degree_level,
+            "projects": [project for project in self.projects]
         }
 
         return user_data

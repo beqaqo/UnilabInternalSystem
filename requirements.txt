@@ -11,3 +11,4 @@ requests==2.28.2
 SQLAlchemy==2.0.1
 Werkzeug==2.2.2
 gunicorn
+pillow==10.2.0
