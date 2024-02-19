@@ -37,7 +37,8 @@ class ProjectApi(Resource):
                 description=request_parser["description"],
                 url=request_parser["url"],
                 date=date,
-                type=request_parser["type"]
+                type=request_parser["type"],
+                # announcement_id=1
             )   
             project.create()
             project.save()

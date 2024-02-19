@@ -5,4 +5,3 @@ from app.models.roles import Role, UserRole
 from app.models.projects import Project, ProjectUser
 from app.models.base import BaseModel
 from app.models.subject import Subject, SubjectLecturer
-from app.models.portfolio import Portfolio

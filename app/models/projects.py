@@ -34,7 +34,7 @@ class Project(BaseModel):
         }
         
         return data
-    
+
 
 class ProjectUser(BaseModel):
     __tablename__ = "project_user"

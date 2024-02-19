@@ -26,6 +26,8 @@ class User(BaseModel):
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
 
+    about_me = db.Column(db.String)
+
     role = db.relationship("Role", secondary="user_roles", backref="roles")  #
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
     question = db.relationship("Question", backref="user")
@@ -92,7 +94,8 @@ class User(BaseModel):
             "program": self.program,
             "semester": self.semester,
             "degree_level": self.degree_level,
-            "projects": [project for project in self.projects]
+            "projects": [project for project in self.projects],
+            "about_me": self.about_me
         }
 
         return user_data
