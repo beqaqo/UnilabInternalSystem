@@ -104,21 +104,6 @@ class RegistrationApi(Resource):
             "roles": roles
         }
 
-        # country = [{object.id: object.country_name}
-        #            for object in Country.query.all()]
-        # region = [{object.id: object.region_name}
-        #           for object in Region.query.all()]
-        # city = [{object.id: object.city_name} for object in City.query.all()]
-        # university = [{object.id: object.university_name}
-        #               for object in University.query.all()]
-
-        # data = {
-        #     "countries": country,
-        #     "regions": region,
-        #     "cities": city,
-        #     "universities": university
-        # }
-
         return data, 200
 
 
