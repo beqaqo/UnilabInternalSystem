@@ -1,47 +1,54 @@
-from flask_restful import Resource, reqparse, inputs
+from flask_restx import Resource, reqparse, inputs
+from flask import render_template
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+
 from app.models.user import User, Country, Region, City, University
 from app.models.roles import UserRole
 from app.api.validators.authentication import check_validators
 from app.api.validators.mail import create_key, send_email
-from flask import render_template
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from app.extensions import api
 
 
+ns = api.namespace('Registration', description='Api endpoint for Registration related operations')
+
+parser = reqparse.RequestParser()
+parser.add_argument("name", required=True, type=str)
+parser.add_argument("lastname", required=True, type=str)
+parser.add_argument("email", required=True, type=str)
+parser.add_argument("number", required=True, type=str)
+parser.add_argument("personal_id", required=True, type=str)
+parser.add_argument("date", required=True,
+                        type=inputs.datetime_from_iso8601)
+parser.add_argument("gender", required=True, type=str)
+
+parser.add_argument("password", required=True, type=str)
+parser.add_argument("conf_password", required=True, type=str)
+
+parser.add_argument("country_id", required=True, type=int)
+parser.add_argument("region_id", required=True, type=int)
+parser.add_argument("city_id", required=True, type=int)
+parser.add_argument("address", required=True, type=str)
+
+parser.add_argument("role_id", required=True, type=int)
+
+parser.add_argument("school", required=True, type=str)
+parser.add_argument("grade", required=True, type=str)
+parser.add_argument("parent_name", required=True, type=str)
+parser.add_argument("parent_lastname", required=True, type=str)
+parser.add_argument("parent_number", required=True, type=str)
+
+parser.add_argument("university_id", required=True, type=int)
+parser.add_argument("faculty", required=True, type=str)
+parser.add_argument("program", required=True, type=str)
+parser.add_argument("semester", required=True, type=str)
+parser.add_argument("degree_level", required=True, type=str)
+
+parser.add_argument("terms", required=True, type=bool)
+
+@ns.route('/registration')
 class RegistrationApi(Resource):
 
-    parser = reqparse.RequestParser()
-    parser.add_argument("name", required=True, type=str)
-    parser.add_argument("lastname", required=True, type=str)
-    parser.add_argument("email", required=True, type=str)
-    parser.add_argument("number", required=True, type=str)
-    parser.add_argument("personal_id", required=True, type=str)
-    parser.add_argument("date", required=True,
-                        type=inputs.datetime_from_iso8601)
-    parser.add_argument("gender", required=True, type=str)
-
-    parser.add_argument("password", required=True, type=str)
-    parser.add_argument("conf_password", required=True, type=str)
-
-    parser.add_argument("country_id", required=True, type=int)
-    parser.add_argument("region_id", required=True, type=int)
-    parser.add_argument("city_id", required=True, type=int)
-    parser.add_argument("address", required=True, type=str)
-
-    parser.add_argument("role_id", required=True, type=int)
-
-    parser.add_argument("school", required=True, type=str)
-    parser.add_argument("grade", required=True, type=str)
-    parser.add_argument("parent_name", required=True, type=str)
-    parser.add_argument("parent_lastname", required=True, type=str)
-    parser.add_argument("parent_number", required=True, type=str)
-
-    parser.add_argument("university_id", required=True, type=int)
-    parser.add_argument("faculty", required=True, type=str)
-    parser.add_argument("program", required=True, type=str)
-    parser.add_argument("semester", required=True, type=str)
-    parser.add_argument("degree_level", required=True, type=str)
-
-    parser.add_argument("terms", required=True, type=bool)
+  
 
     def post(self):
 
