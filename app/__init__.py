@@ -4,7 +4,8 @@ from app.extensions import db, migrate, mail, jwt
 from app.commands import init_db, populate_db
 from app.api import api
 from app.models import User
-
+from app.extensions import api
+from app.api import  AuthorizationApi
 
 COMMANDS = [init_db, populate_db]
 
@@ -30,7 +31,7 @@ def register_extensions(app):
     # Flask-Migrate
     migrate.init_app(app, db)
 
-    # Flak-RESTful
+    # Flask-restX
     api.init_app(app)
     
     # Flask-JWT-Extended
