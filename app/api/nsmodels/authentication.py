@@ -2,8 +2,7 @@ from flask_restx import  reqparse, inputs, fields
 from app.extensions import api
 
 
-reg_ns = api.namespace('Registration', description='Api endpoint for Registration related operations')
-auth_ns = api.namespace('authentication', description='Authentication related operations')
+reg_ns = api.namespace('Auth', description='Api endpoint for Authentication related operations')
 
 
 
@@ -54,8 +53,8 @@ reg_parser.add_argument("password", required=True, type=str, help="Password exam
 reg_parser.add_argument("conf_password", required=True, type=str, help="Confirm password (should match password)")
 
 reg_parser.add_argument("country_id", required=True, type=int, help="Country ID example: 1")
-reg_parser.add_argument("region_id", required=True, type=int, help="Region ID example: 1")
-reg_parser.add_argument("city_id", required=True, type=int, help="City ID example: 1")
+reg_parser.add_argument("region_id", required=True, type=int, help="Region ID example: 11 (cities and regions should be a match)")
+reg_parser.add_argument("city_id", required=True, type=int, help="City ID example: 2 (cities and regions should be a match)")
 reg_parser.add_argument("address", required=True, type=str, help="Address example: 123 Main St")
 
 reg_parser.add_argument("role_id", required=True, type=int, help="Role ID example: 2  (1- is for admin)")

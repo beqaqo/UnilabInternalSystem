@@ -1,2 +1,2 @@
 from app.extensions import api
-from app.api.authentication import  AuthorizationApi
+from app.api.authentication import  AuthorizationApi, RegistrationApi, AccessTokenRefreshApi

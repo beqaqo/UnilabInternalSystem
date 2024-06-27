@@ -2,37 +2,26 @@ from flask_restx import Resource
 from flask import render_template
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 
-from app.models.user import User, Country, Region, City, University
-from app.models.roles import UserRole
-from app.api.validators.authentication import check_validators
-from app.api.validators.mail import create_key, send_email
+
+from app.models import User, Country, UserRole, Role
+from app.api.validators import check_validators,create_key, send_email
 from app.extensions import api
-from app.api.nsmodels.authentication import reg_ns, registration_model, reg_parser, auth_ns, auth_parser
+from app.api.nsmodels import reg_ns, registration_model, reg_parser, auth_parser
 
 
-reg_ns = reg_ns
-auth_ns = auth_ns
 
-registration_model = registration_model
-reg_parser = reg_parser
-auth_parser = auth_parser
 
 
 @reg_ns.route('/registration')
-@reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})  # also we can remove this decorator and above and keep only @auth_ns.expect(registration_model) 
+@reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
 class RegistrationApi(Resource):
-
-  
-    # @auth_ns.expect(registration_model)    
-    @reg_ns.doc(parser = reg_parser)
+    @reg_ns.doc(parser=reg_parser)
     def post(self):
-
         args = reg_parser.parse_args()
         validation = check_validators(args)
-
         if validation:
             return validation
-    
+
         new_user = User(
             name=args["name"],
             lastname=args["lastname"],
@@ -61,23 +50,17 @@ class RegistrationApi(Resource):
         new_user.create()
         new_user.save()
 
-        
         new_user_role = UserRole(user_id=new_user.id, role_id=args["role_id"])
-
         new_user_role.create()
         new_user_role.save()
 
         key = create_key(args["email"])
         html = render_template('_activation_massage.html', key=key)
-
-        send_email(subject="Confirm your account",
-                html=html, recipients=args["email"])
+        send_email(subject="Confirm your account", html=html, recipients=args["email"])
 
         return "Successfully registered a User", 200
-        
-
+  
     def get(self):
-
         locations = Country.get_locations()
         roles = Role.get_roles()
 
@@ -88,36 +71,33 @@ class RegistrationApi(Resource):
 
         return data, 200
 
-
+@reg_ns.route('/login')
 @reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
-@auth_ns.route('/login')
 class AuthorizationApi(Resource):
-    
-    @auth_ns.doc(parser = auth_parser)
+    @reg_ns.doc(parser=auth_parser)
     def post(self):
-
         args = auth_parser.parse_args()
 
         user = User.query.filter_by(email=args["email"]).first()
         if not user:
             return "User with this email does not exist", 400
-        
 
         if user.check_password(args["password"]):
             access_token = create_access_token(identity=user)
             refresh_token = create_refresh_token(identity=user)
-            responce = {
+            response = {
                 "access_token": access_token,
                 "refresh_token": refresh_token
             }
-            return responce
+            return response
         else:
             return "Password is incorrect", 400
 
+@reg_ns.route('/refresh')
 
 class AccessTokenRefreshApi(Resource):
-
-    @jwt_required(refresh=True)
+    @jwt_required()
+    @reg_ns.doc(security='JsonWebToken')
     def post(self):
         identity = get_jwt_identity()
         access_token = create_access_token(identity=identity)
