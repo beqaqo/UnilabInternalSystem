@@ -1,40 +1,14 @@
-from flask_restful import Resource, reqparse, inputs
+from flask_restx import Resource
 from app.api.validators.authentication import check_validators
 from flask_jwt_extended import jwt_required, current_user
 
+from app.extensions import api
+from app.api.nsmodels import profile_ns, profile_parser
 
+
+@profile_ns.route('/profile')
+@profile_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
 class UserProfileApi(Resource):
-    parser = reqparse.RequestParser()
-
-    parser.add_argument("name", required=True, type=str)
-    parser.add_argument("lastname", required=True, type=str)
-    parser.add_argument("email", required=True, type=str)
-    parser.add_argument("number", required=True, type=str)
-    parser.add_argument("personal_id", required=True, type=str)
-    parser.add_argument("date", required=True,type=inputs.datetime_from_iso8601)
-    parser.add_argument("gender", required=True, type=str)
-
-    parser.add_argument("password", required=True, type=str)
-    parser.add_argument("password_new", required=True, type=str)
-
-    parser.add_argument("country_id", required=True, type=int)
-    parser.add_argument("region_id", required=True, type=int)
-    parser.add_argument("city_id", required=True, type=int)
-    parser.add_argument("address", required=True, type=str)
-
-    parser.add_argument("school", required=True, type=str)
-    parser.add_argument("grade", required=True, type=str)
-    parser.add_argument("parent_name", required=True, type=str)
-    parser.add_argument("parent_lastname", required=True, type=str)
-    parser.add_argument("parent_number", required=True, type=str)
-
-    parser.add_argument("university_id", required=True, type=int)
-    parser.add_argument("faculty", required=True, type=str)
-    parser.add_argument("program", required=True, type=str)
-    parser.add_argument("semester", required=True, type=str)
-    parser.add_argument("degree_level", required=True, type=str)
-
-    parser.add_argument("about_me", required=True, type=str)
 
     @jwt_required()
     def get(self):
@@ -45,9 +19,10 @@ class UserProfileApi(Resource):
         return "User not found", 404
 
     @jwt_required()
+    @profile_ns.doc(parser=profile_parser)
     def put(self):
 
-        parser = self.parser.parse_args()
+        parser = profile_parser.parse_args()
         validation = check_validators(parser, user_check=False, role_check = False)
 
         if validation:
