@@ -11,6 +11,7 @@ from app.api.nsmodels import profile_ns, profile_parser
 class UserProfileApi(Resource):
 
     @jwt_required()
+    @profile_ns.doc(security='JsonWebToken')
     def get(self):
         if current_user:
             user_data = current_user.to_json()
@@ -19,11 +20,12 @@ class UserProfileApi(Resource):
         return "User not found", 404
 
     @jwt_required()
+    @profile_ns.doc(security='JsonWebToken')
     @profile_ns.doc(parser=profile_parser)
     def put(self):
 
         parser = profile_parser.parse_args()
-        validation = check_validators(parser, user_check=False, role_check = False)
+        validation = check_validators(parser, user_check=False, role_check = False, terms_check = False)
 
         if validation:
             return validation
