@@ -57,7 +57,7 @@ def parent_validator(data_1, data_2, model, parent):
         return False  
     
 
-def check_validators(parser, user_check=True, role_check=True):
+def check_validators(parser, user_check=True, role_check=True, terms_check=True):
 
     if not name_validator(parser["name"]):
         return "Invalid name", 400
@@ -107,9 +107,11 @@ def check_validators(parser, user_check=True, role_check=True):
 
         if parser["role_id"] == 5 and not number_validator(parser["parent_number"]):
             return "Invalid parent_number", 400
-
-    if not parser["terms"]:
-        return "Not accepted terms of service", 400
+    
+    # terms არ არის userprofile -ს PUT -ში, ამიტომ საჭიროა განცალკევება
+    if terms_check:
+        if not parser["terms"]:
+            return "Not accepted terms of service", 400
 
     if user_check and parser["password"] != parser["conf_password"]:
         return "Passwords do not match", 400
