@@ -1,9 +1,14 @@
-from flask_restful import Resource, reqparse, inputs
+from flask_restx import Resource, reqparse, inputs
 from datetime import date
 from app.models import Announcement
+from app.api.nsmodels import ongoing_activities
 
 
+@ongoing_activities.route("/ongoing_activities")
 class RegistrationActivitiesApi(Resource):
+    
+   
+    @ongoing_activities.doc(responses={200: 'OK'})
     def get(self):
         current_date = date.today()
 

@@ -2,7 +2,7 @@ from flask_restx import  reqparse, inputs, fields
 from app.extensions import api
 
 
-reg_ns = api.namespace('Auth', description='Api endpoint for Authentication related operations')
+reg_ns = api.namespace('Authentification', description='ავთენთიპიკაციასთან დაკავშირებული ოპერაციები',path = '/Api')
 
 
 
