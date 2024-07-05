@@ -1,21 +1,13 @@
-from flask_restful import Resource, reqparse, inputs
+from flask_restx import Resource, reqparse, inputs
 from flask_jwt_extended import jwt_required, current_user
-from app.models.user import User
-from app.models import Announcement, AnnouncementForm, AnnouncementLecturer
+from app.models import User, Announcement, AnnouncementForm, AnnouncementLecturer
+from app.api.nsmodels import announcement_parser, announcement_ns
 
 
+
+@announcement_ns.route('/announcement')
+@announcement_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
 class AnnouncementApi(Resource):
-
-    parser = reqparse.RequestParser()
-    parser.add_argument("name", required=True, type=str)
-    parser.add_argument("subject_id", required=True, type=int)
-    parser.add_argument("activity_type_id", required=True, type=int)
-    parser.add_argument("lecturer_ids", required=True, action="append", type=dict)
-    # parser.add_argument("registration_start", required=True, type=inputs.datetime_from_iso8601)
-    # parser.add_argument("registration_end", required=True, type=inputs.datetime_from_iso8601)
-    parser.add_argument("start_date", required=True, type=inputs.datetime_from_iso8601)
-    parser.add_argument("end_date", required=True, type=inputs.datetime_from_iso8601)
-    parser.add_argument("description", required=False, type=str)
 
     @jwt_required()
     def get(self):
@@ -26,27 +18,28 @@ class AnnouncementApi(Resource):
 
         return announcements, 200
 
+    @announcement_ns.doc(parser = announcement_parser)
     @jwt_required()
     def post(self):
-        request_parser = self.parser.parse_args()
+        args = announcement_parser.parse_args()
 
         if not current_user.check_permission("can_create_activity"):
             return "You can't create Announcements", 403
 
         new_announcement = Announcement(
-            name=request_parser["name"],
-            subject_id=request_parser["subject_id"],
-            activity_type_id=request_parser["activity_type_id"],
-            # registration_start=request_parser["registration_start"],
-            # registration_end=request_parser["registration_end"],
-            start_date=request_parser["start_date"],
-            end_date=request_parser["end_date"],
-            description=request_parser["description"]
+            name=args["name"],
+            subject_id=args["subject_id"],
+            activity_type_id=args["activity_type_id"],
+            # registration_start=args["registration_start"],
+            # registration_end=args["registration_end"],
+            start_date=args["start_date"],
+            end_date=args["end_date"],
+            description=args["description"]
         )
         new_announcement.create()
         new_announcement.save()
 
-        for lecturer in request_parser["lecturer_ids"]:
+        for lecturer in args["lecturer_ids"]:
             announcement_user = AnnouncementLecturer(
                 user_id=lecturer["id"],
                 announcement_id=new_announcement.id

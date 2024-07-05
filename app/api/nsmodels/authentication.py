@@ -2,7 +2,7 @@ from flask_restx import  reqparse, inputs, fields
 from app.extensions import api
 
 
-reg_ns = api.namespace('Authentification', description='ავთენთიპიკაციასთან დაკავშირებული ოპერაციები',path = '/Api')
+reg_ns = api.namespace('Authentification', description='ავთენთიპიკაციასთან დაკავშირებული ოპერაციები',path = '/api')
 
 
 
@@ -22,16 +22,16 @@ registration_model = reg_ns.model('Registration', {
     'city_id': fields.Integer(required=True, description='City ID',example='1'),
     'address': fields.String(required=True, description='Address',example='მისამართი..'),
     'role_id': fields.Integer(required=True, description='Role ID' , example = 2),
-    'school': fields.String(required=True, description='School' ,example = '1 public high school'),
+    'school': fields.String(required=True, description='School' ,example = '1 საჯარო სკოლა'),
     'grade': fields.String(required=True, description='Grade' , example = "10"),
-    'parent_name': fields.String(required=True, description='Parent\'s name', example = "Daviti"),
-    'parent_lastname': fields.String(required=True, description='Parent\'s last name', example = "gvaradze"),
+    'parent_name': fields.String(required=True, description='Parent\'s name', example = "დავითი"),
+    'parent_lastname': fields.String(required=True, description='Parent\'s last name', example = "გვარაძე"),
     'parent_number': fields.String(required=True, description='Parent\'s phone number', example = "599243115"),
     'university_id': fields.Integer(required=True, description='University ID', example = 1),
-    'faculty': fields.String(required=True, description='Faculty', example = "Science"),
+    'faculty': fields.String(required=True, description='Faculty', example = "კომპიუტერული მეცნიერება"),
     'program': fields.String(required=True, description='Program', example = "Ml modeling"),
-    'semester': fields.String(required=True, description='Semester', example = "Summer 2024"),
-    'degree_level': fields.String(required=True, description='Degree level', example = "Masters"),
+    'semester': fields.String(required=True, description='Semester', example = "ზაფხული 2024"),
+    'degree_level': fields.String(required=True, description='Degree level', example = "მაგისტრი"),
     'terms': fields.Boolean(required=True, description='Terms and conditions acceptance'),
 })
 
@@ -70,6 +70,7 @@ reg_parser.add_argument("faculty", required=True, type=str, help="Faculty exampl
 reg_parser.add_argument("program", required=True, type=str, help="Program example: Computer Science")
 reg_parser.add_argument("semester", required=True, type=str, help="Semester example: 1st Semester ")
 reg_parser.add_argument("degree_level", required=True, type=str, help="Degree level example: Bachelor")
+# reg_parser.add_argument('about me', required = True, type = str, help = 'my hobbies, etc '  )
 
 reg_parser.add_argument("terms", required=True, type=bool, help="Terms and conditions acceptance example: true/false")
 
