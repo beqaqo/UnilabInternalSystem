@@ -1,13 +1,15 @@
-from flask_restful import Resource, reqparse
-from flask_jwt_extended import jwt_required, current_user
+from flask_restx import Resource
+from app.extensions import api
 
-from app.extensions import db
 from app.models import User, Project
+from app.api.nsmodels import portfolio_ns, portfolio_model
 
 
+@portfolio_ns.route('/portfolio/<string:uuid>')
+@portfolio_ns.doc(responses={200: 'OK', 400: 'Invalid Argument', 404: 'User Not Found'})
 class PortfolioApi(Resource):
 
-    @jwt_required()
+    @portfolio_ns.marshal_with(portfolio_model)
     def get(self, uuid):
         user: User = User.query.filter_by(uuid=uuid).first()
 
@@ -15,7 +17,7 @@ class PortfolioApi(Resource):
             project = Project.query.join(Project.user).filter(User.uuid == uuid).first()
 
             data = {
-                "fullname": user.name + user.lastname,
+                "fullname": f"{user.name} {user.lastname}",
                 "email": user.email,
                 "role": project.announcement.name,
                 "about_me": user.about_me,
