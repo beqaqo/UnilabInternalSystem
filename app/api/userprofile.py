@@ -2,7 +2,6 @@ from flask_restx import Resource
 from app.api.validators.authentication import check_validators
 from flask_jwt_extended import jwt_required, current_user
 
-from app.extensions import api
 from app.api.nsmodels import profile_ns, profile_model, profile_parser
 
 

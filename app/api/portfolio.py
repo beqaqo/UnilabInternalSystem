@@ -1,5 +1,4 @@
 from flask_restx import Resource
-from app.extensions import api
 
 from app.models import User, Project
 from app.api.nsmodels import portfolio_ns, portfolio_model
