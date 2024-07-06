@@ -1,21 +1,16 @@
-from flask_restful import Resource, reqparse
+from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required, current_user
 from app.models import Certificate
+from app.api.nsmodels.certificate import certificate_ns, parser
 
 
+@certificate_ns.route('/certificate')
 class CertificateApi(Resource):
 
-    parser = reqparse.RequestParser()
-    parser.add_argument("user_id", required=True, type=str)
-    parser.add_argument("announcement_id", required=True, type=str)
-
     @jwt_required()
+    @certificate_ns.doc(security='JsonWebToken', parser=parser)
     def get(self):
-
-        get_parser = reqparse.RequestParser()
-        get_parser.add_argument("user_id", type=int, required=False, location="args")
-
-        received_arguments = get_parser.parse_args()
+        received_arguments = parser.parse_args()
         certificates = Certificate.query
 
         if received_arguments["user_id"] and current_user.is_admin:
@@ -33,8 +28,9 @@ class CertificateApi(Resource):
         return certificates_data, 200
 
     @jwt_required()
+    @certificate_ns.doc(security='JsonWebToken', parser=parser)
     def post(self):
-        request_parser = self.parser.parse_args()
+        request_parser = parser.parse_args()
 
         if not current_user.check_permission("can_create_certificates"):
             return "You can't create Certificates", 403
