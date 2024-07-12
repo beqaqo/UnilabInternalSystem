@@ -1,13 +1,13 @@
 from flask import Flask
 from app.config import Config
 from app.extensions import db, migrate, mail, jwt
-from app.commands import init_db, populate_db
+from app.commands import init_db, populate_db, create_admin, create_lecturer 
 from app.api import api
 from app.models import User
 from app.extensions import api
 from app.api import  AuthorizationApi, RegistrationApi,AccessTokenRefreshApi, RegistrationActivitiesApi, AnnouncementApi
 
-COMMANDS = [init_db, populate_db]
+COMMANDS = [init_db, populate_db, create_admin, create_lecturer ]
 
 
 def create_app():

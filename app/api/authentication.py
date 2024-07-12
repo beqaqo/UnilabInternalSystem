@@ -14,6 +14,7 @@ from app.api.nsmodels import reg_ns, registration_model, reg_parser, auth_parser
 
 @reg_ns.route('/registration')
 @reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
+@reg_ns.expect(registration_model)
 class RegistrationApi(Resource):
     @reg_ns.doc(parser=reg_parser)
     def post(self):

@@ -9,10 +9,10 @@ class Announcement(BaseModel):
     name = db.Column(db.String)
     subject_id = db.Column(db.Integer, db.ForeignKey("subjects.id"))
     activity_type_id = db.Column(db.Integer, db.ForeignKey("activity_type.id"))
-    registration_start = db.Column(db.Date)  # ?
-    registration_end = db.Column(db.Date)  # ?
-    start_date = db.Column(db.Date)
-    end_date = db.Column(db.Date)
+    registration_start = db.Column(db.DateTime)  # ?
+    registration_end = db.Column(db.DateTime)  # ?
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
     description = db.Column(db.Text)
 
     projects = db.relationship("Project", back_populates="announcement")
