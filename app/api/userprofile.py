@@ -2,8 +2,7 @@ from flask_restx import Resource
 from app.api.validators.authentication import check_validators
 from flask_jwt_extended import jwt_required, current_user
 
-from app.extensions import api
-from app.api.nsmodels import profile_ns, profile_parser
+from app.api.nsmodels import profile_ns, profile_model, profile_parser
 
 
 @profile_ns.route('/profile')
@@ -12,6 +11,7 @@ class UserProfileApi(Resource):
 
     @jwt_required()
     @profile_ns.doc(security='JsonWebToken')
+    @profile_ns.marshal_with(profile_model)
     def get(self):
         if current_user:
             user_data = current_user.to_json()

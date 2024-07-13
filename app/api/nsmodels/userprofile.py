@@ -2,7 +2,7 @@ from flask_restx import  reqparse, inputs, fields
 from app.extensions import api
 
 
-profile_ns = api.namespace('Profile', description='Api endpoint for User Profile related operations')
+profile_ns = api.namespace('Profile', description='Api endpoint for User Profile related operations', path="/api")
 
 profile_model = profile_ns.model('Profile', {
     'name': fields.String(required=True, description='First name',example='რომა'),
