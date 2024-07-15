@@ -68,6 +68,9 @@ class User(BaseModel):
 
     def is_admin(self):
         return any(role.name == "ადმინი" for role in self.role)
+    
+    def has_role(self, role_name):
+        return any(role.name == role_name for role in self.role)
 
     def to_json(self):
         user_data = {

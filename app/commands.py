@@ -1,4 +1,5 @@
 from flask.cli import with_appcontext
+from werkzeug.security import generate_password_hash
 from app.extensions import db
 from app.models import User, Country, Region, City, University
 from app.models import Role, UserRole
@@ -153,3 +154,91 @@ def populate_db():
         user_role.save()
 
     click.echo("Entries Created!")
+
+@click.command("create_admin")
+@with_appcontext
+def create_admin():
+    click.echo("Creating admin user")
+    
+    # Create the admin user
+    admin_user_ = User(
+        name='goga',
+        lastname='saldadze',
+        email='saldadzegogaa@gmail.com',
+        number='598776655',
+        personal_id='01009098873',
+        date=datetime.now(),
+        gender='Male',
+        password='saldadze',  
+        country_id=1,
+        region_id=11,
+        city_id=2,
+        address='bakh 230',
+        school='195 public',
+        grade='10 grade',
+        parent_name='john',
+        parent_lastname='saldadze',
+        parent_number='599788777',
+        university_id=2,
+        faculty='comp eng',
+        program='ml',
+        semester='fall 2024',
+        degree_level='bachelor'
+    )
+    admin_user_.create()
+    admin_user_.save()
+
+
+   
+    admin_role = Role.query.get(1)
+    user_role_ = UserRole(user_id=admin_user_.id, role_id=admin_role.id)
+    user_role_.create()
+    user_role_.save()
+    
+    click.echo("Admin user created")
+
+
+@click.command("create_lecturer")
+@with_appcontext
+def create_lecturer():
+    click.echo("Creating lecturer user")
+    
+    # Create the lecturer user
+    lecturer_user = User(
+        name='LecturerName',
+        lastname='LecturerLastName',
+        email='lecturer@example.com',
+        number='123456789',
+        personal_id='1234567890',
+        date=datetime.now(),
+        gender='Male',
+        password='lecturer_password',  
+        country_id=1,
+        region_id=11,
+        city_id=2,
+        address='123 Lecturer St',
+        school='Lecturer School',
+        grade='Lecturer Grade',
+        parent_name='Parent Name',
+        parent_lastname='Parent Lastname',
+        parent_number='987654321',
+        university_id=2,
+        faculty='Computer Science',
+        program='Machine Learning',
+        semester='Fall 2024',
+        degree_level='Bachelor'
+    )
+    lecturer_user.create()
+    lecturer_user.save()
+
+    # Assign the lecturer role (assuming role_id for lecturer is 3)
+    lecturer_role = Role.query.get(3)
+    if lecturer_role:
+        user_role = UserRole(user_id=lecturer_user.id, role_id=lecturer_role.id)
+        user_role.create()
+        user_role.save()
+        click.echo("Lecturer user created")
+    else:
+        click.echo("Lecturer role not found. Make sure role_id 3 corresponds to lecturer role.")
+
+
