@@ -6,19 +6,14 @@ from uuid import uuid4
 
 from app.models import Subject, SubjectLecturer
 from app.config import Config
+from app.api.nsmodels import subjects_ns, subjects_parser
 
 
 class SubjectApi(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument("name", required=True, location="form")
-    parser.add_argument("lecturers_id", required=True, type=int, action="append", location="form")
-    parser.add_argument("course_syllabus", type=str, location="files")
-    parser.add_argument("internship_syllabus", type=str, location="files")
-    parser.add_argument("tlt_syllabus", type=str, location="files")
-    parser.add_argument("school_syllabus", type=str, location="files")
-    # Additional Links
 
     @jwt_required()
+    @subjects_ns.doc(security='JsonWebToken')
+    @subjects_ns.doc(parser=subjects_parser)
     def post(self):
         request_parser = self.parser.parse_args()
         syllabus_list = [
