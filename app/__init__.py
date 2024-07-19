@@ -5,7 +5,6 @@ from app.commands import init_db, populate_db
 from app.api import api
 from app.models import User
 from app.extensions import api
-from app.api import  AuthorizationApi, RegistrationApi,AccessTokenRefreshApi, RegistrationActivitiesApi
 
 COMMANDS = [init_db, populate_db]
 

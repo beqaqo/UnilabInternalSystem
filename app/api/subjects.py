@@ -1,14 +1,14 @@
-from flask_restful import Resource, reqparse
+from flask_restx import Resource
 from flask_jwt_extended import jwt_required, current_user
-from werkzeug.datastructures import FileStorage
 from flask import request
 from uuid import uuid4
 
 from app.models import Subject, SubjectLecturer
-from app.config import Config
 from app.api.nsmodels import subjects_ns, subjects_parser
 
 
+@subjects_ns.route('/subjects')
+@subjects_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
 class SubjectApi(Resource):
 
     @jwt_required()

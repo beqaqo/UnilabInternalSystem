@@ -6,8 +6,8 @@ subjects_ns = api.namespace('Subjects', description='Api endpoint for User Profi
 
 subjects_parser = reqparse.RequestParser()
 
-subjects_parser.add_argument('name', type=str, required=True, help='Subject name')
-subjects_parser.add_argument('lecturers_id', type=int, required=True, help='The unique identifier of a lecturer')
+subjects_parser.add_argument('name', type=str, required=True, help='Subject name: C++')
+subjects_parser.add_argument('lecturers_id', type=int, required=True, help='The unique identifier of a lecturer example - 3')
 subjects_parser.add_argument('course_syllabus', type=str, required=False, help='Course syllabus')
 subjects_parser.add_argument('internship_syllabus', type=str, required=False, help='Internship syllabus')
 subjects_parser.add_argument('tlt_syllabus', type=str, required=False, help='TLT syllabus')
