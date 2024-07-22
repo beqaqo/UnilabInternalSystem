@@ -15,7 +15,7 @@ class SubjectApi(Resource):
     @subjects_ns.doc(security='JsonWebToken')
     @subjects_ns.doc(parser=subjects_parser)
     def post(self):
-        request_parser = self.parser.parse_args()
+        request_parser = subjects_parser.parse_args()
         syllabus_list = [
             request_parser["course_syllabus"],
             request_parser["internship_syllabus"],
@@ -26,6 +26,8 @@ class SubjectApi(Resource):
 
         if not current_user.check_permission("can_create_subject"):
             return "You can't create Subjects", 403
+        
+        # models-ში სილაბუსი required False -ია ანუ შეიძლება Null მნიშვნელობის აღება, მაგრამ აქ ხდება შემოწმება არის თუ არა შევსებული
 
         syllabus_names = [str(uuid4()) if syllabus is not None else None for syllabus in syllabus_list]
         if not any(syllabus_list):
