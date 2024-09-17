@@ -1,26 +1,21 @@
-from flask_restful import Resource, reqparse
+from flask_restx import Resource
 from flask_jwt_extended import jwt_required, current_user
-from werkzeug.datastructures import FileStorage
 from flask import request
 from uuid import uuid4
 
 from app.models import Subject, SubjectLecturer
-from app.config import Config
+from app.api.nsmodels import subjects_ns, subjects_parser
 
 
+@subjects_ns.route('/subjects')
+@subjects_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
 class SubjectApi(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument("name", required=True, location="form")
-    parser.add_argument("lecturers_id", required=True, type=int, action="append", location="form")
-    parser.add_argument("course_syllabus", type=str, location="files")
-    parser.add_argument("internship_syllabus", type=str, location="files")
-    parser.add_argument("tlt_syllabus", type=str, location="files")
-    parser.add_argument("school_syllabus", type=str, location="files")
-    # Additional Links
 
     @jwt_required()
+    @subjects_ns.doc(security='JsonWebToken')
+    @subjects_ns.doc(parser=subjects_parser)
     def post(self):
-        request_parser = self.parser.parse_args()
+        request_parser = subjects_parser.parse_args()
         syllabus_list = [
             request_parser["course_syllabus"],
             request_parser["internship_syllabus"],
@@ -31,6 +26,8 @@ class SubjectApi(Resource):
 
         if not current_user.check_permission("can_create_subject"):
             return "You can't create Subjects", 403
+        
+        # models-ში სილაბუსი required False -ია ანუ შეიძლება Null მნიშვნელობის აღება, მაგრამ აქ ხდება შემოწმება არის თუ არა შევსებული
 
         syllabus_names = [str(uuid4()) if syllabus is not None else None for syllabus in syllabus_list]
         if not any(syllabus_list):

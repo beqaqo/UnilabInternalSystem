@@ -5,3 +5,4 @@ from app.api.nsmodels.certificate import certificate_ns
 from app.api.nsmodels.announcement import announcement_ns, announcement_parser, announcement_form_parser, announcement_model
 from app.api.nsmodels.portfolio import portfolio_ns, portfolio_model
 from app.api.nsmodels.mail import mail_ns
+from app.api.nsmodels.subjects import subjects_ns, subjects_parser

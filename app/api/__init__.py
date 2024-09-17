@@ -5,4 +5,5 @@ from app.api.userprofile import UserProfileApi
 from app.api.certificate import CertificateApi
 from app.api.announcement import AnnouncementApi
 from app.api.portfolio import PortfolioApi
+from app.api.subjects import SubjectApi
 from app.api.mail import ConfirmEmailApi, SendConfirmEmailApi
