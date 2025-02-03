@@ -3,7 +3,7 @@ from flask import render_template
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 
 
-from app.models import User, Country, UserRole, Role
+from app.models import User, UserRole, Role
 from app.api.validators import check_validators,create_key, send_email
 from app.extensions import api
 from app.api.nsmodels import reg_ns, registration_model, reg_parser, auth_parser
@@ -61,16 +61,7 @@ class RegistrationApi(Resource):
 
         return "Successfully registered a User", 200
   
-    def get(self):
-        locations = Country.get_locations()
-        roles = Role.get_roles()
 
-        data = {
-            "locations": locations,
-            "roles": roles
-        }
-
-        return data, 200
 
 @reg_ns.route('/login')
 @reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})

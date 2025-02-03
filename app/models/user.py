@@ -20,7 +20,6 @@ class User(BaseModel):
     number = db.Column(db.String)  #
     date = db.Column(db.Date)  #
     gender = db.Column(db.String)  #
-    country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))  #
     region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))  #
     city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))  #
     address = db.Column(db.String)  #
@@ -68,7 +67,7 @@ class User(BaseModel):
 
     def is_admin(self):
         return any(role.name == "ადმინი" for role in self.role)
-    
+
     def has_role(self, role_name):
         return any(role.name == role_name for role in self.role)
 
@@ -83,10 +82,7 @@ class User(BaseModel):
             "personal_id": self.personal_id,
             "date": str(self.date),
             "gender": self.gender,
-            "country": {
-                "id": self.country_id,
-                "name": Country.query.get(self.country_id).country_name
-            },
+
             "region": {
                 "id": self.region_id,
                 "name": Region.query.get(self.region_id).region_name
@@ -135,7 +131,7 @@ class UserAnswer(BaseModel):
         correct_answer = QuestionOption.query.filter_by(question_id=question_id, is_correct=True).first()
 
         return correct_answer
-    
+
     def to_json(self):
         data = {
             "id": self.id,
@@ -149,58 +145,33 @@ class UserAnswer(BaseModel):
         return data
 
 
-class Country(BaseModel):
-    __tablename__ = "countries"
-
-    id = db.Column(db.Integer, primary_key=True)
-    country_name = db.Column(db.String)
-
-    user = db.relationship("User", backref="country")
-
-
-    @classmethod
-    def get_locations(cls):
-        data = [
-            {
-                "id": country.id,
-                "name": country.country_name,
-                "regions": [
-                    {
-                        "id": region.id,
-                        "name": region.region_name,
-                        "cities": [
-                            {
-                                "id": city.id,
-                                "name": city.city_name,
-                                "universities": [
-                                    {
-                                        "id": university.id,
-                                        "name": university.university_name
-                                    }
-                                    for university in University.query.filter_by(city_id=city.id).all()
-                                ]
-                            }
-                            for city in City.query.filter_by(region_id=region.id).all()
-                        ]
-                    }
-                    for region in Region.query.filter_by(country_id=country.id).all()
-                ]
-            }
-            for country in cls.query.all()
-        ]
-        
-        return data
-
-
 class Region(BaseModel):
     __tablename__ = "regions"
 
     id = db.Column(db.Integer, primary_key=True)
-    country_id = db.Column(db.Integer, db.ForeignKey("countries.id"))
     region_name = db.Column(db.String)
 
     user = db.relationship("User", backref="region")
-    country = db.relationship("Country", backref="region")
+
+    def get_locations(self):
+        regions = Region.query.all()
+        locations = []
+
+        for region in regions:
+            region_data = {
+                "id": region.id,
+                "name": region.region_name,
+                "cities": [
+                    {
+                        "id": city.id,
+                        "name": city.city_name
+                    }
+                    for city in City.query.filter_by(region_id=region.id).all()
+                ]
+            }
+            locations.append(region_data)
+
+        return {"locations": locations}, 200
 
 
 class City(BaseModel):
@@ -224,6 +195,29 @@ class University(BaseModel):
     user = db.relationship("User", backref="university")
     city = db.relationship("City", backref="university")
 
+    @classmethod
+    def get_universities(cls, city_id):
+        universities = []
+        for university in cls.query.filter_by(city_id=city_id).all():
+            universities.append({"id": university.id, "name": university.university_name})
+        return universities
+
+
+class School(BaseModel):
+    __tablename__ = "schools"
+
+    id = db.Column(db.Integer, primary_key=True)
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
+    school_name = db.Column(db.String)
+
+    city = db.relationship("City", backref="school")
+
+    @classmethod
+    def get_schools(cls, city_id):
+        schools = []
+        for school_1 in cls.query.filter_by(city_id=city_id).all():
+            schools.append({"id": school_1.id, "name": school_1.school_name})
+        return schools
 
 class Certificate(BaseModel):
     __tablename__ = "certificates"
@@ -237,7 +231,6 @@ class Certificate(BaseModel):
     announcement = db.relationship("Announcement", back_populates="certificates")
 
     def to_json(self):
-
         certificate_data = {
             "id": self.id,
             "user_id": self.user_id,
@@ -245,3 +238,6 @@ class Certificate(BaseModel):
         }
 
         return certificate_data
+
+
+
