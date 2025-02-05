@@ -33,7 +33,7 @@ def populate_db():
         "ქვემო ქართლი", "შიდა ქართლი", "აჭარა", "თბილისი"
     ]
     for region in regions:
-        region_ = Region(region_name=region, country_id=1)
+        region_ = Region(region_name=region)
         region_.create()
     region_.save()
 
@@ -112,7 +112,6 @@ def populate_db():
             date=datetime.now(),
             gender=user["gender"],
             password=user["password"],
-            country_id=user["country_id"],
             region_id=user["region_id"],
             city_id=user["city_id"],
             address=user["address"],
