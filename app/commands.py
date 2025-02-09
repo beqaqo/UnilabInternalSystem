@@ -1,7 +1,7 @@
 from flask.cli import with_appcontext
 from werkzeug.security import generate_password_hash
 from app.extensions import db
-from app.models import User, Country, Region, City, University
+from app.models import User, Region, City, University
 from app.models import Role, UserRole
 from app.models import ActivityType, Subject, Announcement, AnnouncementUser
 from app.models import Question, QuestionOption
@@ -24,15 +24,6 @@ def init_db():
 def populate_db():
     click.echo("Creating Initial Entries...")
 
-    # populating country table
-    countries = [
-        "საქართველო", "საფრანგეთი",
-        "გერმანია", "ავსტრია", "დიდი ბრიტანეთი"
-    ]
-    for country in countries:
-        country_ = Country(country_name=country)
-        country_.create()
-    country_.save()
 
     # populating region table
     regions = [
@@ -42,7 +33,7 @@ def populate_db():
         "ქვემო ქართლი", "შიდა ქართლი", "აჭარა", "თბილისი"
     ]
     for region in regions:
-        region_ = Region(region_name=region, country_id=1)
+        region_ = Region(region_name=region)
         region_.create()
     region_.save()
 
@@ -121,7 +112,6 @@ def populate_db():
             date=datetime.now(),
             gender=user["gender"],
             password=user["password"],
-            country_id=user["country_id"],
             region_id=user["region_id"],
             city_id=user["city_id"],
             address=user["address"],

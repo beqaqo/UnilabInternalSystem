@@ -1,5 +1,5 @@
 from email_validator import validate_email
-from app.models.user import User, Country, Region, City, University
+from app.models.user import User, Region, City, University
 
 def id_validator(data):
     if data.isdecimal() and len(data) == 11:

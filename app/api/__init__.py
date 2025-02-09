@@ -7,3 +7,4 @@ from app.api.announcement import AnnouncementApi
 from app.api.portfolio import PortfolioApi
 from app.api.subjects import SubjectApi
 from app.api.mail import ConfirmEmailApi, SendConfirmEmailApi
+from app.api.lists import listApi

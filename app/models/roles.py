@@ -25,25 +25,7 @@ class Role(BaseModel):
     can_create_forms = db.Column(db.Boolean, default=False)
     can_create_certificates = db.Column(db.Boolean, default=False)
 
-
     @classmethod
     def get_roles(cls):
-        query = cls.query.all()
-
-        data = [
-            {
-                "id": role.id,
-                "name": role.name,
-                "can_create_activity": role.can_create_activity,
-                "can_create_subject": role.can_create_subject,
-                "can_create_roles": role.can_create_roles,
-                "can_edit_users": role.can_edit_users,
-                "can_create_questions": role.can_create_questions,
-                "can_view_questions": role.can_view_questions,
-                "can_create_forms": role.can_create_forms,
-                "can_create_certificates": role.can_create_certificates
-            }
-            for role in query
-        ]
-
-        return data
+        roles = cls.query.filter(cls.name != "ადმინი").all()
+        return [{"id": role.id, "name": role.name} for role in roles]
