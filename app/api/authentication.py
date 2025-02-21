@@ -6,7 +6,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 from app.models import User, UserRole, Role
 from app.api.validators import check_validators,create_key, send_email
 from app.extensions import api
-from app.api.nsmodels import reg_ns, registration_model, reg_parser, auth_parser
+from app.api.nsmodels import reg_ns, registration_model, reg_parser, auth_parser, email_parser, password_parser
 
 
 
@@ -32,7 +32,6 @@ class RegistrationApi(Resource):
             number=args["number"],
             date=args["date"],
             gender=args["gender"],
-            country_id=args["country_id"],
             region_id=args["region_id"],
             city_id=args["city_id"],
             address=args["address"],
@@ -98,3 +97,53 @@ class AccessTokenRefreshApi(Resource):
         }
 
         return response
+
+
+@reg_ns.route('/forgot-password')
+@reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
+class ForgotPasswordApi(Resource):
+    @reg_ns.expect(email_parser)
+    def post(self):
+        args = email_parser.parse_args()
+
+        user = User.query.filter_by(email=args["email"]).first()
+        if not user:
+            return "User with this email does not exist", 400
+
+        reset_token = create_access_token(identity=user.email, expires_delta=False)
+
+        html = render_template('_reset_password_email.html', token=reset_token)
+        send_email(subject="Reset Your Password", html=html, recipients=args["email"])
+
+        return "Password reset email sent successfully", 200
+
+
+@reg_ns.route('/reset-password')
+@reg_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
+class ResetPasswordApi(Resource):
+    @reg_ns.expect(password_parser)
+    def post(self):
+        args = password_parser.parse_args()
+        token = args.get("token")
+        new_password = args.get("new_password")
+        repeat_password = args.get("repeat_password")
+
+        if not token:
+            return "Token is required", 400
+
+        if new_password != repeat_password:
+            return "Passwords do not match", 400
+
+        try:
+            email = get_jwt_identity()
+        except Exception:
+            return "Invalid or expired token", 400
+
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return "User not found", 400
+
+        user.set_password(new_password)
+        user.save()
+
+        return "Password has been successfully reset", 200

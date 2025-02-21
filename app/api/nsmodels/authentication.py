@@ -17,7 +17,6 @@ registration_model = reg_ns.model('Registration', {
     'gender': fields.String(required=True, description='Gender',example='მამრობითი',enum =["მდედრობითი","მამრობითი",]),
     'password': fields.String(required=True, description='Password',example='password'),
     'conf_password': fields.String(required=True, description='Confirm password',example='password'),
-    'country_id': fields.Integer(required=True, description='Country ID',example='1'),
     'region_id': fields.Integer(required=True, description='Region ID',example='1'),
     'city_id': fields.Integer(required=True, description='City ID',example='1'),
     'address': fields.String(required=True, description='Address',example='მისამართი..'),
@@ -52,7 +51,6 @@ reg_parser.add_argument("gender", required=True, type=str, help="Gender example:
 reg_parser.add_argument("password", required=True, type=str, help="Password example: password", location ='json')
 reg_parser.add_argument("conf_password", required=True, type=str, help="Confirm password (should match password)", location ='json')
 
-reg_parser.add_argument("country_id", required=True, type=int, help="Country ID example: 1", location ='json')
 reg_parser.add_argument("region_id", required=True, type=int, help="Region ID example: 11 (cities and regions should be a match)", location ='json')
 reg_parser.add_argument("city_id", required=True, type=int, help="City ID example: 2 (cities and regions should be a match)", location ='json')
 reg_parser.add_argument("address", required=True, type=str, help="Address example: 123 Main St", location ='json')
@@ -80,3 +78,14 @@ reg_parser.add_argument("terms", required=True, type=bool, help="Terms and condi
 auth_parser = reqparse.RequestParser()
 auth_parser.add_argument("email", required=True, type=str)
 auth_parser.add_argument("password", required=True, type=str)
+
+# email parser
+email_parser = reqparse.RequestParser()
+email_parser.add_argument("email", required=True, type=str)
+
+
+# password parser
+password_parser = reqparse.RequestParser()
+password_parser.add_argument("token", required=True, type=str)
+password_parser.add_argument("new_password", required=True, type=str)
+password_parser.add_argument("repeat_password", required=True, type=str)
