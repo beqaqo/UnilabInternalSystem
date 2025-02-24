@@ -1,8 +1,14 @@
 from flask_restx import Resource, reqparse
 from flask_jwt_extended import jwt_required, current_user
-from app.models import Certificate
-from app.api.nsmodels.certificate import certificate_ns, parser
 
+from app.models import Certificate
+from app.extensions import api
+
+certificate_ns = api.namespace('Certificate', path='/api', description='Api endpoint for certificates related operations')
+
+parser = reqparse.RequestParser()
+parser.add_argument("user_id", required=True, type=str)
+parser.add_argument("announcement_id", required=True, type=str)
 
 @certificate_ns.route('/certificate')
 class CertificateApi(Resource):

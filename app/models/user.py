@@ -153,6 +153,7 @@ class Region(BaseModel):
 
     user = db.relationship("User", backref="region")
 
+    @classmethod
     def get_locations(self):
         regions = Region.query.all()
         locations = []

@@ -1,10 +1,10 @@
 from flask import Flask
+
+from app.api import ConfirmEmailApi
 from app.config import Config
-from app.extensions import db, migrate, mail, jwt
-from app.commands import init_db, populate_db, create_admin, create_lecturer 
-from app.api import api
+from app.extensions import db, migrate, mail, jwt, api
+from app.commands import init_db, populate_db, create_admin, create_lecturer
 from app.models import User
-from app.extensions import api
 
 COMMANDS = [init_db, populate_db, create_admin, create_lecturer ]
 
