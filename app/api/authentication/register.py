@@ -7,20 +7,19 @@ from app.utils.mail import create_key, send_email
 from app.api.authentication import auth_ns
 
 registration_model = auth_ns.model('Registration', {
-    'name': fields.String(required=True, description='First name',example='გიორგი'),
-    'lastname': fields.String(required=True, description='Last name',example='გვარაძე'),
+    'firstname': fields.String(required=True, description='First name',example='გიორგი'),
+    'surname': fields.String(required=True, description='Last name',example='გვარაძე'),
     'email': fields.String(required=True, description='Email address',example='giorgi.gvaradze@gmail.com'),
     'number': fields.String(required=True, description='Phone number',example='5987654321'),
     'personal_id': fields.String(required=True, description='Personal ID',example='01234567891'),
     'date': fields.DateTime(required=True, description='Date of birth', dt_format='iso8601',example='2024-06-25T15:22:57.338Z'),
     'gender': fields.String(required=True, description='Gender',example='მამრობითი',enum =["მდედრობითი","მამრობითი",]),
     'password': fields.String(required=True, description='Password',example='password'),
-    'conf_password': fields.String(required=True, description='Confirm password',example='password'),
     'region_id': fields.Integer(required=True, description='Region ID',example='1'),
     'city_id': fields.Integer(required=True, description='City ID',example='1'),
     'address': fields.String(required=True, description='Address',example='მისამართი..'),
     'role_id': fields.Integer(required=True, description='Role ID' , example = 2),
-    'school': fields.String(required=True, description='School' ,example = '1 საჯარო სკოლა'),
+    'school_id': fields.String(required=True, description='School' ,example = '1 საჯარო სკოლა'),
     'grade': fields.String(required=True, description='Grade' , example = "10"),
     'parent_name': fields.String(required=True, description='Parent\'s name', example = "დავითი"),
     'parent_lastname': fields.String(required=True, description='Parent\'s last name', example = "გვარაძე"),
@@ -30,7 +29,6 @@ registration_model = auth_ns.model('Registration', {
     'program': fields.String(required=True, description='Program', example = "Ml modeling"),
     'semester': fields.String(required=True, description='Semester', example = "ზაფხული 2024"),
     'degree_level': fields.String(required=True, description='Degree level', example = "მაგისტრი"),
-    'terms': fields.Boolean(required=True, description='Terms and conditions acceptance'),
 })
 
 parser = reqparse.RequestParser()
@@ -49,17 +47,17 @@ parser.add_argument("address", required=True, type=str, help="Address example: 1
 
 parser.add_argument("role_id", required=True, type=int, help="Role ID example: 2  (1- is for admin)", location ='json')
 
-parser.add_argument("school", required=True, type=str, help="School example: High School", location ='json')
-parser.add_argument("grade", required=True, type=str, help="Grade example: 10th Grade ", location ='json')
-parser.add_argument("parent_name", required=True, type=str, help="Parent's name example: John ", location ='json')
-parser.add_argument("parent_lastname", required=True, type=str, help="Parent's last name example: Doe ", location ='json')
-parser.add_argument("parent_number", required=True, type=str, help="Parent's phone number example: 123456789 ", location ='json')
+parser.add_argument("school_id", required=True, nullable=True, type=int, help="School example: High School", location ='json')
+parser.add_argument("grade", required=True, nullable=True, type=str, help="Grade example: 10th Grade ", location ='json')
+parser.add_argument("parent_name", required=True, nullable=True, type=str, help="Parent's name example: John ", location ='json')
+parser.add_argument("parent_lastname", required=True, nullable=True, type=str, help="Parent's last name example: Doe ", location ='json')
+parser.add_argument("parent_number", required=True, nullable=True, type=str, help="Parent's phone number example: 123456789 ", location ='json')
 
-parser.add_argument("university_id", required=True, type=int, help="University ID example: 1", location ='json')
-parser.add_argument("faculty", required=True, type=str, help="Faculty example: Engineering ", location ='json')
-parser.add_argument("program", required=True, type=str, help="Program example: Computer Science", location ='json')
-parser.add_argument("semester", required=True, type=str, help="Semester example: 1st Semester ", location ='json')
-parser.add_argument("degree_level", required=True, type=str, help="Degree level example: Bachelor", location ='json')
+parser.add_argument("university_id", required=True, nullable=True, type=int, help="University ID example: 1", location ='json')
+parser.add_argument("faculty", required=True, nullable=True, type=str, help="Faculty example: Engineering ", location ='json')
+parser.add_argument("program", required=True, nullable=True, type=str, help="Program example: Computer Science", location ='json')
+parser.add_argument("semester", required=True, nullable=True, type=str, help="Semester example: 1st Semester ", location ='json')
+parser.add_argument("degree_level", required=True, nullable=True, type=str, help="Degree level example: Bachelor", location ='json')
 
 @auth_ns.route('/register')
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
@@ -84,7 +82,7 @@ class RegistrationApi(Resource):
             region_id=args["region_id"],
             city_id=args["city_id"],
             address=args["address"],
-            school=args["school"],
+            school_id=args["school_id"],
             grade=args["grade"],
             parent_name=args["parent_name"],
             parent_lastname=args["parent_lastname"],
