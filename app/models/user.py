@@ -10,25 +10,25 @@ from app.models.questions import QuestionOption
 class User(BaseModel):
     __tablename__ = "users"
 
-    id = db.Column(db.Integer, primary_key=True)  #
+    id = db.Column(db.Integer, primary_key=True)
     uuid = db.Column(db.String, default=lambda: str(uuid.uuid4()))
-    name = db.Column(db.String)  #
-    lastname = db.Column(db.String)  #
-    email = db.Column(db.String)  #
+    name = db.Column(db.String)
+    lastname = db.Column(db.String)
+    email = db.Column(db.String)
     _password = db.Column("password", db.String)
-    personal_id = db.Column(db.String)  #
-    number = db.Column(db.String)  #
-    date = db.Column(db.Date)  #
-    gender = db.Column(db.String)  #
-    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))  #
-    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))  #
-    address = db.Column(db.String)  #
+    personal_id = db.Column(db.String)
+    number = db.Column(db.String)
+    date = db.Column(db.Date)
+    gender = db.Column(db.String)
+    region_id = db.Column(db.Integer, db.ForeignKey("regions.id"))
+    city_id = db.Column(db.Integer, db.ForeignKey("cities.id"))
+    address = db.Column(db.String)
     confirmed = db.Column(db.Boolean, default=False)
     reset_password = db.Column(db.Integer, default=False)
 
-    about_me = db.Column(db.String)
+    about_me = db.Column(db.String, nullable=True)
 
-    role = db.relationship("Role", secondary="user_roles", backref="roles")  #
+    role = db.relationship("Role", secondary="user_roles", backref="roles")
     announcements = db.relationship("Announcement", secondary="announcement_user", backref="announcements")
     question = db.relationship("Question", backref="user")
     projects = db.relationship("Project", secondary="project_user", back_populates="user")
@@ -36,18 +36,18 @@ class User(BaseModel):
     subjects = db.relationship("Subject", secondary="subject_lecturer", back_populates="lecturers")
 
     # Pupil #
-    school = db.Column(db.String)
-    grade = db.Column(db.String)
-    parent_name = db.Column(db.String)
-    parent_lastname = db.Column(db.String)
-    parent_number = db.Column(db.String)
+    school_id = db.Column(db.Integer, db.ForeignKey("schools.id"), nullable=True)
+    grade = db.Column(db.String, nullable=True)
+    parent_name = db.Column(db.String, nullable=True)
+    parent_lastname = db.Column(db.String, nullable=True)
+    parent_number = db.Column(db.String, nullable=True)
 
     # student #
-    university_id = db.Column(db.Integer, db.ForeignKey("universities.id"))
-    faculty = db.Column(db.String)
-    program = db.Column(db.String)
-    semester = db.Column(db.String)
-    degree_level = db.Column(db.String)
+    university_id = db.Column(db.Integer, db.ForeignKey("universities.id"), nullable=True)
+    faculty = db.Column(db.String, nullable=True)
+    program = db.Column(db.String, nullable=True)
+    semester = db.Column(db.String, nullable=True)
+    degree_level = db.Column(db.String, nullable=True)
 
     def _get_password(self):
         return self._password
@@ -100,7 +100,7 @@ class User(BaseModel):
                 {"id": role.id, "name": role.name}
                 for role in self.role
             ],
-            "school": self.school,
+            "school_id": self.school_id,
             "grade": self.grade,
             "parent_name": self.parent_name,
             "parent_lastname": self.parent_lastname,
