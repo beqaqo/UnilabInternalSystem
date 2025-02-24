@@ -1,7 +1,7 @@
 from flask.cli import with_appcontext
 from werkzeug.security import generate_password_hash
 from app.extensions import db
-from app.models import User, Region, City, University
+from app.models import User, Region, City, University, School
 from app.models import Role, UserRole
 from app.models import ActivityType, Subject, Announcement, AnnouncementUser
 from app.models import Question, QuestionOption
@@ -69,6 +69,19 @@ def populate_db():
         university_.create()
     university_.save()
 
+    schools = [
+        {"name": "კომაროვი", "city_id": 2},
+        {"name": "საჯარო სკოლა", "city_id": 2},
+    ]
+
+    for school in schools:
+        school_ = School(
+            school_name=school["name"],
+            city_id=school["city_id"]
+        )
+        school_.create()
+    school_.save()
+
     # populating roles table
     role_ = Role(name="ადმინი", can_create_activity=True,
                  can_create_subject=True, can_create_roles=True, can_edit_users=True,
@@ -80,9 +93,6 @@ def populate_db():
     role_ = Role(name="ლექტორი", can_create_activity=True,
                  can_create_subject=True, can_create_roles=False,can_create_questions=True, 
                  can_view_questions=True, can_create_certificates=True, can_create_forms=True)
-    role_.create()
-    role_ = Role(name="მოდერატორი", can_create_activity=True,
-                 can_create_subject=True, can_edit_users=True)
     role_.create()
     role_ = Role(name="მოსწავლე")
     role_.create()
