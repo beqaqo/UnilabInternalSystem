@@ -7,28 +7,28 @@ from app.utils.mail import create_key, send_email
 from app.api.authentication import auth_ns
 
 registration_model = auth_ns.model('Registration', {
-    'firstname': fields.String(required=True, description='First name',example='გიორგი'),
-    'surname': fields.String(required=True, description='Last name',example='გვარაძე'),
-    'email': fields.String(required=True, description='Email address',example='giorgi.gvaradze@gmail.com'),
-    'number': fields.String(required=True, description='Phone number',example='5987654321'),
-    'personal_id': fields.String(required=True, description='Personal ID',example='01234567891'),
+    'firstname': fields.String(required=True, description='First name', example='გიორგი'),
+    'surname': fields.String(required=True, description='Last name', example='გვარაძე'),
+    'email': fields.String(required=True, description='Email address', example='giorgi.gvaradze@gmail.com'),
+    'number': fields.String(required=True, description='Phone number', example='598123456'),
+    'personal_id': fields.String(required=True, description='Personal ID', example='01234567891'),
     'date': fields.DateTime(required=True, description='Date of birth', dt_format='iso8601',example='2024-06-25T15:22:57.338Z'),
-    'gender': fields.String(required=True, description='Gender',example='მამრობითი',enum =["მდედრობითი","მამრობითი",]),
-    'password': fields.String(required=True, description='Password',example='password'),
-    'region_id': fields.Integer(required=True, description='Region ID',example='1'),
-    'city_id': fields.Integer(required=True, description='City ID',example='1'),
-    'address': fields.String(required=True, description='Address',example='მისამართი..'),
-    'role_id': fields.Integer(required=True, description='Role ID' , example = 2),
-    'school_id': fields.String(required=True, description='School' ,example = '1 საჯარო სკოლა'),
-    'grade': fields.String(required=True, description='Grade' , example = "10"),
-    'parent_name': fields.String(required=True, description='Parent\'s name', example = "დავითი"),
+    'gender': fields.String(required=True, description='Gender', example='მამრობითი',enum =["მდედრობითი","მამრობითი",]),
+    'password': fields.String(required=True, description='Password', example='password'),
+    'region_id': fields.Integer(required=True, description='Region ID', example=11),
+    'city_id': fields.Integer(required=True, description='City ID', example=2),
+    'address': fields.String(required=True, description='Address', example='მისამართი..'),
+    'role_id': fields.Integer(required=True, description='Role ID', example=2),
+    'school_id': fields.Integer(required=True, description='School ID',example=1),
+    'grade': fields.String(required=True, description='Grade', example="10"),
+    'parent_name': fields.String(required=True, description='Parent\'s name', example="დავითი"),
     'parent_lastname': fields.String(required=True, description='Parent\'s last name', example = "გვარაძე"),
     'parent_number': fields.String(required=True, description='Parent\'s phone number', example = "599243115"),
-    'university_id': fields.Integer(required=True, description='University ID', example = 1),
-    'faculty': fields.String(required=True, description='Faculty', example = "კომპიუტერული მეცნიერება"),
-    'program': fields.String(required=True, description='Program', example = "Ml modeling"),
-    'semester': fields.String(required=True, description='Semester', example = "ზაფხული 2024"),
-    'degree_level': fields.String(required=True, description='Degree level', example = "მაგისტრი"),
+    'university_id': fields.Integer(required=True, description='University ID', example=1),
+    'faculty': fields.String(required=True, description='Faculty', example="კომპიუტერული მეცნიერება"),
+    'program': fields.String(required=True, description='Program', example="Ml modeling"),
+    'semester': fields.String(required=True, description='Semester', example="ზაფხული 2024"),
+    'degree_level': fields.String(required=True, description='Degree level', example="მაგისტრი"),
 })
 
 parser = reqparse.RequestParser()
@@ -105,4 +105,4 @@ class RegistrationApi(Resource):
         html = render_template('_activation_massage.html', key=key)
         send_email(subject="Confirm your account", html=html, recipients=args["email"])
 
-        return 200
+        return f"/confirm_account/{key}", 200 # TODO: Remove token once we move to production

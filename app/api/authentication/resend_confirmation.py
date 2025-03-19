@@ -11,8 +11,7 @@ parser.add_argument("email", required=True, type=str)
 
 @auth_ns.route('/resend_confirmation')
 class ResendConfirmEmailApi(Resource):
-    @jwt_required()
-    @auth_ns.doc(security='JsonWebToken', parser=parser)
+    @auth_ns.doc(parser=parser)
     def post(self):
         args = parser.parse_args()
         user = User.query.filter_by(email=args["email"]).first()
@@ -21,5 +20,5 @@ class ResendConfirmEmailApi(Resource):
             html = render_template('_activation_massage.html', key=key)
 
             send_email(subject="მომხმარებლის გააქტიურება", html=html, recipients=args["email"])
-            return f"/confirm_user/{key}", 200
+            return f"/confirm_user/{key}", 200 # TODO: Remove token once we move to production
         return 400

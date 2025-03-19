@@ -10,6 +10,7 @@ from app.models import User
 parser = reqparse.RequestParser()
 parser.add_argument("email", required=True, type=str)
 
+
 @auth_ns.route('/forgot_password')
 @auth_ns.doc(responses={200: 'OK', 400: 'Invalid Argument'})
 class ForgotPasswordApi(Resource):
