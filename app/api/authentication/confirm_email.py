@@ -7,7 +7,6 @@ from app.models import User
 
 @auth_ns.route('/confirm_email/<token>')
 class ConfirmEmailApi(Resource):
-    @auth_ns.doc(security='JsonWebToken')
     def post(self, token):
         email = confirm_key(token)
 
